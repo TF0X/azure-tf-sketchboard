@@ -16,9 +16,19 @@ export const EDGE_FIELD_MAP = {
     }
   },
   azurerm_linux_virtual_machine: {
+    azurerm_network_interface: {
+      field: 'network_interface_ids',
+      directOnly: true,
+      value: (target) => `azurerm_network_interface.${target.data.properties.name}.id`
+    },
     azurerm_subnet: {
       field: 'subnet_id',
       value: (target) => `azurerm_subnet.${target.data.properties.name}.id`
+    },
+    azurerm_public_ip: {
+      field: 'public_ip_address_id',
+      directOnly: true,
+      value: (target) => `azurerm_public_ip.${target.data.properties.name}.id`
     },
     azurerm_resource_group: {
       field: 'resource_group_name',
@@ -26,9 +36,19 @@ export const EDGE_FIELD_MAP = {
     }
   },
   azurerm_windows_virtual_machine: {
+    azurerm_network_interface: {
+      field: 'network_interface_ids',
+      directOnly: true,
+      value: (target) => `azurerm_network_interface.${target.data.properties.name}.id`
+    },
     azurerm_subnet: {
       field: 'subnet_id',
       value: (target) => `azurerm_subnet.${target.data.properties.name}.id`
+    },
+    azurerm_public_ip: {
+      field: 'public_ip_address_id',
+      directOnly: true,
+      value: (target) => `azurerm_public_ip.${target.data.properties.name}.id`
     },
     azurerm_resource_group: {
       field: 'resource_group_name',
@@ -92,6 +112,21 @@ export const EDGE_FIELD_MAP = {
     }
   },
   azurerm_network_security_group: {
+    azurerm_resource_group: {
+      field: 'resource_group_name',
+      value: (target) => `azurerm_resource_group.${target.data.properties.name}.name`
+    }
+  },
+  azurerm_network_interface: {
+    azurerm_subnet: {
+      field: 'ip_configuration.subnet_id',
+      value: (target) => `azurerm_subnet.${target.data.properties.name}.id`
+    },
+    azurerm_public_ip: {
+      field: 'ip_configuration.public_ip_address_id',
+      directOnly: true,
+      value: (target) => `azurerm_public_ip.${target.data.properties.name}.id`
+    },
     azurerm_resource_group: {
       field: 'resource_group_name',
       value: (target) => `azurerm_resource_group.${target.data.properties.name}.name`

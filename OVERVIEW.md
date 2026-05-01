@@ -24,7 +24,7 @@ Browser-based drag-and-drop tool that turns a visual diagram of Azure resources 
 ```
 ┌─────────────┬──────────────────────┬──────────────────┐
 │   Palette   │       Canvas         │ PropertiesPanel  │
-│  (20 types) │   (React Flow +      │ (Schema-driven   │
+│  (21 types) │   (React Flow +      │ (Schema-driven   │
 │             │    custom nodes)     │  form)           │
 └─────────────┴──────────────────────┴──────────────────┘
                        │
@@ -48,7 +48,7 @@ Browser-based drag-and-drop tool that turns a visual diagram of Azure resources 
 
 ## Schema-driven everything
 
-All 20 supported resources use the **real AzureRM provider schema** (extracted via `terraform providers schema -json`, normalized into per-resource JSON files under `src/schema/`).
+All 21 supported resources use the **real AzureRM provider schema** (extracted via `terraform providers schema -json`, normalized into per-resource JSON files under `src/schema/`).
 
 This means:
 - Properties panel renders fields by their actual types (string, bool, number, list, map, nested blocks)
@@ -80,7 +80,7 @@ azure-terraform.zip
         └── outputs.tf
 ```
 
-Schema-driven nodes (currently all 20) emit as **direct resource blocks** at root since per-instance optional config doesn't fit the reusable-module pattern cleanly.
+Schema-driven nodes (currently all 21) emit into grouped feature modules like `core`, `network`, `vm`, `app`, and `data`.
 
 ## File layout
 
@@ -92,7 +92,7 @@ src/
 │   ├── resources.js                 # palette catalog: icon, color, defaults, blockDefaults
 │   └── edgeMap.js                   # cross-resource field wiring rules
 ├── schema/
-│   ├── azurerm_*.json               # 20 normalized provider schemas
+│   ├── azurerm_*.json               # 21 normalized provider schemas
 │   └── schemaUtils.js               # type analysis, defaults, required-block discovery
 ├── components/
 │   ├── Palette.jsx
@@ -109,15 +109,15 @@ src/
 
 schema-source/                       # build-time tooling, not shipped
 ├── providers.tf                     # used by terraform init
-├── extract.mjs                      # dumps & normalizes 20 resource schemas
+├── extract.mjs                      # dumps & normalizes resource schemas
 └── validate-*.mjs                   # generate sample TF + run terraform validate
 ```
 
 ## Validation status
 
-Of the 20 supported resources:
-- **18 generate `terraform validate`-clean HCL** when basic edges are drawn (or when transitive resolution can find an RG)
-- **2 require follow-up**: Linux VM and Windows VM need a separate `azurerm_network_interface` resource (not yet in the palette) to satisfy `network_interface_ids`
+Of the 21 supported resources:
+- Network Interface is now a first-class canvas resource.
+- Linux VM and Windows VM can attach to a connected Network Interface; if no NIC is connected, generation can still create a fallback NIC from a Subnet edge.
 
 Remaining gaps are documented in the resources' `notes` field in [resources.js](src/data/resources.js).
 
@@ -130,5 +130,5 @@ cd schema-source
 terraform init -upgrade
 terraform providers schema -json > schema-full.json
 node extract.mjs                # regenerates src/schema/*.json
-node validate-all.mjs           # spot-checks all 20
+node validate-all.mjs           # spot-checks supported resources
 ```

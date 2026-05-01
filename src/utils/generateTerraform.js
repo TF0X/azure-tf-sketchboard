@@ -36,6 +36,7 @@ const MODULE_GROUPS = [
       'azurerm_virtual_network',
       'azurerm_subnet',
       'azurerm_network_security_group',
+      'azurerm_network_interface',
       'azurerm_public_ip',
       'azurerm_application_gateway',
       'azurerm_cdn_profile'
@@ -102,6 +103,11 @@ function externalVarName(instanceName, fieldPath) {
   return `${instanceName}_${variableNameFor(fieldPath)}`.replace(/[^A-Za-z0-9_]/g, '_')
 }
 
+function rootInputExpression(tfType, refExpr) {
+  if (tfType.startsWith('list(') || tfType.startsWith('set(')) return `[${refExpr}]`
+  return refExpr
+}
+
 function sortNodes(nodes, instanceNames) {
   return [...nodes].sort((a, b) => {
     const groupCompare = groupForNode(a).localeCompare(groupForNode(b))
@@ -157,11 +163,15 @@ function buildResourceContext(node, bindings, nodesById, instanceNames) {
 
     const variable = externalVarName(instanceNames[node.id], binding.field)
     setFieldValue(properties, blocks, binding.field, { __var: variable })
+    const tfType = inferTfTypeForField(schema, binding.field)
     externalInputs.push({
       variable,
       fieldPath: binding.field,
-      tfType: inferTfTypeForField(schema, binding.field),
-      refExpr: `module.${groupForNode(target)}.${outputNameFor(instanceNames[target.id], attr)}`
+      tfType,
+      refExpr: rootInputExpression(
+        tfType,
+        `module.${groupForNode(target)}.${outputNameFor(instanceNames[target.id], attr)}`
+      )
     })
   }
 
@@ -171,12 +181,20 @@ function buildResourceContext(node, bindings, nodesById, instanceNames) {
 function buildNicForVm(instanceName, properties, bindings, nodesById, instanceNames) {
   const subnetBinding = bindings.find((b) => b.field === 'subnet_id')
   const subnetTarget = subnetBinding ? nodesById[subnetBinding.targetNodeId] : null
+  const publicIpBinding = bindings.find((b) => b.field === 'public_ip_address_id')
+  const publicIpTarget = publicIpBinding ? nodesById[publicIpBinding.targetNodeId] : null
   const subnetId =
     subnetTarget && groupForNode(subnetTarget) === 'vm'
       ? localRefFor(subnetTarget, 'id', instanceNames)
       : subnetBinding
         ? `var.${externalVarName(instanceName, 'subnet_id')}`
         : '"" # TODO: connect this VM to a subnet'
+  const publicIpId =
+    publicIpTarget && groupForNode(publicIpTarget) === 'vm'
+      ? localRefFor(publicIpTarget, 'id', instanceNames)
+      : publicIpBinding
+        ? `var.${externalVarName(instanceName, 'public_ip_address_id')}`
+        : null
 
   return `resource "azurerm_network_interface" "${instanceName}_nic" {
   name                = "${properties.name}-nic"
@@ -186,7 +204,7 @@ function buildNicForVm(instanceName, properties, bindings, nodesById, instanceNa
   ip_configuration {
     name                          = "primary"
     subnet_id                     = ${subnetId}
-    private_ip_address_allocation = "Dynamic"
+${publicIpId ? `    public_ip_address_id          = ${publicIpId}\n` : ''}    private_ip_address_allocation = "Dynamic"
   }
 }
 `
@@ -236,11 +254,16 @@ function buildGroupedModule(group, edges, nodesById, instanceNames) {
 
   for (const node of group.nodes) {
     const bindings = resolveEdgeBindings(node, edges, nodesById, instanceNames)
-    const context = buildResourceContext(node, bindings, nodesById, instanceNames)
+    const nicBinding = bindings.find((b) => b.field === 'network_interface_ids')
+    const contextBindings =
+      VM_TYPES.has(node.data.resourceType) && nicBinding
+        ? bindings.filter((b) => !['subnet_id', 'public_ip_address_id'].includes(b.field))
+        : bindings
+    const context = buildResourceContext(node, contextBindings, nodesById, instanceNames)
     inputs.push(...context.externalInputs)
 
     const instance = instanceNames[node.id]
-    if (VM_TYPES.has(node.data.resourceType)) {
+    if (VM_TYPES.has(node.data.resourceType) && !nicBinding) {
       const subnetBinding = bindings.find((b) => b.field === 'subnet_id')
       if (subnetBinding && groupForNode(nodesById[subnetBinding.targetNodeId]) !== 'vm') {
         const variable = externalVarName(instance, 'subnet_id')

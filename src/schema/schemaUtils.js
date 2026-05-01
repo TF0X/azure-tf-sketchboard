@@ -2,6 +2,7 @@ import azurerm_resource_group from './azurerm_resource_group.json' with { type: 
 import azurerm_virtual_network from './azurerm_virtual_network.json' with { type: 'json' }
 import azurerm_subnet from './azurerm_subnet.json' with { type: 'json' }
 import azurerm_network_security_group from './azurerm_network_security_group.json' with { type: 'json' }
+import azurerm_network_interface from './azurerm_network_interface.json' with { type: 'json' }
 import azurerm_public_ip from './azurerm_public_ip.json' with { type: 'json' }
 import azurerm_linux_virtual_machine from './azurerm_linux_virtual_machine.json' with { type: 'json' }
 import azurerm_windows_virtual_machine from './azurerm_windows_virtual_machine.json' with { type: 'json' }
@@ -24,6 +25,7 @@ export const SCHEMAS_BY_TYPE = {
   azurerm_virtual_network,
   azurerm_subnet,
   azurerm_network_security_group,
+  azurerm_network_interface,
   azurerm_public_ip,
   azurerm_linux_virtual_machine,
   azurerm_windows_virtual_machine,

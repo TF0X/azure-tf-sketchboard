@@ -45,6 +45,24 @@ export const AZURE_RESOURCES = [
     ]
   },
   {
+    type: 'azurerm_network_interface',
+    label: 'Network Interface',
+    icon: 'NIC',
+    color: '#0078D4',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'nic-main' },
+      LOCATION_FIELD
+    ],
+    blockDefaults: {
+      ip_configuration: {
+        name: 'primary',
+        private_ip_address_allocation: 'Dynamic',
+        subnet_id: ''
+      }
+    },
+    notes: 'Connect to a Subnet to inherit subnet_id, connect to a Public IP to attach it, and connect to a VM to populate network_interface_ids.'
+  },
+  {
     type: 'azurerm_public_ip',
     label: 'Public IP',
     icon: '🌍',
@@ -71,7 +89,7 @@ export const AZURE_RESOURCES = [
       os_disk: { caching: 'ReadWrite', storage_account_type: 'StandardSSD_LRS' },
       source_image_reference: { publisher: 'Canonical', offer: '0001-com-ubuntu-server-jammy', sku: '22_04-lts-gen2', version: 'latest' }
     },
-    notes: 'Requires `network_interface_ids` populated by drawing an edge to a Network Interface (not yet a draggable resource).'
+    notes: 'Connect this VM to a Network Interface to populate `network_interface_ids`. If no NIC is connected, generation creates one from a Subnet edge.'
   },
   {
     type: 'azurerm_windows_virtual_machine',
@@ -89,7 +107,7 @@ export const AZURE_RESOURCES = [
       os_disk: { caching: 'ReadWrite', storage_account_type: 'StandardSSD_LRS' },
       source_image_reference: { publisher: 'MicrosoftWindowsServer', offer: 'WindowsServer', sku: '2022-Datacenter', version: 'latest' }
     },
-    notes: 'Requires `network_interface_ids` populated by drawing an edge to a Network Interface (not yet a draggable resource). admin_password default is a placeholder — change before applying.'
+    notes: 'Connect this VM to a Network Interface to populate `network_interface_ids`. If no NIC is connected, generation creates one from a Subnet edge. admin_password default is a placeholder — change before applying.'
   },
   {
     type: 'azurerm_storage_account',

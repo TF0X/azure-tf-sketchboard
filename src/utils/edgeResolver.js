@@ -77,7 +77,7 @@ export function resolveEdgeBindings(sourceNode, edges, nodesById, instanceNames)
     let target = direct
     let path = direct ? [direct] : []
     let transitive = false
-    if (!target) {
+    if (!target && !mapping.directOnly) {
       const found = findReachablePath(sourceNode, targetType, edges, nodesById)
       if (found) {
         target = found.target
