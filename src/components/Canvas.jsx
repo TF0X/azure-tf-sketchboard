@@ -1,6 +1,7 @@
 import { useCallback, useMemo, useRef, useState } from 'react'
 import { Background, BackgroundVariant, Controls, MiniMap, ReactFlow, useReactFlow } from '@xyflow/react'
 import { useStore } from '../store.js'
+import { RESOURCES_BY_TYPE } from '../data/resources.js'
 import { AzureNode } from './AzureNode.jsx'
 
 const nodeTypes = { azureNode: AzureNode }
@@ -63,6 +64,18 @@ export function Canvas() {
     () => Boolean(selectedEdgeId && edges.some((edge) => edge.id === selectedEdgeId)),
     [selectedEdgeId, edges]
   )
+  const defaultEdgeOptions = useMemo(
+    () => ({
+      type: 'smoothstep',
+      animated: false,
+      style: { strokeWidth: 2.4, stroke: '#7f93bc' }
+    }),
+    []
+  )
+  const connectionLineStyle = useMemo(
+    () => ({ stroke: '#38bdf8', strokeWidth: 2.4, strokeDasharray: '6 4' }),
+    []
+  )
 
   return (
     <div ref={wrapperRef} className="relative flex-1 min-w-0 bg-canvas" onDragOver={handleDragOver} onDrop={handleDrop}>
@@ -77,6 +90,9 @@ export function Canvas() {
         onPaneClick={handlePaneClick}
         onEdgeClick={handleEdgeClick}
         deleteKeyCode={['Backspace', 'Delete']}
+        defaultEdgeOptions={defaultEdgeOptions}
+        connectionLineStyle={connectionLineStyle}
+        connectionLineType="smoothstep"
         fitView
         proOptions={{ hideAttribution: false }}
       >
@@ -84,7 +100,8 @@ export function Canvas() {
         <Controls className="!bg-panel !border-border" />
         <MiniMap
           className="!bg-panelDark !border-border"
-          nodeColor={() => '#0078D4'}
+          nodeColor={(node) => RESOURCES_BY_TYPE[node.data?.resourceType]?.color ?? '#0078D4'}
+          nodeStrokeColor={(node) => RESOURCES_BY_TYPE[node.data?.resourceType]?.color ?? '#0078D4'}
           maskColor="rgba(15, 23, 41, 0.7)"
         />
       </ReactFlow>

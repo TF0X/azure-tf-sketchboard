@@ -129,7 +129,7 @@ export const useStore = create((set, get) => ({
   },
 
   onConnect: (connection) => {
-    set((state) => ({ edges: addEdge({ ...connection, animated: true }, state.edges) }))
+    set((state) => ({ edges: addEdge({ ...connection, type: 'smoothstep', animated: false }, state.edges) }))
   },
 
   clearCanvas: () => set({ nodes: [], edges: [], selectedNodeId: null }),
