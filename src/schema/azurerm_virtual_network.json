@@ -1,0 +1,204 @@
+{
+  "resource_type": "azurerm_virtual_network",
+  "version": 0,
+  "block": {
+    "attributes": {
+      "address_space": {
+        "type": [
+          "list",
+          "string"
+        ],
+        "required": true,
+        "optional": false,
+        "computed": false,
+        "sensitive": false,
+        "description": ""
+      },
+      "bgp_community": {
+        "type": "string",
+        "required": false,
+        "optional": true,
+        "computed": false,
+        "sensitive": false,
+        "description": ""
+      },
+      "dns_servers": {
+        "type": [
+          "list",
+          "string"
+        ],
+        "required": false,
+        "optional": true,
+        "computed": true,
+        "sensitive": false,
+        "description": ""
+      },
+      "edge_zone": {
+        "type": "string",
+        "required": false,
+        "optional": true,
+        "computed": false,
+        "sensitive": false,
+        "description": ""
+      },
+      "flow_timeout_in_minutes": {
+        "type": "number",
+        "required": false,
+        "optional": true,
+        "computed": false,
+        "sensitive": false,
+        "description": ""
+      },
+      "id": {
+        "type": "string",
+        "required": false,
+        "optional": true,
+        "computed": true,
+        "sensitive": false,
+        "description": ""
+      },
+      "location": {
+        "type": "string",
+        "required": true,
+        "optional": false,
+        "computed": false,
+        "sensitive": false,
+        "description": ""
+      },
+      "name": {
+        "type": "string",
+        "required": true,
+        "optional": false,
+        "computed": false,
+        "sensitive": false,
+        "description": ""
+      },
+      "resource_group_name": {
+        "type": "string",
+        "required": true,
+        "optional": false,
+        "computed": false,
+        "sensitive": false,
+        "description": ""
+      },
+      "subnet": {
+        "type": [
+          "set",
+          [
+            "object",
+            {
+              "address_prefix": "string",
+              "id": "string",
+              "name": "string",
+              "security_group": "string"
+            }
+          ]
+        ],
+        "required": false,
+        "optional": true,
+        "computed": true,
+        "sensitive": false,
+        "description": ""
+      },
+      "tags": {
+        "type": [
+          "map",
+          "string"
+        ],
+        "required": false,
+        "optional": true,
+        "computed": false,
+        "sensitive": false,
+        "description": ""
+      }
+    },
+    "block_types": {
+      "ddos_protection_plan": {
+        "nesting_mode": "list",
+        "min_items": 0,
+        "max_items": 1,
+        "block": {
+          "attributes": {
+            "enable": {
+              "type": "bool",
+              "required": true,
+              "optional": false,
+              "computed": false,
+              "sensitive": false,
+              "description": ""
+            },
+            "id": {
+              "type": "string",
+              "required": true,
+              "optional": false,
+              "computed": false,
+              "sensitive": false,
+              "description": ""
+            }
+          },
+          "block_types": {}
+        }
+      },
+      "encryption": {
+        "nesting_mode": "list",
+        "min_items": 0,
+        "max_items": 1,
+        "block": {
+          "attributes": {
+            "enforcement": {
+              "type": "string",
+              "required": true,
+              "optional": false,
+              "computed": false,
+              "sensitive": false,
+              "description": ""
+            }
+          },
+          "block_types": {}
+        }
+      },
+      "timeouts": {
+        "nesting_mode": "single",
+        "min_items": 0,
+        "max_items": 0,
+        "block": {
+          "attributes": {
+            "create": {
+              "type": "string",
+              "required": false,
+              "optional": true,
+              "computed": false,
+              "sensitive": false,
+              "description": ""
+            },
+            "delete": {
+              "type": "string",
+              "required": false,
+              "optional": true,
+              "computed": false,
+              "sensitive": false,
+              "description": ""
+            },
+            "read": {
+              "type": "string",
+              "required": false,
+              "optional": true,
+              "computed": false,
+              "sensitive": false,
+              "description": ""
+            },
+            "update": {
+              "type": "string",
+              "required": false,
+              "optional": true,
+              "computed": false,
+              "sensitive": false,
+              "description": ""
+            }
+          },
+          "block_types": {}
+        }
+      }
+    }
+  }
+}

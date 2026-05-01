@@ -1,0 +1,328 @@
+{
+  "resource_type": "azurerm_container_registry",
+  "version": 2,
+  "block": {
+    "attributes": {
+      "admin_enabled": {
+        "type": "bool",
+        "required": false,
+        "optional": true,
+        "computed": false,
+        "sensitive": false,
+        "description": ""
+      },
+      "anonymous_pull_enabled": {
+        "type": "bool",
+        "required": false,
+        "optional": true,
+        "computed": false,
+        "sensitive": false,
+        "description": ""
+      },
+      "data_endpoint_enabled": {
+        "type": "bool",
+        "required": false,
+        "optional": true,
+        "computed": false,
+        "sensitive": false,
+        "description": ""
+      },
+      "encryption": {
+        "type": [
+          "list",
+          [
+            "object",
+            {
+              "enabled": "bool",
+              "identity_client_id": "string",
+              "key_vault_key_id": "string"
+            }
+          ]
+        ],
+        "required": false,
+        "optional": true,
+        "computed": true,
+        "sensitive": false,
+        "description": ""
+      },
+      "export_policy_enabled": {
+        "type": "bool",
+        "required": false,
+        "optional": true,
+        "computed": false,
+        "sensitive": false,
+        "description": ""
+      },
+      "id": {
+        "type": "string",
+        "required": false,
+        "optional": true,
+        "computed": true,
+        "sensitive": false,
+        "description": ""
+      },
+      "location": {
+        "type": "string",
+        "required": true,
+        "optional": false,
+        "computed": false,
+        "sensitive": false,
+        "description": ""
+      },
+      "name": {
+        "type": "string",
+        "required": true,
+        "optional": false,
+        "computed": false,
+        "sensitive": false,
+        "description": ""
+      },
+      "network_rule_bypass_option": {
+        "type": "string",
+        "required": false,
+        "optional": true,
+        "computed": false,
+        "sensitive": false,
+        "description": ""
+      },
+      "network_rule_set": {
+        "type": [
+          "list",
+          [
+            "object",
+            {
+              "default_action": "string",
+              "ip_rule": [
+                "set",
+                [
+                  "object",
+                  {
+                    "action": "string",
+                    "ip_range": "string"
+                  }
+                ]
+              ],
+              "virtual_network": [
+                "set",
+                [
+                  "object",
+                  {
+                    "action": "string",
+                    "subnet_id": "string"
+                  }
+                ]
+              ]
+            }
+          ]
+        ],
+        "required": false,
+        "optional": true,
+        "computed": true,
+        "sensitive": false,
+        "description": ""
+      },
+      "public_network_access_enabled": {
+        "type": "bool",
+        "required": false,
+        "optional": true,
+        "computed": false,
+        "sensitive": false,
+        "description": ""
+      },
+      "quarantine_policy_enabled": {
+        "type": "bool",
+        "required": false,
+        "optional": true,
+        "computed": false,
+        "sensitive": false,
+        "description": ""
+      },
+      "resource_group_name": {
+        "type": "string",
+        "required": true,
+        "optional": false,
+        "computed": false,
+        "sensitive": false,
+        "description": ""
+      },
+      "retention_policy": {
+        "type": [
+          "list",
+          [
+            "object",
+            {
+              "days": "number",
+              "enabled": "bool"
+            }
+          ]
+        ],
+        "required": false,
+        "optional": true,
+        "computed": true,
+        "sensitive": false,
+        "description": ""
+      },
+      "sku": {
+        "type": "string",
+        "required": true,
+        "optional": false,
+        "computed": false,
+        "sensitive": false,
+        "description": ""
+      },
+      "tags": {
+        "type": [
+          "map",
+          "string"
+        ],
+        "required": false,
+        "optional": true,
+        "computed": false,
+        "sensitive": false,
+        "description": ""
+      },
+      "trust_policy": {
+        "type": [
+          "list",
+          [
+            "object",
+            {
+              "enabled": "bool"
+            }
+          ]
+        ],
+        "required": false,
+        "optional": true,
+        "computed": true,
+        "sensitive": false,
+        "description": ""
+      },
+      "zone_redundancy_enabled": {
+        "type": "bool",
+        "required": false,
+        "optional": true,
+        "computed": false,
+        "sensitive": false,
+        "description": ""
+      }
+    },
+    "block_types": {
+      "georeplications": {
+        "nesting_mode": "list",
+        "min_items": 0,
+        "max_items": 0,
+        "block": {
+          "attributes": {
+            "location": {
+              "type": "string",
+              "required": true,
+              "optional": false,
+              "computed": false,
+              "sensitive": false,
+              "description": ""
+            },
+            "regional_endpoint_enabled": {
+              "type": "bool",
+              "required": false,
+              "optional": true,
+              "computed": false,
+              "sensitive": false,
+              "description": ""
+            },
+            "tags": {
+              "type": [
+                "map",
+                "string"
+              ],
+              "required": false,
+              "optional": true,
+              "computed": false,
+              "sensitive": false,
+              "description": ""
+            },
+            "zone_redundancy_enabled": {
+              "type": "bool",
+              "required": false,
+              "optional": true,
+              "computed": false,
+              "sensitive": false,
+              "description": ""
+            }
+          },
+          "block_types": {}
+        }
+      },
+      "identity": {
+        "nesting_mode": "list",
+        "min_items": 0,
+        "max_items": 1,
+        "block": {
+          "attributes": {
+            "identity_ids": {
+              "type": [
+                "set",
+                "string"
+              ],
+              "required": false,
+              "optional": true,
+              "computed": false,
+              "sensitive": false,
+              "description": ""
+            },
+            "type": {
+              "type": "string",
+              "required": true,
+              "optional": false,
+              "computed": false,
+              "sensitive": false,
+              "description": ""
+            }
+          },
+          "block_types": {}
+        }
+      },
+      "timeouts": {
+        "nesting_mode": "single",
+        "min_items": 0,
+        "max_items": 0,
+        "block": {
+          "attributes": {
+            "create": {
+              "type": "string",
+              "required": false,
+              "optional": true,
+              "computed": false,
+              "sensitive": false,
+              "description": ""
+            },
+            "delete": {
+              "type": "string",
+              "required": false,
+              "optional": true,
+              "computed": false,
+              "sensitive": false,
+              "description": ""
+            },
+            "read": {
+              "type": "string",
+              "required": false,
+              "optional": true,
+              "computed": false,
+              "sensitive": false,
+              "description": ""
+            },
+            "update": {
+              "type": "string",
+              "required": false,
+              "optional": true,
+              "computed": false,
+              "sensitive": false,
+              "description": ""
+            }
+          },
+          "block_types": {}
+        }
+      }
+    }
+  }
+}

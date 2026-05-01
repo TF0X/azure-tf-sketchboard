@@ -1,0 +1,95 @@
+{
+  "resource_type": "azurerm_resource_group",
+  "version": 0,
+  "block": {
+    "attributes": {
+      "id": {
+        "type": "string",
+        "required": false,
+        "optional": true,
+        "computed": true,
+        "sensitive": false,
+        "description": ""
+      },
+      "location": {
+        "type": "string",
+        "required": true,
+        "optional": false,
+        "computed": false,
+        "sensitive": false,
+        "description": ""
+      },
+      "managed_by": {
+        "type": "string",
+        "required": false,
+        "optional": true,
+        "computed": false,
+        "sensitive": false,
+        "description": ""
+      },
+      "name": {
+        "type": "string",
+        "required": true,
+        "optional": false,
+        "computed": false,
+        "sensitive": false,
+        "description": ""
+      },
+      "tags": {
+        "type": [
+          "map",
+          "string"
+        ],
+        "required": false,
+        "optional": true,
+        "computed": false,
+        "sensitive": false,
+        "description": ""
+      }
+    },
+    "block_types": {
+      "timeouts": {
+        "nesting_mode": "single",
+        "min_items": 0,
+        "max_items": 0,
+        "block": {
+          "attributes": {
+            "create": {
+              "type": "string",
+              "required": false,
+              "optional": true,
+              "computed": false,
+              "sensitive": false,
+              "description": ""
+            },
+            "delete": {
+              "type": "string",
+              "required": false,
+              "optional": true,
+              "computed": false,
+              "sensitive": false,
+              "description": ""
+            },
+            "read": {
+              "type": "string",
+              "required": false,
+              "optional": true,
+              "computed": false,
+              "sensitive": false,
+              "description": ""
+            },
+            "update": {
+              "type": "string",
+              "required": false,
+              "optional": true,
+              "computed": false,
+              "sensitive": false,
+              "description": ""
+            }
+          },
+          "block_types": {}
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,144 @@
+{
+  "resource_type": "azurerm_network_security_group",
+  "version": 0,
+  "block": {
+    "attributes": {
+      "id": {
+        "type": "string",
+        "required": false,
+        "optional": true,
+        "computed": true,
+        "sensitive": false,
+        "description": ""
+      },
+      "location": {
+        "type": "string",
+        "required": true,
+        "optional": false,
+        "computed": false,
+        "sensitive": false,
+        "description": ""
+      },
+      "name": {
+        "type": "string",
+        "required": true,
+        "optional": false,
+        "computed": false,
+        "sensitive": false,
+        "description": ""
+      },
+      "resource_group_name": {
+        "type": "string",
+        "required": true,
+        "optional": false,
+        "computed": false,
+        "sensitive": false,
+        "description": ""
+      },
+      "security_rule": {
+        "type": [
+          "set",
+          [
+            "object",
+            {
+              "access": "string",
+              "description": "string",
+              "destination_address_prefix": "string",
+              "destination_address_prefixes": [
+                "set",
+                "string"
+              ],
+              "destination_application_security_group_ids": [
+                "set",
+                "string"
+              ],
+              "destination_port_range": "string",
+              "destination_port_ranges": [
+                "set",
+                "string"
+              ],
+              "direction": "string",
+              "name": "string",
+              "priority": "number",
+              "protocol": "string",
+              "source_address_prefix": "string",
+              "source_address_prefixes": [
+                "set",
+                "string"
+              ],
+              "source_application_security_group_ids": [
+                "set",
+                "string"
+              ],
+              "source_port_range": "string",
+              "source_port_ranges": [
+                "set",
+                "string"
+              ]
+            }
+          ]
+        ],
+        "required": false,
+        "optional": true,
+        "computed": true,
+        "sensitive": false,
+        "description": ""
+      },
+      "tags": {
+        "type": [
+          "map",
+          "string"
+        ],
+        "required": false,
+        "optional": true,
+        "computed": false,
+        "sensitive": false,
+        "description": ""
+      }
+    },
+    "block_types": {
+      "timeouts": {
+        "nesting_mode": "single",
+        "min_items": 0,
+        "max_items": 0,
+        "block": {
+          "attributes": {
+            "create": {
+              "type": "string",
+              "required": false,
+              "optional": true,
+              "computed": false,
+              "sensitive": false,
+              "description": ""
+            },
+            "delete": {
+              "type": "string",
+              "required": false,
+              "optional": true,
+              "computed": false,
+              "sensitive": false,
+              "description": ""
+            },
+            "read": {
+              "type": "string",
+              "required": false,
+              "optional": true,
+              "computed": false,
+              "sensitive": false,
+              "description": ""
+            },
+            "update": {
+              "type": "string",
+              "required": false,
+              "optional": true,
+              "computed": false,
+              "sensitive": false,
+              "description": ""
+            }
+          },
+          "block_types": {}
+        }
+      }
+    }
+  }
+}
