@@ -2,4 +2,30 @@ node_modules
 dist
 .vite
 .DS_Store
+*# Terraform local cache (the thing that broke your push)
+.terraform/
+
+# Terraform state files (sensitive + useless in git)
+*.tfstate
+*.tfstate.*
+
+# Terraform lock file (optional: keep it if you want reproducibility)
+# .terraform.lock.hcl
+
+# Logs
 *.log
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Node (you’ve got .mjs files, so yeah)
+node_modules/
+
+# Build/output folders (your validation outputs)
+validate-*-out/
+schema-source/
+terraform/
+
+# Misc
+.env
