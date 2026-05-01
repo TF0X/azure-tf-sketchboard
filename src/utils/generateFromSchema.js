@@ -171,7 +171,7 @@ export function generateResourceModuleOutputs(schema) {
 }
 
 // Find the schema attribute at fieldPath (supports "parent.child") and return a TF type string.
-function inferTfTypeForField(schema, fieldPath) {
+export function inferTfTypeForField(schema, fieldPath) {
   const parts = fieldPath.split('.')
   let block = schema.block
   let attr = null

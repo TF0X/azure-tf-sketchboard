@@ -33,7 +33,7 @@ const findReachablePath = (sourceNode, targetType, edges, nodesById) => {
 export const sanitizeIdentifier = (value) => {
   const cleaned = String(value ?? '')
     .trim()
-    .replace(/[^A-Za-z0-9_-]/g, '_')
+    .replace(/[^A-Za-z0-9_]/g, '_')
   if (!cleaned) return 'unnamed'
   return /^[A-Za-z_]/.test(cleaned) ? cleaned : `r_${cleaned}`
 }

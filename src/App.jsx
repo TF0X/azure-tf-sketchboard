@@ -42,7 +42,12 @@ export default function App() {
       return
     }
     setGenerationError('')
-    setGeneratedFiles(generate())
+    try {
+      setGeneratedFiles(generate())
+    } catch (err) {
+      setGenerationError(err instanceof Error ? err.message : 'Failed to generate Terraform.')
+      setGeneratedFiles([])
+    }
     setShowOutput(true)
   }, [nodes, generate])
 

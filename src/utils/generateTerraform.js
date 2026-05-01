@@ -1,8 +1,7 @@
 import { getSchema } from '../schema/schemaUtils.js'
 import {
-  generateResourceModuleMain,
-  generateResourceModuleOutputs,
-  generateResourceModuleVariables
+  generateResourceFromSchema,
+  inferTfTypeForField
 } from './generateFromSchema.js'
 import { buildInstanceNames, resolveEdgeBindings } from './edgeResolver.js'
 
@@ -22,57 +21,300 @@ provider "azurerm" {
 }
 `
 
+const VM_TYPES = new Set(['azurerm_linux_virtual_machine', 'azurerm_windows_virtual_machine'])
+
+const MODULE_GROUPS = [
+  {
+    name: 'core',
+    label: 'Core',
+    types: ['azurerm_resource_group']
+  },
+  {
+    name: 'network',
+    label: 'Network',
+    types: [
+      'azurerm_virtual_network',
+      'azurerm_subnet',
+      'azurerm_network_security_group',
+      'azurerm_public_ip',
+      'azurerm_application_gateway',
+      'azurerm_cdn_profile'
+    ]
+  },
+  {
+    name: 'vm',
+    label: 'Virtual Machines',
+    types: ['azurerm_linux_virtual_machine', 'azurerm_windows_virtual_machine']
+  },
+  {
+    name: 'app',
+    label: 'Apps',
+    types: [
+      'azurerm_app_service_plan',
+      'azurerm_linux_web_app',
+      'azurerm_container_registry',
+      'azurerm_kubernetes_cluster'
+    ]
+  },
+  {
+    name: 'data',
+    label: 'Data',
+    types: [
+      'azurerm_storage_account',
+      'azurerm_sql_server',
+      'azurerm_mssql_database',
+      'azurerm_cosmosdb_account',
+      'azurerm_key_vault',
+      'azurerm_log_analytics_workspace',
+      'azurerm_servicebus_namespace'
+    ]
+  }
+]
+
+const TYPE_TO_GROUP = MODULE_GROUPS.reduce((acc, group) => {
+  for (const type of group.types) acc[type] = group.name
+  return acc
+}, {})
+
 const padKey = (key, width) => key.padEnd(width, ' ')
 const variableNameFor = (fieldPath) => fieldPath.replace(/\./g, '_')
+const outputNameFor = (instanceName, attr) => `${instanceName}_${attr}`.replace(/[^A-Za-z0-9_]/g, '_')
+const groupForNode = (node) => TYPE_TO_GROUP[node.data.resourceType] ?? 'misc'
+const clone = (value) => JSON.parse(JSON.stringify(value ?? {}))
 
 const renderProvidersFile = () => PROVIDERS_TF
 
-// Build the per-instance module dir + the root module-call block for one node.
-function buildModuleArtifactsForNode(node, instanceName, bindings) {
+function setFieldValue(properties, blocks, fieldPath, value) {
+  if (fieldPath.includes('.')) {
+    const [parent, child] = fieldPath.split('.')
+    if (!blocks[parent] || typeof blocks[parent] !== 'object') blocks[parent] = {}
+    blocks[parent][child] = value
+  } else {
+    properties[fieldPath] = value
+  }
+}
+
+function localRefFor(targetNode, attr, instanceNames) {
+  return `${targetNode.data.resourceType}.${instanceNames[targetNode.id]}.${attr}`
+}
+
+function externalVarName(instanceName, fieldPath) {
+  return `${instanceName}_${variableNameFor(fieldPath)}`.replace(/[^A-Za-z0-9_]/g, '_')
+}
+
+function sortNodes(nodes, instanceNames) {
+  return [...nodes].sort((a, b) => {
+    const groupCompare = groupForNode(a).localeCompare(groupForNode(b))
+    if (groupCompare !== 0) return groupCompare
+    const aRg = a.data.resourceType === 'azurerm_resource_group'
+    const bRg = b.data.resourceType === 'azurerm_resource_group'
+    if (aRg && !bRg) return -1
+    if (!aRg && bRg) return 1
+    if (a.data.resourceType !== b.data.resourceType) {
+      return a.data.resourceType.localeCompare(b.data.resourceType)
+    }
+    return instanceNames[a.id].localeCompare(instanceNames[b.id])
+  })
+}
+
+function moduleGroupsFromNodes(nodes, instanceNames) {
+  const groups = new Map()
+  for (const node of sortNodes(nodes, instanceNames)) {
+    const groupName = groupForNode(node)
+    if (!groups.has(groupName)) {
+      const defined = MODULE_GROUPS.find((g) => g.name === groupName)
+      groups.set(groupName, {
+        name: groupName,
+        label: defined?.label ?? 'Misc',
+        nodes: []
+      })
+    }
+    groups.get(groupName).nodes.push(node)
+  }
+  return [...groups.values()]
+}
+
+function buildResourceContext(node, bindings, nodesById, instanceNames) {
   const schema = getSchema(node.data.resourceType)
   if (!schema) {
     throw new Error(`No schema for resource type ${node.data.resourceType}`)
   }
 
-  // Clone properties/blocks and inject {__var: name} placeholders where bindings should live.
-  const properties = { ...node.data.properties }
-  const blocks = JSON.parse(JSON.stringify(node.data.blocks ?? {}))
-  const bindingFields = []
-  for (const b of bindings) {
-    const variable = variableNameFor(b.field)
-    bindingFields.push({ variable, fieldPath: b.field })
-    if (b.field.includes('.')) {
-      const [parent, child] = b.field.split('.')
-      if (!blocks[parent] || typeof blocks[parent] !== 'object') blocks[parent] = {}
-      blocks[parent][child] = { __var: variable }
-    } else {
-      properties[b.field] = { __var: variable }
+  const properties = { ...(node.data.properties ?? {}) }
+  const blocks = clone(node.data.blocks)
+  const externalInputs = []
+
+  for (const binding of bindings) {
+    const target = nodesById[binding.targetNodeId]
+    if (!target) continue
+    const attr = binding.refExpr.split('.').pop()
+    const sameGroup = groupForNode(target) === groupForNode(node)
+
+    if (sameGroup) {
+      setFieldValue(properties, blocks, binding.field, { __ref: localRefFor(target, attr, instanceNames) })
+      continue
+    }
+
+    const variable = externalVarName(instanceNames[node.id], binding.field)
+    setFieldValue(properties, blocks, binding.field, { __var: variable })
+    externalInputs.push({
+      variable,
+      fieldPath: binding.field,
+      tfType: inferTfTypeForField(schema, binding.field),
+      refExpr: `module.${groupForNode(target)}.${outputNameFor(instanceNames[target.id], attr)}`
+    })
+  }
+
+  return { schema, properties, blocks, externalInputs }
+}
+
+function buildNicForVm(instanceName, properties, bindings, nodesById, instanceNames) {
+  const subnetBinding = bindings.find((b) => b.field === 'subnet_id')
+  const subnetTarget = subnetBinding ? nodesById[subnetBinding.targetNodeId] : null
+  const subnetId =
+    subnetTarget && groupForNode(subnetTarget) === 'vm'
+      ? localRefFor(subnetTarget, 'id', instanceNames)
+      : subnetBinding
+        ? `var.${externalVarName(instanceName, 'subnet_id')}`
+        : '"" # TODO: connect this VM to a subnet'
+
+  return `resource "azurerm_network_interface" "${instanceName}_nic" {
+  name                = "${properties.name}-nic"
+  location            = ${properties.location?.__var ? `var.${properties.location.__var}` : `"${properties.location}"`}
+  resource_group_name = ${properties.resource_group_name?.__var ? `var.${properties.resource_group_name.__var}` : properties.resource_group_name?.__ref ?? `"${properties.resource_group_name ?? ''}"`}
+
+  ip_configuration {
+    name                          = "primary"
+    subnet_id                     = ${subnetId}
+    private_ip_address_allocation = "Dynamic"
+  }
+}
+`
+}
+
+function dedupeInputs(inputs) {
+  const byName = new Map()
+  for (const input of inputs) {
+    if (!byName.has(input.variable)) byName.set(input.variable, input)
+  }
+  return [...byName.values()]
+}
+
+function renderVariables(inputs) {
+  if (inputs.length === 0) return '# No external inputs. This grouped module is self-contained.\n'
+  return inputs
+    .map((input) => `variable "${input.variable}" {
+  description = "Edge-injected value for ${input.fieldPath}"
+  type        = ${input.tfType}
+}
+`)
+    .join('\n')
+}
+
+function renderOutputs(nodes, instanceNames) {
+  const blocks = []
+  for (const node of nodes) {
+    const schema = getSchema(node.data.resourceType)
+    if (!schema) continue
+    const instance = instanceNames[node.id]
+    const resourceRef = `${node.data.resourceType}.${instance}`
+    for (const attr of ['id', 'name', 'location']) {
+      if (!schema.block.attributes?.[attr]) continue
+      blocks.push(`output "${outputNameFor(instance, attr)}" {
+  description = "${instance} ${attr}"
+  value       = ${resourceRef}.${attr}
+}
+`)
     }
   }
+  return blocks.length > 0 ? blocks.join('\n') : '# No outputs generated for this module.\n'
+}
 
-  const moduleSource = `./modules/${instanceName}`
-  const moduleMain = generateResourceModuleMain(schema, properties, blocks)
-  const moduleVars = generateResourceModuleVariables(schema, bindingFields)
-  const moduleOutputs = generateResourceModuleOutputs(schema)
+function buildGroupedModule(group, edges, nodesById, instanceNames) {
+  const resourceBlocks = []
+  const inputs = []
 
-  const argEntries = bindings.map((b) => [variableNameFor(b.field), b.refExpr])
-  const allKeys = ['source', ...argEntries.map(([k]) => k)]
-  const keyWidth = Math.max(...allKeys.map((k) => k.length))
-  const callLines = [`module "${instanceName}" {`]
-  callLines.push(`  ${padKey('source', keyWidth)} = "${moduleSource}"`)
-  for (const [argName, argValue] of argEntries) {
-    callLines.push(`  ${padKey(argName, keyWidth)} = ${argValue}`)
+  for (const node of group.nodes) {
+    const bindings = resolveEdgeBindings(node, edges, nodesById, instanceNames)
+    const context = buildResourceContext(node, bindings, nodesById, instanceNames)
+    inputs.push(...context.externalInputs)
+
+    const instance = instanceNames[node.id]
+    if (VM_TYPES.has(node.data.resourceType)) {
+      const subnetBinding = bindings.find((b) => b.field === 'subnet_id')
+      if (subnetBinding && groupForNode(nodesById[subnetBinding.targetNodeId]) !== 'vm') {
+        const variable = externalVarName(instance, 'subnet_id')
+        if (!inputs.some((input) => input.variable === variable)) {
+          inputs.push({
+            variable,
+            fieldPath: 'subnet_id',
+            tfType: 'string',
+            refExpr: `module.${groupForNode(nodesById[subnetBinding.targetNodeId])}.${outputNameFor(instanceNames[subnetBinding.targetNodeId], 'id')}`
+          })
+        }
+      }
+      context.properties.network_interface_ids = { __ref: `azurerm_network_interface.${instance}_nic.id` }
+      resourceBlocks.push(buildNicForVm(instance, context.properties, bindings, nodesById, instanceNames))
+    }
+
+    resourceBlocks.push(
+      generateResourceFromSchema(context.schema, instance, context.properties, context.blocks)
+    )
   }
-  callLines.push('}')
 
+  const moduleInputs = dedupeInputs(inputs)
   return {
-    moduleCall: callLines.join('\n'),
+    name: group.name,
     files: [
-      { path: `modules/${instanceName}/main.tf`, content: moduleMain },
-      { path: `modules/${instanceName}/variables.tf`, content: moduleVars },
-      { path: `modules/${instanceName}/outputs.tf`, content: moduleOutputs }
-    ]
+      {
+        path: `modules/${group.name}/main.tf`,
+        content: `# ${group.label} resources generated by Azure TF Sketchboard\n\n${resourceBlocks.join('\n\n')}\n`
+      },
+      { path: `modules/${group.name}/variables.tf`, content: renderVariables(moduleInputs) },
+      { path: `modules/${group.name}/outputs.tf`, content: renderOutputs(group.nodes, instanceNames) }
+    ],
+    inputs: moduleInputs
   }
+}
+
+function renderRootMain(modules) {
+  const calls = modules.map((module) => {
+    const keys = ['source', ...module.inputs.map((input) => input.variable)]
+    const width = Math.max(...keys.map((key) => key.length))
+    const lines = [`module "${module.name}" {`, `  ${padKey('source', width)} = "./modules/${module.name}"`]
+    for (const input of module.inputs) {
+      lines.push(`  ${padKey(input.variable, width)} = ${input.refExpr}`)
+    }
+    lines.push('}')
+    return lines.join('\n')
+  })
+
+  return `# Generated by Azure TF Sketchboard
+# Canvas nodes are grouped into feature modules instead of one module per node.
+
+${calls.join('\n\n')}
+`
+}
+
+function renderRootOutputs(groups, instanceNames) {
+  const blocks = []
+  for (const group of groups) {
+    for (const node of group.nodes) {
+      const schema = getSchema(node.data.resourceType)
+      if (!schema) continue
+      const instance = instanceNames[node.id]
+      for (const attr of ['id', 'name', 'location']) {
+        if (!schema.block.attributes?.[attr]) continue
+        const outputName = outputNameFor(instance, attr)
+        blocks.push(`output "${outputName}" {
+  description = "${instance} ${attr}"
+  value       = module.${group.name}.${outputName}
+}
+`)
+      }
+    }
+  }
+  return blocks.length > 0 ? blocks.join('\n') : '# No outputs generated.\n'
 }
 
 export function generateTerraformFiles(nodes, edges) {
@@ -91,32 +333,12 @@ export function generateTerraformFiles(nodes, edges) {
     return acc
   }, {})
   const instanceNames = buildInstanceNames(nodes)
+  const groups = moduleGroupsFromNodes(nodes, instanceNames)
+  const modules = groups.map((group) => buildGroupedModule(group, edges, nodesById, instanceNames))
 
-  const sorted = [...nodes].sort((a, b) => {
-    const aRg = a.data.resourceType === 'azurerm_resource_group'
-    const bRg = b.data.resourceType === 'azurerm_resource_group'
-    if (aRg && !bRg) return -1
-    if (!aRg && bRg) return 1
-    if (a.data.resourceType !== b.data.resourceType) {
-      return a.data.resourceType.localeCompare(b.data.resourceType)
-    }
-    return instanceNames[a.id].localeCompare(instanceNames[b.id])
-  })
-
-  const moduleCalls = []
-  const moduleFiles = []
-  for (const node of sorted) {
-    const bindings = resolveEdgeBindings(node, edges, nodesById, instanceNames)
-    const artifacts = buildModuleArtifactsForNode(node, instanceNames[node.id], bindings)
-    moduleCalls.push(artifacts.moduleCall)
-    moduleFiles.push(...artifacts.files)
-  }
-
-  files.push({
-    path: 'main.tf',
-    content: `# Generated by Azure TF Sketchboard\n# One module per canvas node — config baked into modules/<name>/.\n\n${moduleCalls.join('\n\n')}\n`
-  })
-  files.push(...moduleFiles)
+  files.push({ path: 'main.tf', content: renderRootMain(modules) })
+  files.push({ path: 'outputs.tf', content: renderRootOutputs(groups, instanceNames) })
+  for (const module of modules) files.push(...module.files)
   return files
 }
 
