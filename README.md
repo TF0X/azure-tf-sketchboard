@@ -265,7 +265,7 @@ src/
 **Limitations**: Not all AzureRM resources are supported. Complex configurations may require manual adjustment.
 
 **Costs**: Generated resources incur Azure costs. Run `terraform plan` to review pricing.
-
+ **Warning**: This tool is in active development. Generated Terraform may be incomplete or invalid — always review and run `terraform validate` before applying.
 ## 🤖 AI-Assisted Development
 
 This project uses **AI for code generation and documentation**. All code has been reviewed and tested. Always validate generated Terraform against your requirements before deploying.
