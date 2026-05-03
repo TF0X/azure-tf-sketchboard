@@ -266,91 +266,36 @@ src/
 └── main.jsx
 ```
 
-## ⚠️ Important Disclaimers
+## ⚠️ Disclaimers
 
-### 1. **Not a Substitute for Review**
-Generated Terraform code is a **starting point only**. Always:
-- Review generated code before applying
-- Test in non-production environments first
-- Validate against your organization's infrastructure standards
-- Run `terraform plan` and review changes carefully
+**Review Required**: Generated Terraform is a starting point. Always review code, test in non-production first, and run `terraform plan` before applying.
 
-### 2. **Security Considerations**
-- Generated code may contain **placeholder credentials** — replace immediately
-- Sensitive data (keys, passwords) should be managed via variable files or Secret Management
-- Do not commit `.tfvars` or credential files to version control
-- Use Azure Key Vault integration for sensitive values
+**Security**: Replace placeholder credentials immediately. Use Azure Key Vault for sensitive data. Don't commit `.tfvars` files.
 
-### 3. **No Guarantee of Completeness**
-- Not all AzureRM resource types are supported
-- Complex nested configurations may require manual adjustment
-- Some resource properties may need post-generation customization
+**Limitations**: Not all AzureRM resources are supported. Complex configurations may require manual adjustment.
 
-### 4. **Breaking Changes**
-- AzureRM provider schema may change — regenerate schemas as needed
-- Test after provider updates
-
-### 5. **Cost Implications**
-- Generated Azure resources will incur costs — estimate before applying
-- Always run `terraform plan` to review resource counts and pricing
+**Costs**: Generated resources incur Azure costs. Run `terraform plan` to review pricing.
 
 ## 🤖 AI-Assisted Development
 
-This project was developed with assistance from **AI language models** for:
-- Code generation and optimization
-- Documentation and README content
-- Architecture suggestions and design patterns
-- Edge case handling and testing strategies
-
-**Important**: While AI provided valuable support, **all code has been reviewed and tested**. Users should:
-- Review generated Terraform for their specific use case
-- Validate against Azure best practices and your organizational requirements
-- Test thoroughly in development and staging environments before production
-- Report any issues or inaccuracies via GitHub Issues
-
-The AI assistance was a **productivity tool**, not a replacement for human judgment and review.
+This project uses **AI for code generation and documentation**. All code has been reviewed and tested. Always validate generated Terraform against your requirements before deploying.
 
 ## 📄 License
 
-This project is licensed under the **MIT License**.
-
-**MIT License Summary:**
-- ✅ Commercial use allowed
-- ✅ Modification and distribution allowed
-- ✅ Private use allowed
-- ✅ Sublicensing allowed
-- ⚠️ Liability: as-is, no warranty
-- ⚠️ Must include license and copyright notice
-
-See the [LICENSE](LICENSE) file for the complete legal text.
+**MIT License** — Free to use commercially, modify, and distribute. See [LICENSE](LICENSE) for details.
 
 ## 🤝 Contributing
 
-We welcome contributions! Please:
-
 1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+2. Create a feature branch (`git checkout -b feature/your-feature`)
+3. Commit changes (`git commit -m 'Add feature'`)
+4. Push and open a Pull Request
 
-## 📧 Support & Feedback
+## 📧 Support
 
-For issues, feature requests, or questions:
-- Open a [GitHub Issue](https://github.com/yourusername/azure-tf-sketchboard/issues)
-- Check existing documentation in [OVERVIEW.md](OVERVIEW.md)
-- Review the codebase structure in [src/](src/)
-
-## 🙏 Acknowledgments
-
-Built with:
-- [React Flow](https://reactflow.dev) — Interactive node canvas
-- [Tailwind CSS](https://tailwindcss.com) — Utility-first styling
-- [Vite](https://vitejs.dev) — Next-generation build tool
-- [Azure Provider](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs) — Resource definitions
+- [Open a GitHub Issue](https://github.com/yourusername/azure-tf-sketchboard/issues)
+- Check [OVERVIEW.md](OVERVIEW.md) for details
 
 ---
 
 **Happy Infrastructure Coding! 🚀**
-
-*Remember: This is a visual design tool. Always follow your organization's infrastructure governance, security, and compliance requirements.*
