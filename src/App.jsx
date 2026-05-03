@@ -6,6 +6,13 @@ import { PropertiesPanel } from './components/PropertiesPanel.jsx'
 import { TerraformOutput } from './components/TerraformOutput.jsx'
 import { useStore } from './store.js'
 import { TEMPLATES } from './data/templates.js'
+import { getSchema } from './schema/schemaUtils.js'
+
+const requiresName = (resourceType) => {
+  const schema = getSchema(resourceType)
+  if (!schema) return true
+  return Boolean(schema.block.attributes?.name?.required)
+}
 
 const validateNodes = (nodes) => {
   if (nodes.length === 0) {
@@ -14,9 +21,10 @@ const validateNodes = (nodes) => {
   const namesByType = new Map()
   for (const node of nodes) {
     const name = String(node.data.properties.name ?? '').trim()
-    if (!name) {
+    if (!name && requiresName(node.data.resourceType)) {
       return `Resource "${node.data.resourceType}" is missing a name.`
     }
+    if (!name) continue
     const key = `${node.data.resourceType}::${name}`
     if (namesByType.has(key)) {
       return `Duplicate name "${name}" for ${node.data.resourceType}. Each resource of the same type needs a unique name.`

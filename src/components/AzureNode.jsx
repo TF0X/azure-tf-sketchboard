@@ -4,7 +4,7 @@ import { RESOURCES_BY_TYPE } from '../data/resources.js'
 import { ResourceIcon } from '../data/icons.jsx'
 import { useStore } from '../store.js'
 
-const getMeta = (data) => {
+function getMeta(data) {
   const props = data.properties ?? {}
   if (props.size) return props.size
   if (props.sku_name) return props.sku_name
@@ -50,8 +50,8 @@ function AzureNodeBase({ id, data, selected }) {
 
       <div className="min-w-0 flex-1 pr-2">
         <div className="truncate text-[13px] font-semibold leading-tight text-textMain">{name}</div>
-        <div className="truncate text-[10px] font-medium uppercase tracking-wide text-textDim/80 mt-0.5">
-          {meta ? `${label} · ${meta}` : label}
+        <div className="mt-0.5 truncate text-[10px] font-medium uppercase tracking-wide text-textDim/80">
+          {meta ? `${label} - ${meta}` : label}
         </div>
       </div>
 
@@ -62,7 +62,7 @@ function AzureNodeBase({ id, data, selected }) {
         aria-label="Remove resource"
         className="azure-node__close opacity-0 group-hover:opacity-100"
       >
-        ×
+        x
       </button>
 
       <Handle id="source-right" type="source" position={Position.Right} className="azure-node__handle" />

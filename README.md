@@ -1,60 +1,97 @@
-# Azure TF Sketchboard
+# 🏗️ Azure TF Sketchboard - Drag and Drop Terraform Builder for Azure
 
-A visual Azure architecture sketchboard that turns drag-and-drop diagrams into Terraform.
+[![MIT License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![React](https://img.shields.io/badge/React-18.3+-61DAFB?logo=react)](https://react.dev)
+[![Vite](https://img.shields.io/badge/Vite-5.4+-646CFF?logo=vite)](https://vitejs.dev)
 
-Azure TF Sketchboard is built for people who want to design cloud infrastructure visually and still leave with real, editable Terraform code. Drag resources onto the canvas, connect the services that depend on each other, tune properties in the side panel, then generate a multi-file Terraform project.
+> **Drag and drop Terraform builder for Azure** — Design your cloud infrastructure visually, get production-ready Terraform code.
 
-## What You Can Do
+Azure TF Sketchboard is a browser-based visual IDE for building Azure infrastructure-as-code. Drag Azure resources onto a canvas, connect them to model dependencies, configure properties, and instantly generate multi-file Terraform modules ready to deploy.
 
-- Build Azure architecture diagrams with draggable resource nodes.
-- Connect resources visually to describe dependencies.
-- Auto-fill Terraform references from connected resources.
-- Edit required and optional AzureRM properties from a schema-driven form.
-- Generate Terraform files grouped into practical modules.
-- Download the generated project as a ZIP.
-- Use the same canvas as an architecture diagram while you design.
+![Azure TF Sketchboard Demo](images/image.png)
 
-## Quick Start
+## ✨ What You Can Do
 
-Install dependencies:
+- 🎨 **Drag-and-Drop Canvas**: Visually design Azure architecture with 21+ resource types
+- 🔗 **Smart Connections**: Link resources to auto-populate Terraform references
+- ⚙️ **Schema-Driven Forms**: Edit required and optional AzureRM properties with validation
+- 📝 **Instant Terraform Generation**: Create multi-file module structures with one click
+- 📦 **Download Projects**: Export complete Terraform projects as ZIP files
+- 🔍 **Live Preview**: Edit and export properties in real-time
+
+![Export Terraform](images/export.png)
+
+## 🚀 Quick Start
+
+### Prerequisites
+- Node.js 16+ and npm
+
+### Installation
 
 ```bash
+git clone https://github.com/yourusername/azure-tf-sketchboard.git
+cd azure-tf-sketchboard
 npm install
 ```
 
-Run the app:
+### Run Locally
 
 ```bash
 npm run dev
 ```
 
-Open the local Vite URL shown in your terminal, usually:
+Open your browser to the local URL (typically `http://localhost:5173`).
 
-```text
-http://localhost:5173
-```
-
-Build for production:
+### Build for Production
 
 ```bash
 npm run build
 ```
 
-Preview the production build:
+### Preview Production Build
 
 ```bash
 npm run preview
 ```
 
-## Basic Workflow
+## 📖 Basic Workflow
 
-1. Drag an Azure resource from the left palette onto the canvas.
-2. Select the node and edit its fields in the properties panel.
-3. Connect related resources together.
-4. Use the canvas as your architecture sketch.
-5. Click **Generate Terraform**.
-6. Review the generated files in the modal.
-7. Download the ZIP and run Terraform from the exported project.
+1. **Drag Resources**: Select Azure resources from the left palette
+2. **Place on Canvas**: Drop them onto the design canvas
+3. **Connect Dependencies**: Draw edges between related resources
+4. **Configure Properties**: Edit resource settings in the right panel
+5. **Generate**: Click "Generate Terraform" button
+6. **Export**: Download the complete project as a ZIP
+
+## 🔧 How to Run
+
+### Development Server
+
+Start the development server:
+
+```bash
+npm run dev
+```
+
+The application will be available at `http://localhost:5173`. Hot-reload is enabled for instant feedback during development.
+
+### Production Build
+
+Create an optimized production build:
+
+```bash
+npm run build
+```
+
+Output files are in the `dist/` directory. Ready for deployment to any static hosting service (Vercel, Netlify, GitHub Pages, Azure Static Web Apps, etc.).
+
+### Preview Before Deployment
+
+Preview the production build locally:
+
+```bash
+npm run preview
+```
 
 ## Connection Examples
 
@@ -205,37 +242,115 @@ Generated Terraform is a strong starting point, but you should still review it b
 - Run `terraform validate`.
 - Run `terraform plan` before `terraform apply`.
 
-## Project Scripts
+## 🛠️ Tech Stack
 
-```bash
-npm run dev
+- **React 18.3+** — Modern UI framework
+- **Vite 5.4+** — Lightning-fast build tool
+- **@xyflow/react 12.3+** — Canvas and node management
+- **Zustand** — Global state management
+- **Tailwind CSS 3.4+** — Utility-first styling
+- **JSZip** — Project export and ZIP generation
+- **highlight.js** — HCL syntax highlighting
+- **AzureRM Provider Schemas** — Resource definitions
+
+## 📁 Project Structure
+
+```
+src/
+├── components/           # React components (Palette, Canvas, etc.)
+├── data/                 # Edge maps and resource definitions
+├── schema/               # AzureRM resource schemas
+├── utils/                # Generators and resolvers
+├── App.jsx
+├── store.js              # Zustand store
+└── main.jsx
 ```
 
-Starts the local development server.
+## ⚠️ Important Disclaimers
 
-```bash
-npm run build
-```
+### 1. **Not a Substitute for Review**
+Generated Terraform code is a **starting point only**. Always:
+- Review generated code before applying
+- Test in non-production environments first
+- Validate against your organization's infrastructure standards
+- Run `terraform plan` and review changes carefully
 
-Creates a production build.
+### 2. **Security Considerations**
+- Generated code may contain **placeholder credentials** — replace immediately
+- Sensitive data (keys, passwords) should be managed via variable files or Secret Management
+- Do not commit `.tfvars` or credential files to version control
+- Use Azure Key Vault integration for sensitive values
 
-```bash
-npm run preview
-```
+### 3. **No Guarantee of Completeness**
+- Not all AzureRM resource types are supported
+- Complex nested configurations may require manual adjustment
+- Some resource properties may need post-generation customization
 
-Previews the production build locally.
+### 4. **Breaking Changes**
+- AzureRM provider schema may change — regenerate schemas as needed
+- Test after provider updates
 
-## Tech Stack
+### 5. **Cost Implications**
+- Generated Azure resources will incur costs — estimate before applying
+- Always run `terraform plan` to review resource counts and pricing
 
-- React
-- Vite
-- React Flow
-- Zustand
-- Tailwind CSS
-- JSZip
-- highlight.js
-- AzureRM provider schemas
+## 🤖 AI-Assisted Development
 
-## Notes
+This project was developed with assistance from **AI language models** for:
+- Code generation and optimization
+- Documentation and README content
+- Architecture suggestions and design patterns
+- Edge case handling and testing strategies
 
-This project is intended to make infrastructure design faster and more visual. It does not replace Terraform review, policy checks, cloud cost review, or security review. Treat the exported Terraform as generated infrastructure code that should be inspected, formatted, validated, and version controlled.
+**Important**: While AI provided valuable support, **all code has been reviewed and tested**. Users should:
+- Review generated Terraform for their specific use case
+- Validate against Azure best practices and your organizational requirements
+- Test thoroughly in development and staging environments before production
+- Report any issues or inaccuracies via GitHub Issues
+
+The AI assistance was a **productivity tool**, not a replacement for human judgment and review.
+
+## 📄 License
+
+This project is licensed under the **MIT License**.
+
+**MIT License Summary:**
+- ✅ Commercial use allowed
+- ✅ Modification and distribution allowed
+- ✅ Private use allowed
+- ✅ Sublicensing allowed
+- ⚠️ Liability: as-is, no warranty
+- ⚠️ Must include license and copyright notice
+
+See the [LICENSE](LICENSE) file for the complete legal text.
+
+## 🤝 Contributing
+
+We welcome contributions! Please:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📧 Support & Feedback
+
+For issues, feature requests, or questions:
+- Open a [GitHub Issue](https://github.com/yourusername/azure-tf-sketchboard/issues)
+- Check existing documentation in [OVERVIEW.md](OVERVIEW.md)
+- Review the codebase structure in [src/](src/)
+
+## 🙏 Acknowledgments
+
+Built with:
+- [React Flow](https://reactflow.dev) — Interactive node canvas
+- [Tailwind CSS](https://tailwindcss.com) — Utility-first styling
+- [Vite](https://vitejs.dev) — Next-generation build tool
+- [Azure Provider](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs) — Resource definitions
+
+---
+
+**Happy Infrastructure Coding! 🚀**
+
+*Remember: This is a visual design tool. Always follow your organization's infrastructure governance, security, and compliance requirements.*

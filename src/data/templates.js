@@ -91,5 +91,85 @@ export const TEMPLATES = [
       ['peer_hub_to_b', 'vnet_hub'],
       ['peer_b_to_hub', 'vnet_spoke_b']
     ]
+  },
+
+  {
+    id: 'single-vm',
+    label: 'Single Linux VM (with networking)',
+    description:
+      'A working Linux VM with NIC, public IP, NSG, and a dedicated subnet — the minimum apply-ready VM stack.',
+    nodes: [
+      { key: 'rg', type: 'azurerm_resource_group', position: { x: 80, y: 60 }, props: { name: 'rg-vm' } },
+      { key: 'vnet', type: 'azurerm_virtual_network', position: { x: 360, y: 60 }, props: { name: 'vnet-vm', address_space: ['10.10.0.0/16'] } },
+      { key: 'subnet', type: 'azurerm_subnet', position: { x: 640, y: 60 }, props: { name: 'snet-vm', address_prefixes: ['10.10.1.0/24'] } },
+      { key: 'nsg', type: 'azurerm_network_security_group', position: { x: 360, y: 220 }, props: { name: 'nsg-vm' } },
+      { key: 'pip', type: 'azurerm_public_ip', position: { x: 640, y: 220 }, props: { name: 'pip-vm' } },
+      { key: 'nic', type: 'azurerm_network_interface', position: { x: 920, y: 140 }, props: { name: 'nic-vm' } },
+      { key: 'vm', type: 'azurerm_linux_virtual_machine', position: { x: 1200, y: 140 }, props: { name: 'vm-main' } }
+    ],
+    edges: [
+      ['vnet', 'rg'],
+      ['subnet', 'vnet'],
+      ['nsg', 'rg'],
+      ['pip', 'rg'],
+      ['nic', 'subnet'],
+      ['nic', 'pip'],
+      ['nic', 'rg'],
+      ['vm', 'nic'],
+      ['vm', 'rg']
+    ]
+  },
+
+  {
+    id: 'three-tier-web',
+    label: '3-Tier Web App',
+    description:
+      'Web app on App Service backed by PostgreSQL with Key Vault for secrets and Log Analytics for observability.',
+    nodes: [
+      { key: 'rg', type: 'azurerm_resource_group', position: { x: 80, y: 60 }, props: { name: 'rg-web' } },
+      { key: 'asp', type: 'azurerm_app_service_plan', position: { x: 360, y: 60 }, props: { name: 'asp-web', os_type: 'Linux', sku_name: 'B1' } },
+      { key: 'app', type: 'azurerm_linux_web_app', position: { x: 640, y: 60 }, props: { name: 'app-web-sketch' } },
+      { key: 'pg', type: 'azurerm_postgresql_flexible_server', position: { x: 360, y: 260 }, props: { name: 'pg-web' } },
+      { key: 'kv', type: 'azurerm_key_vault', position: { x: 640, y: 260 }, props: { name: 'kv-web' } },
+      { key: 'law', type: 'azurerm_log_analytics_workspace', position: { x: 360, y: 460 }, props: { name: 'law-web' } }
+    ],
+    edges: [
+      ['asp', 'rg'],
+      ['app', 'asp'],
+      ['app', 'rg'],
+      ['pg', 'rg'],
+      ['kv', 'rg'],
+      ['law', 'rg']
+    ]
+  },
+
+  {
+    id: 'aks-production',
+    label: 'AKS (production-style)',
+    description:
+      'AKS cluster with private VNet, ACR for images, Key Vault for secrets, Log Analytics, and a Managed Identity with AcrPull RBAC.',
+    nodes: [
+      { key: 'rg', type: 'azurerm_resource_group', position: { x: 80, y: 60 }, props: { name: 'rg-aks' } },
+      { key: 'vnet', type: 'azurerm_virtual_network', position: { x: 360, y: 60 }, props: { name: 'vnet-aks', address_space: ['10.20.0.0/16'] } },
+      { key: 'subnet', type: 'azurerm_subnet', position: { x: 640, y: 60 }, props: { name: 'snet-aks', address_prefixes: ['10.20.1.0/24'] } },
+      { key: 'aks', type: 'azurerm_kubernetes_cluster', position: { x: 920, y: 60 }, props: { name: 'aks-main', dns_prefix: 'aksmain' } },
+      { key: 'acr', type: 'azurerm_container_registry', position: { x: 360, y: 260 }, props: { name: 'acrmainsketch', sku: 'Standard' } },
+      { key: 'kv', type: 'azurerm_key_vault', position: { x: 640, y: 260 }, props: { name: 'kv-aks' } },
+      { key: 'law', type: 'azurerm_log_analytics_workspace', position: { x: 920, y: 260 }, props: { name: 'law-aks' } },
+      { key: 'identity', type: 'azurerm_user_assigned_identity', position: { x: 360, y: 460 }, props: { name: 'id-aks-acr' } },
+      { key: 'role_acr_pull', type: 'azurerm_role_assignment', position: { x: 640, y: 460 }, props: { name: '', role_definition_name: 'AcrPull' } }
+    ],
+    edges: [
+      ['vnet', 'rg'],
+      ['subnet', 'vnet'],
+      ['aks', 'subnet'],
+      ['aks', 'rg'],
+      ['acr', 'rg'],
+      ['kv', 'rg'],
+      ['law', 'rg'],
+      ['identity', 'rg'],
+      ['role_acr_pull', 'identity'],
+      ['role_acr_pull', 'acr']
+    ]
   }
 ]

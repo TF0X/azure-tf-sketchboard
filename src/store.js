@@ -1,44 +1,7 @@
 import { create } from 'zustand'
 import { addEdge, applyEdgeChanges, applyNodeChanges } from '@xyflow/react'
-import { RESOURCES_BY_TYPE } from './data/resources.js'
-import {
-  buildRequiredTopLevelBlocks,
-  coerceLegacyDefault,
-  defaultValueForKind,
-  fieldKind,
-  getSchema
-} from './schema/schemaUtils.js'
+import { createNodeData } from './utils/nodeFactory.js'
 import { generateTerraformFiles } from './utils/generateTerraform.js'
-
-const buildDefaultProperties = (resource, schema) => {
-  // For schema-driven resources, seed all required attrs with type-correct defaults,
-  // then overlay legacy curated defaults where the names match.
-  if (schema) {
-    const properties = {}
-    const legacyDefaults = Object.fromEntries(
-      (resource.properties ?? []).map((p) => [p.name, p.default])
-    )
-    for (const [name, attr] of Object.entries(schema.block.attributes ?? {})) {
-      if (!attr.required) continue
-      const kind = fieldKind(attr.type)
-      const legacy = legacyDefaults[name]
-      properties[name] =
-        legacy !== undefined ? coerceLegacyDefault(legacy, kind) : defaultValueForKind(kind)
-    }
-    // Also carry over any legacy-curated optional fields (e.g. SKUs) that the user expects to see filled.
-    for (const [name, value] of Object.entries(legacyDefaults)) {
-      if (name in properties) continue
-      const attr = schema.block.attributes?.[name]
-      if (!attr) continue
-      properties[name] = coerceLegacyDefault(value, fieldKind(attr.type))
-    }
-    return properties
-  }
-  return (resource.properties ?? []).reduce((acc, prop) => {
-    acc[prop.name] = prop.default
-    return acc
-  }, {})
-}
 
 let nodeIdCounter = 1
 const nextNodeId = () => `node-${nodeIdCounter++}`
@@ -49,29 +12,9 @@ export const useStore = create((set, get) => ({
   selectedNodeId: null,
 
   addNode: (resourceType, position) => {
-    const resource = RESOURCES_BY_TYPE[resourceType]
-    if (!resource) return
-    const schema = getSchema(resourceType)
+    const data = createNodeData(resourceType)
+    if (!data) return
     const id = nextNodeId()
-    const data = {
-      resourceType,
-      properties: buildDefaultProperties(resource, schema)
-    }
-    if (schema) {
-      data.schemaDriven = true
-      const required = buildRequiredTopLevelBlocks(schema.block)
-      const overrides = resource.blockDefaults ?? {}
-      const merged = {}
-      for (const [name, attrs] of Object.entries(required)) {
-        merged[name] = { ...attrs, ...(overrides[name] ?? {}) }
-      }
-      // Optional blocks the curator chose to seed (e.g. cosmosdb geo_location, app gateway many)
-      for (const [name, attrs] of Object.entries(overrides)) {
-        if (name in merged) continue
-        merged[name] = { ...attrs }
-      }
-      data.blocks = merged
-    }
     const newNode = { id, type: 'azureNode', position, data }
     set((state) => ({ nodes: [...state.nodes, newNode] }))
   },
@@ -139,29 +82,9 @@ export const useStore = create((set, get) => ({
     const nodes = []
     const keyToNodeId = {}
     for (const tnode of template.nodes) {
-      const resource = RESOURCES_BY_TYPE[tnode.type]
-      if (!resource) continue
-      const schema = getSchema(tnode.type)
+      const data = createNodeData(tnode.type, tnode.props)
+      if (!data) continue
       const id = nextNodeId()
-      const baseProps = buildDefaultProperties(resource, schema)
-      const data = {
-        resourceType: tnode.type,
-        properties: { ...baseProps, ...(tnode.props ?? {}) }
-      }
-      if (schema) {
-        data.schemaDriven = true
-        const required = buildRequiredTopLevelBlocks(schema.block)
-        const overrides = resource.blockDefaults ?? {}
-        const merged = {}
-        for (const [name, attrs] of Object.entries(required)) {
-          merged[name] = { ...attrs, ...(overrides[name] ?? {}) }
-        }
-        for (const [name, attrs] of Object.entries(overrides)) {
-          if (name in merged) continue
-          merged[name] = { ...attrs }
-        }
-        data.blocks = merged
-      }
       nodes.push({ id, type: 'azureNode', position: { ...tnode.position }, data })
       keyToNodeId[tnode.key] = id
     }
