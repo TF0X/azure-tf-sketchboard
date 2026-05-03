@@ -242,16 +242,6 @@ Generated Terraform is a strong starting point, but you should still review it b
 - Run `terraform validate`.
 - Run `terraform plan` before `terraform apply`.
 
-## 🛠️ Tech Stack
-
-- **React 18.3+** — Modern UI framework
-- **Vite 5.4+** — Lightning-fast build tool
-- **@xyflow/react 12.3+** — Canvas and node management
-- **Zustand** — Global state management
-- **Tailwind CSS 3.4+** — Utility-first styling
-- **JSZip** — Project export and ZIP generation
-- **highlight.js** — HCL syntax highlighting
-- **AzureRM Provider Schemas** — Resource definitions
 
 ## 📁 Project Structure
 
