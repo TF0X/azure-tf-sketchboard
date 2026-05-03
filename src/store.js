@@ -129,10 +129,52 @@ export const useStore = create((set, get) => ({
   },
 
   onConnect: (connection) => {
-    set((state) => ({ edges: addEdge({ ...connection, type: 'smoothstep', animated: false }, state.edges) }))
+    set((state) => ({ edges: addEdge({ ...connection, type: 'default', animated: false }, state.edges) }))
   },
 
   clearCanvas: () => set({ nodes: [], edges: [], selectedNodeId: null }),
+
+  applyTemplate: (template) => {
+    if (!template?.nodes) return
+    const nodes = []
+    const keyToNodeId = {}
+    for (const tnode of template.nodes) {
+      const resource = RESOURCES_BY_TYPE[tnode.type]
+      if (!resource) continue
+      const schema = getSchema(tnode.type)
+      const id = nextNodeId()
+      const baseProps = buildDefaultProperties(resource, schema)
+      const data = {
+        resourceType: tnode.type,
+        properties: { ...baseProps, ...(tnode.props ?? {}) }
+      }
+      if (schema) {
+        data.schemaDriven = true
+        const required = buildRequiredTopLevelBlocks(schema.block)
+        const overrides = resource.blockDefaults ?? {}
+        const merged = {}
+        for (const [name, attrs] of Object.entries(required)) {
+          merged[name] = { ...attrs, ...(overrides[name] ?? {}) }
+        }
+        for (const [name, attrs] of Object.entries(overrides)) {
+          if (name in merged) continue
+          merged[name] = { ...attrs }
+        }
+        data.blocks = merged
+      }
+      nodes.push({ id, type: 'azureNode', position: { ...tnode.position }, data })
+      keyToNodeId[tnode.key] = id
+    }
+    let edgeCounter = 1
+    const edges = []
+    for (const [srcKey, tgtKey] of template.edges ?? []) {
+      const source = keyToNodeId[srcKey]
+      const target = keyToNodeId[tgtKey]
+      if (!source || !target) continue
+      edges.push({ id: `tpl-edge-${edgeCounter++}`, source, target, type: 'default', animated: false })
+    }
+    set({ nodes, edges, selectedNodeId: null })
+  },
 
   generateTerraformFiles: () => {
     const { nodes, edges } = get()

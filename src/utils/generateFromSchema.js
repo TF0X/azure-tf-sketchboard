@@ -16,6 +16,10 @@ const isUnset = (value) => {
 
 const padKey = (key, width) => key.padEnd(width, ' ')
 
+// Recognize bare HCL identifier expressions like "azurerm_virtual_network.vnet-hub.id"
+// so templates and manual entries can reference other resources without quoting.
+const HCL_REF_PATTERN = /^[a-z][a-z0-9_]*\.[A-Za-z0-9_-]+(?:\.[A-Za-z0-9_]+)+$/
+
 function renderScalar(kind, value, indent) {
   // Edge-injected reference: bare HCL (e.g. module.rg.name)
   if (value && typeof value === 'object' && value.__ref) {
@@ -32,7 +36,7 @@ function renderScalar(kind, value, indent) {
   }
   if (kind === 'list_of_string' || kind === 'set_of_string') {
     if (!Array.isArray(value) || value.length === 0) return '[]'
-    return `[${value.map((v) => `"${sanitize(v)}"`).join(', ')}]`
+    return `[${value.map((v) => (HCL_REF_PATTERN.test(v) ? v : `"${sanitize(v)}"`)).join(', ')}]`
   }
   if (kind === 'map_of_string') {
     const entries = Object.entries(value ?? {})
@@ -42,6 +46,7 @@ function renderScalar(kind, value, indent) {
     const lines = entries.map(([k, v]) => `${inner}"${sanitize(k)}" = "${sanitize(v)}"`)
     return `{\n${lines.join('\n')}\n${close}}`
   }
+  if (typeof value === 'string' && HCL_REF_PATTERN.test(value)) return value
   return `"${sanitize(value)}"`
 }
 

@@ -288,6 +288,106 @@ export const AZURE_RESOURCES = [
       LOCATION_FIELD,
       { name: 'sku', label: 'SKU', type: 'select', options: ['Standard_Microsoft', 'Standard_Akamai', 'Premium_Verizon'], default: 'Standard_Microsoft' }
     ]
+  },
+  {
+    type: 'azurerm_user_assigned_identity',
+    label: 'Managed Identity',
+    icon: '🪪',
+    color: '#7159C1',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'id-main' },
+      LOCATION_FIELD
+    ]
+  },
+  {
+    type: 'azurerm_role_assignment',
+    label: 'Role Assignment',
+    icon: '🛂',
+    color: '#7159C1',
+    properties: [
+      { name: 'name', label: 'Name (optional)', type: 'text', default: '' },
+      { name: 'role_definition_name', label: 'Role', type: 'select',
+        options: ['Reader', 'Contributor', 'Owner', 'Storage Blob Data Reader', 'Storage Blob Data Contributor', 'Key Vault Secrets User', 'Key Vault Secrets Officer', 'AcrPull', 'AcrPush'],
+        default: 'Reader' },
+      { name: 'scope', label: 'Scope (resource ID)', type: 'text', default: '' },
+      { name: 'principal_id', label: 'Principal ID', type: 'text', default: '' }
+    ],
+    notes: 'scope and principal_id auto-fill when connected to a target resource and a Managed Identity. role_definition_name MUST match the target resource type (e.g. AcrPull for Container Registry).'
+  },
+  {
+    type: 'azurerm_private_endpoint',
+    label: 'Private Endpoint',
+    icon: '🔒',
+    color: '#16A085',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'pe-main' },
+      LOCATION_FIELD
+    ],
+    blockDefaults: {
+      private_service_connection: {
+        name: 'pe-connection',
+        is_manual_connection: false,
+        subresource_names: ['blob']
+      }
+    },
+    notes: 'subnet_id and resource_group_name come from edges. private_service_connection.private_connection_resource_id auto-fills when connected to a target resource (Storage, Key Vault, SQL Server, etc.). Edit subresource_names to match the target service (e.g. blob/file/queue for storage, vault for key_vault, sqlServer for sql).'
+  },
+  {
+    type: 'azurerm_redis_cache',
+    label: 'Redis Cache',
+    icon: '🟥',
+    color: '#DC382D',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'redis-main' },
+      LOCATION_FIELD,
+      { name: 'capacity', label: 'Capacity', type: 'text', default: '1' },
+      { name: 'family', label: 'Family', type: 'select', options: ['C', 'P'], default: 'C' },
+      { name: 'sku_name', label: 'SKU', type: 'select', options: ['Basic', 'Standard', 'Premium'], default: 'Standard' }
+    ]
+  },
+  {
+    type: 'azurerm_postgresql_flexible_server',
+    label: 'PostgreSQL Flexible',
+    icon: '🐘',
+    color: '#336791',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'pg-main' },
+      LOCATION_FIELD,
+      { name: 'sku_name', label: 'SKU', type: 'text', default: 'B_Standard_B1ms' },
+      { name: 'version', label: 'Version', type: 'select', options: ['11', '12', '13', '14', '15', '16'], default: '15' },
+      { name: 'administrator_login', label: 'Admin Login', type: 'text', default: 'pgadmin' },
+      { name: 'administrator_password', label: 'Admin Password', type: 'text', default: 'P@ssw0rd1234!' },
+      { name: 'storage_mb', label: 'Storage (MB)', type: 'text', default: '32768' }
+    ],
+    notes: 'administrator_password default is a placeholder — change before applying. For production, use a Key Vault reference.'
+  },
+  {
+    type: 'azurerm_linux_function_app',
+    label: 'Function App (Linux)',
+    icon: '⚡',
+    color: '#FFD400',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'func-main-sketch' },
+      LOCATION_FIELD,
+      { name: 'storage_account_name', label: 'Storage Account Name', type: 'text', default: '' },
+      { name: 'storage_account_access_key', label: 'Storage Access Key', type: 'text', default: '' }
+    ],
+    blockDefaults: {
+      site_config: {}
+    },
+    notes: 'storage_account_name auto-fills from a Storage Account edge. storage_account_access_key needs to be wired manually (use a Key Vault reference in real deployments). service_plan_id from an App Service Plan edge.'
+  },
+  {
+    type: 'azurerm_virtual_network_peering',
+    label: 'VNet Peering',
+    icon: '🔁',
+    color: '#0078D4',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'peering-hub-spoke' },
+      { name: 'allow_virtual_network_access', label: 'Allow VNet Access', type: 'select', options: ['true', 'false'], default: 'true' },
+      { name: 'allow_forwarded_traffic', label: 'Allow Forwarded Traffic', type: 'select', options: ['true', 'false'], default: 'false' }
+    ],
+    notes: 'Connect to two VNets to wire virtual_network_name (the local one) and remote_virtual_network_id (the remote one). Direction is inferred from edge order on the canvas.'
   }
 ]
 

@@ -171,5 +171,111 @@ export const EDGE_FIELD_MAP = {
       field: 'resource_group_name',
       value: (target) => `azurerm_resource_group.${target.data.properties.name}.name`
     }
+  },
+  azurerm_user_assigned_identity: {
+    azurerm_resource_group: {
+      field: 'resource_group_name',
+      value: (target) => `azurerm_resource_group.${target.data.properties.name}.name`
+    }
+  },
+  azurerm_role_assignment: {
+    azurerm_user_assigned_identity: {
+      field: 'principal_id',
+      directOnly: true,
+      value: (target) => `azurerm_user_assigned_identity.${target.data.properties.name}.principal_id`
+    },
+    azurerm_storage_account: {
+      field: 'scope',
+      directOnly: true,
+      value: (target) => `azurerm_storage_account.${target.data.properties.name}.id`
+    },
+    azurerm_key_vault: {
+      field: 'scope',
+      directOnly: true,
+      value: (target) => `azurerm_key_vault.${target.data.properties.name}.id`
+    },
+    azurerm_container_registry: {
+      field: 'scope',
+      directOnly: true,
+      value: (target) => `azurerm_container_registry.${target.data.properties.name}.id`
+    },
+    azurerm_resource_group: {
+      field: 'scope',
+      directOnly: true,
+      value: (target) => `azurerm_resource_group.${target.data.properties.name}.id`
+    }
+  },
+  azurerm_private_endpoint: {
+    azurerm_resource_group: {
+      field: 'resource_group_name',
+      value: (target) => `azurerm_resource_group.${target.data.properties.name}.name`
+    },
+    azurerm_subnet: {
+      field: 'subnet_id',
+      value: (target) => `azurerm_subnet.${target.data.properties.name}.id`
+    },
+    azurerm_storage_account: {
+      field: 'private_service_connection.private_connection_resource_id',
+      directOnly: true,
+      value: (target) => `azurerm_storage_account.${target.data.properties.name}.id`
+    },
+    azurerm_key_vault: {
+      field: 'private_service_connection.private_connection_resource_id',
+      directOnly: true,
+      value: (target) => `azurerm_key_vault.${target.data.properties.name}.id`
+    },
+    azurerm_sql_server: {
+      field: 'private_service_connection.private_connection_resource_id',
+      directOnly: true,
+      value: (target) => `azurerm_sql_server.${target.data.properties.name}.id`
+    },
+    azurerm_postgresql_flexible_server: {
+      field: 'private_service_connection.private_connection_resource_id',
+      directOnly: true,
+      value: (target) => `azurerm_postgresql_flexible_server.${target.data.properties.name}.id`
+    },
+    azurerm_redis_cache: {
+      field: 'private_service_connection.private_connection_resource_id',
+      directOnly: true,
+      value: (target) => `azurerm_redis_cache.${target.data.properties.name}.id`
+    }
+  },
+  azurerm_redis_cache: {
+    azurerm_resource_group: {
+      field: 'resource_group_name',
+      value: (target) => `azurerm_resource_group.${target.data.properties.name}.name`
+    }
+  },
+  azurerm_postgresql_flexible_server: {
+    azurerm_resource_group: {
+      field: 'resource_group_name',
+      value: (target) => `azurerm_resource_group.${target.data.properties.name}.name`
+    }
+  },
+  azurerm_linux_function_app: {
+    azurerm_resource_group: {
+      field: 'resource_group_name',
+      value: (target) => `azurerm_resource_group.${target.data.properties.name}.name`
+    },
+    azurerm_app_service_plan: {
+      field: 'service_plan_id',
+      value: (target) => `azurerm_app_service_plan.${target.data.properties.name}.id`
+    },
+    azurerm_storage_account: {
+      field: 'storage_account_name',
+      directOnly: true,
+      value: (target) => `azurerm_storage_account.${target.data.properties.name}.name`
+    }
+  },
+  azurerm_virtual_network_peering: {
+    azurerm_resource_group: {
+      field: 'resource_group_name',
+      value: (target) => `azurerm_resource_group.${target.data.properties.name}.name`
+    },
+    azurerm_virtual_network: {
+      field: 'virtual_network_name',
+      directOnly: true,
+      value: (target) => `azurerm_virtual_network.${target.data.properties.name}.name`
+    }
   }
 }

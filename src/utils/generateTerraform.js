@@ -30,6 +30,11 @@ const MODULE_GROUPS = [
     types: ['azurerm_resource_group']
   },
   {
+    name: 'identity',
+    label: 'Identity & RBAC',
+    types: ['azurerm_user_assigned_identity', 'azurerm_role_assignment']
+  },
+  {
     name: 'network',
     label: 'Network',
     types: [
@@ -39,7 +44,9 @@ const MODULE_GROUPS = [
       'azurerm_network_interface',
       'azurerm_public_ip',
       'azurerm_application_gateway',
-      'azurerm_cdn_profile'
+      'azurerm_cdn_profile',
+      'azurerm_virtual_network_peering',
+      'azurerm_private_endpoint'
     ]
   },
   {
@@ -53,6 +60,7 @@ const MODULE_GROUPS = [
     types: [
       'azurerm_app_service_plan',
       'azurerm_linux_web_app',
+      'azurerm_linux_function_app',
       'azurerm_container_registry',
       'azurerm_kubernetes_cluster'
     ]
@@ -65,6 +73,8 @@ const MODULE_GROUPS = [
       'azurerm_sql_server',
       'azurerm_mssql_database',
       'azurerm_cosmosdb_account',
+      'azurerm_postgresql_flexible_server',
+      'azurerm_redis_cache',
       'azurerm_key_vault',
       'azurerm_log_analytics_workspace',
       'azurerm_servicebus_namespace'

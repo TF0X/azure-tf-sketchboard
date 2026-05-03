@@ -19,6 +19,13 @@ import azurerm_log_analytics_workspace from './azurerm_log_analytics_workspace.j
 import azurerm_servicebus_namespace from './azurerm_servicebus_namespace.json' with { type: 'json' }
 import azurerm_cosmosdb_account from './azurerm_cosmosdb_account.json' with { type: 'json' }
 import azurerm_cdn_profile from './azurerm_cdn_profile.json' with { type: 'json' }
+import azurerm_user_assigned_identity from './azurerm_user_assigned_identity.json' with { type: 'json' }
+import azurerm_role_assignment from './azurerm_role_assignment.json' with { type: 'json' }
+import azurerm_private_endpoint from './azurerm_private_endpoint.json' with { type: 'json' }
+import azurerm_redis_cache from './azurerm_redis_cache.json' with { type: 'json' }
+import azurerm_postgresql_flexible_server from './azurerm_postgresql_flexible_server.json' with { type: 'json' }
+import azurerm_linux_function_app from './azurerm_linux_function_app.json' with { type: 'json' }
+import azurerm_virtual_network_peering from './azurerm_virtual_network_peering.json' with { type: 'json' }
 
 export const SCHEMAS_BY_TYPE = {
   azurerm_resource_group,
@@ -41,7 +48,14 @@ export const SCHEMAS_BY_TYPE = {
   azurerm_log_analytics_workspace,
   azurerm_servicebus_namespace,
   azurerm_cosmosdb_account,
-  azurerm_cdn_profile
+  azurerm_cdn_profile,
+  azurerm_user_assigned_identity,
+  azurerm_role_assignment,
+  azurerm_private_endpoint,
+  azurerm_redis_cache,
+  azurerm_postgresql_flexible_server,
+  azurerm_linux_function_app,
+  azurerm_virtual_network_peering
 }
 
 export function getSchema(resourceType) {

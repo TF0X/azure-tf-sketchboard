@@ -5,6 +5,7 @@ import { Canvas } from './components/Canvas.jsx'
 import { PropertiesPanel } from './components/PropertiesPanel.jsx'
 import { TerraformOutput } from './components/TerraformOutput.jsx'
 import { useStore } from './store.js'
+import { TEMPLATES } from './data/templates.js'
 
 const validateNodes = (nodes) => {
   if (nodes.length === 0) {
@@ -29,9 +30,12 @@ export default function App() {
   const [showOutput, setShowOutput] = useState(false)
   const [generatedFiles, setGeneratedFiles] = useState([])
   const [generationError, setGenerationError] = useState('')
+  const [showTemplates, setShowTemplates] = useState(false)
+  const [diagramMode, setDiagramMode] = useState(false)
   const nodes = useStore((state) => state.nodes)
   const generate = useStore((state) => state.generateTerraformFiles)
   const clearCanvas = useStore((state) => state.clearCanvas)
+  const applyTemplate = useStore((state) => state.applyTemplate)
 
   const handleGenerate = useCallback(() => {
     const error = validateNodes(nodes)
@@ -59,6 +63,18 @@ export default function App() {
 
   const handleCloseOutput = useCallback(() => setShowOutput(false), [])
 
+  const handleApplyTemplate = useCallback(
+    (template) => {
+      const proceed =
+        nodes.length === 0 ||
+        window.confirm(`Replace the current canvas with the "${template.label}" template?`)
+      if (!proceed) return
+      applyTemplate(template)
+      setShowTemplates(false)
+    },
+    [nodes.length, applyTemplate]
+  )
+
   return (
     <ReactFlowProvider>
       <div className="flex flex-col h-screen w-screen bg-canvas text-textMain">
@@ -67,7 +83,46 @@ export default function App() {
             <span className="text-2xl">⚡</span>
             <h1 className="text-lg font-semibold tracking-tight">Azure TF Sketchboard</h1>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 relative">
+            <button
+              type="button"
+              onClick={() => setDiagramMode((v) => !v)}
+              title="Toggle Diagram Mode (hides side panels for clean screenshots)"
+              className={`px-3 py-1.5 rounded-md text-sm font-medium border transition-colors ${
+                diagramMode
+                  ? 'bg-accent/20 border-accent/50 text-accent'
+                  : 'bg-transparent border-border text-textDim hover:text-textMain hover:bg-panel'
+              }`}
+            >
+              {diagramMode ? '◧ Diagram Mode' : '◧ Diagram Mode'}
+            </button>
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => setShowTemplates((v) => !v)}
+                className="px-3 py-1.5 rounded-md text-sm font-medium bg-transparent border border-border text-textDim hover:text-textMain hover:bg-panel transition-colors"
+              >
+                Templates ▾
+              </button>
+              {showTemplates ? (
+                <div className="absolute right-0 top-full mt-1 w-80 z-30 rounded-md bg-panelDark border border-border shadow-2xl overflow-hidden">
+                  <div className="px-3 py-2 text-[10px] uppercase font-semibold tracking-wider text-textDim border-b border-border">
+                    Apply preset architecture
+                  </div>
+                  {TEMPLATES.map((tpl) => (
+                    <button
+                      key={tpl.id}
+                      type="button"
+                      onClick={() => handleApplyTemplate(tpl)}
+                      className="w-full text-left px-3 py-2.5 hover:bg-panel transition-colors border-b border-border last:border-b-0"
+                    >
+                      <div className="text-sm font-medium text-textMain">{tpl.label}</div>
+                      <div className="text-xs text-textDim mt-1 leading-snug">{tpl.description}</div>
+                    </button>
+                  ))}
+                </div>
+              ) : null}
+            </div>
             <button
               type="button"
               onClick={handleClear}
@@ -86,9 +141,9 @@ export default function App() {
         </header>
 
         <main className="flex flex-1 min-h-0">
-          <Palette />
+          {diagramMode ? null : <Palette />}
           <Canvas />
-          <PropertiesPanel />
+          {diagramMode ? null : <PropertiesPanel />}
         </main>
 
         {showOutput ? (

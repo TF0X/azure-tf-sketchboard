@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useRef, useState } from 'react'
-import { Background, BackgroundVariant, Controls, MiniMap, ReactFlow, useReactFlow } from '@xyflow/react'
+import { Background, BackgroundVariant, Controls, MarkerType, MiniMap, ReactFlow, useReactFlow } from '@xyflow/react'
 import { useStore } from '../store.js'
 import { RESOURCES_BY_TYPE } from '../data/resources.js'
 import { AzureNode } from './AzureNode.jsx'
@@ -66,14 +66,15 @@ export function Canvas() {
   )
   const defaultEdgeOptions = useMemo(
     () => ({
-      type: 'smoothstep',
+      type: 'default',
       animated: false,
-      style: { strokeWidth: 2.4, stroke: '#7f93bc' }
+      style: { strokeWidth: 1.6, stroke: '#5d6f99' },
+      markerEnd: { type: MarkerType.ArrowClosed, color: '#5d6f99', width: 14, height: 14 }
     }),
     []
   )
   const connectionLineStyle = useMemo(
-    () => ({ stroke: '#38bdf8', strokeWidth: 2.4, strokeDasharray: '6 4' }),
+    () => ({ stroke: '#38bdf8', strokeWidth: 1.8, strokeLinecap: 'round' }),
     []
   )
 
@@ -92,7 +93,7 @@ export function Canvas() {
         deleteKeyCode={['Backspace', 'Delete']}
         defaultEdgeOptions={defaultEdgeOptions}
         connectionLineStyle={connectionLineStyle}
-        connectionLineType="smoothstep"
+        connectionLineType="bezier"
         fitView
         proOptions={{ hideAttribution: false }}
       >
