@@ -2,10 +2,22 @@ export const AZURE_LOCATIONS = ['East US', 'West Europe', 'Southeast Asia', 'UK 
 
 const LOCATION_FIELD = { name: 'location', label: 'Location', type: 'select', options: AZURE_LOCATIONS, default: 'East US' }
 
+const RESOURCE_CATEGORIES = {
+  CORE: 'Core',
+  NETWORKING: 'Networking',
+  COMPUTE: 'Compute',
+  STORAGE_CONTAINERS: 'Storage & Containers',
+  DATABASES: 'Databases',
+  WEB_APIS: 'Web & APIs',
+  SECURITY_IDENTITY: 'Security & Identity',
+  MONITORING_INTEGRATION: 'Monitoring & Integration'
+}
+
 export const AZURE_RESOURCES = [
   {
     type: 'azurerm_resource_group',
     label: 'Resource Group',
+    category: RESOURCE_CATEGORIES.CORE,
     icon: '🗂️',
     color: '#0078D4',
     properties: [
@@ -16,6 +28,7 @@ export const AZURE_RESOURCES = [
   {
     type: 'azurerm_virtual_network',
     label: 'Virtual Network',
+    category: RESOURCE_CATEGORIES.NETWORKING,
     icon: '🌐',
     color: '#0078D4',
     properties: [
@@ -27,6 +40,7 @@ export const AZURE_RESOURCES = [
   {
     type: 'azurerm_subnet',
     label: 'Subnet',
+    category: RESOURCE_CATEGORIES.NETWORKING,
     icon: '🔲',
     color: '#0078D4',
     properties: [
@@ -37,6 +51,7 @@ export const AZURE_RESOURCES = [
   {
     type: 'azurerm_network_security_group',
     label: 'Network Security Group',
+    category: RESOURCE_CATEGORIES.NETWORKING,
     icon: '🛡️',
     color: '#E74C3C',
     properties: [
@@ -47,6 +62,7 @@ export const AZURE_RESOURCES = [
   {
     type: 'azurerm_network_interface',
     label: 'Network Interface',
+    category: RESOURCE_CATEGORIES.NETWORKING,
     icon: 'NIC',
     color: '#0078D4',
     properties: [
@@ -65,6 +81,7 @@ export const AZURE_RESOURCES = [
   {
     type: 'azurerm_public_ip',
     label: 'Public IP',
+    category: RESOURCE_CATEGORIES.NETWORKING,
     icon: '🌍',
     color: '#27AE60',
     properties: [
@@ -77,6 +94,7 @@ export const AZURE_RESOURCES = [
   {
     type: 'azurerm_linux_virtual_machine',
     label: 'Linux VM',
+    category: RESOURCE_CATEGORIES.COMPUTE,
     icon: '🖥️',
     color: '#8E44AD',
     properties: [
@@ -94,6 +112,7 @@ export const AZURE_RESOURCES = [
   {
     type: 'azurerm_windows_virtual_machine',
     label: 'Windows VM',
+    category: RESOURCE_CATEGORIES.COMPUTE,
     icon: '🪟',
     color: '#8E44AD',
     properties: [
@@ -112,6 +131,7 @@ export const AZURE_RESOURCES = [
   {
     type: 'azurerm_storage_account',
     label: 'Storage Account',
+    category: RESOURCE_CATEGORIES.STORAGE_CONTAINERS,
     icon: '💾',
     color: '#F39C12',
     properties: [
@@ -124,6 +144,7 @@ export const AZURE_RESOURCES = [
   {
     type: 'azurerm_sql_server',
     label: 'SQL Server',
+    category: RESOURCE_CATEGORIES.DATABASES,
     icon: '🗃️',
     color: '#E67E22',
     properties: [
@@ -138,6 +159,7 @@ export const AZURE_RESOURCES = [
   {
     type: 'azurerm_mssql_database',
     label: 'SQL Database',
+    category: RESOURCE_CATEGORIES.DATABASES,
     icon: '📊',
     color: '#E67E22',
     properties: [
@@ -149,6 +171,7 @@ export const AZURE_RESOURCES = [
   {
     type: 'azurerm_app_service_plan',
     label: 'App Service Plan',
+    category: RESOURCE_CATEGORIES.WEB_APIS,
     icon: '📋',
     color: '#16A085',
     properties: [
@@ -165,6 +188,7 @@ export const AZURE_RESOURCES = [
   {
     type: 'azurerm_linux_web_app',
     label: 'Web App (Linux)',
+    category: RESOURCE_CATEGORIES.WEB_APIS,
     icon: '🌐',
     color: '#16A085',
     properties: [
@@ -179,6 +203,7 @@ export const AZURE_RESOURCES = [
   {
     type: 'azurerm_key_vault',
     label: 'Key Vault',
+    category: RESOURCE_CATEGORIES.SECURITY_IDENTITY,
     icon: '🔑',
     color: '#C0392B',
     properties: [
@@ -193,6 +218,7 @@ export const AZURE_RESOURCES = [
   {
     type: 'azurerm_container_registry',
     label: 'Container Registry',
+    category: RESOURCE_CATEGORIES.STORAGE_CONTAINERS,
     icon: '📦',
     color: '#2980B9',
     properties: [
@@ -205,6 +231,7 @@ export const AZURE_RESOURCES = [
   {
     type: 'azurerm_kubernetes_cluster',
     label: 'AKS Cluster',
+    category: RESOURCE_CATEGORIES.STORAGE_CONTAINERS,
     icon: '☸️',
     color: '#2980B9',
     properties: [
@@ -221,6 +248,7 @@ export const AZURE_RESOURCES = [
   {
     type: 'azurerm_application_gateway',
     label: 'Application Gateway',
+    category: RESOURCE_CATEGORIES.NETWORKING,
     icon: '⚖️',
     color: '#27AE60',
     properties: [
@@ -242,6 +270,7 @@ export const AZURE_RESOURCES = [
   {
     type: 'azurerm_log_analytics_workspace',
     label: 'Log Analytics',
+    category: RESOURCE_CATEGORIES.MONITORING_INTEGRATION,
     icon: '📈',
     color: '#8E44AD',
     properties: [
@@ -254,6 +283,7 @@ export const AZURE_RESOURCES = [
   {
     type: 'azurerm_servicebus_namespace',
     label: 'Service Bus',
+    category: RESOURCE_CATEGORIES.MONITORING_INTEGRATION,
     icon: '📨',
     color: '#E74C3C',
     properties: [
@@ -265,6 +295,7 @@ export const AZURE_RESOURCES = [
   {
     type: 'azurerm_cosmosdb_account',
     label: 'Cosmos DB',
+    category: RESOURCE_CATEGORIES.DATABASES,
     icon: '🌌',
     color: '#2C3E50',
     properties: [
@@ -281,6 +312,7 @@ export const AZURE_RESOURCES = [
   {
     type: 'azurerm_cdn_profile',
     label: 'CDN Profile',
+    category: RESOURCE_CATEGORIES.WEB_APIS,
     icon: '🚀',
     color: '#F39C12',
     properties: [
@@ -292,6 +324,7 @@ export const AZURE_RESOURCES = [
   {
     type: 'azurerm_user_assigned_identity',
     label: 'Managed Identity',
+    category: RESOURCE_CATEGORIES.SECURITY_IDENTITY,
     icon: '🪪',
     color: '#7159C1',
     properties: [
@@ -302,6 +335,7 @@ export const AZURE_RESOURCES = [
   {
     type: 'azurerm_role_assignment',
     label: 'Role Assignment',
+    category: RESOURCE_CATEGORIES.SECURITY_IDENTITY,
     icon: '🛂',
     color: '#7159C1',
     properties: [
@@ -317,6 +351,7 @@ export const AZURE_RESOURCES = [
   {
     type: 'azurerm_private_endpoint',
     label: 'Private Endpoint',
+    category: RESOURCE_CATEGORIES.NETWORKING,
     icon: '🔒',
     color: '#16A085',
     properties: [
@@ -335,6 +370,7 @@ export const AZURE_RESOURCES = [
   {
     type: 'azurerm_redis_cache',
     label: 'Redis Cache',
+    category: RESOURCE_CATEGORIES.DATABASES,
     icon: '🟥',
     color: '#DC382D',
     properties: [
@@ -348,6 +384,7 @@ export const AZURE_RESOURCES = [
   {
     type: 'azurerm_postgresql_flexible_server',
     label: 'PostgreSQL Flexible',
+    category: RESOURCE_CATEGORIES.DATABASES,
     icon: '🐘',
     color: '#336791',
     properties: [
@@ -364,6 +401,7 @@ export const AZURE_RESOURCES = [
   {
     type: 'azurerm_linux_function_app',
     label: 'Function App (Linux)',
+    category: RESOURCE_CATEGORIES.WEB_APIS,
     icon: '⚡',
     color: '#FFD400',
     properties: [
@@ -380,6 +418,7 @@ export const AZURE_RESOURCES = [
   {
     type: 'azurerm_virtual_network_peering',
     label: 'VNet Peering',
+    category: RESOURCE_CATEGORIES.NETWORKING,
     icon: '🔁',
     color: '#0078D4',
     properties: [
@@ -388,6 +427,228 @@ export const AZURE_RESOURCES = [
       { name: 'allow_forwarded_traffic', label: 'Allow Forwarded Traffic', type: 'select', options: ['true', 'false'], default: 'false' }
     ],
     notes: 'Connect to two VNets to wire virtual_network_name (the local one) and remote_virtual_network_id (the remote one). Direction is inferred from edge order on the canvas.'
+  },
+  {
+    type: 'azurerm_lb',
+    label: 'Load Balancer',
+    category: RESOURCE_CATEGORIES.NETWORKING,
+    icon: '⚖️',
+    color: '#0078D4',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'lb-main' },
+      LOCATION_FIELD,
+      { name: 'sku', label: 'SKU', type: 'select', options: ['Basic', 'Standard', 'Gateway'], default: 'Standard' }
+    ],
+    blockDefaults: {
+      frontend_ip_configuration: { name: 'lb-feip' }
+    },
+    notes: 'Connect to a Subnet for internal LB (frontend_ip_configuration.subnet_id) or to a Public IP for internet-facing (frontend_ip_configuration.public_ip_address_id).'
+  },
+  {
+    type: 'azurerm_firewall',
+    label: 'Azure Firewall',
+    category: RESOURCE_CATEGORIES.NETWORKING,
+    icon: '🔥',
+    color: '#E74C3C',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'fw-main' },
+      LOCATION_FIELD,
+      { name: 'sku_name', label: 'SKU Name', type: 'select', options: ['AZFW_VNet', 'AZFW_Hub'], default: 'AZFW_VNet' },
+      { name: 'sku_tier', label: 'SKU Tier', type: 'select', options: ['Standard', 'Premium', 'Basic'], default: 'Standard' }
+    ],
+    blockDefaults: {
+      ip_configuration: { name: 'fw-ipconfig', subnet_id: '', public_ip_address_id: '' }
+    },
+    notes: 'Subnet must be named "AzureFirewallSubnet". Connect to a Subnet and a Public IP to wire ip_configuration.'
+  },
+  {
+    type: 'azurerm_nat_gateway',
+    label: 'NAT Gateway',
+    category: RESOURCE_CATEGORIES.NETWORKING,
+    icon: '🔀',
+    color: '#27AE60',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'nat-main' },
+      LOCATION_FIELD,
+      { name: 'sku_name', label: 'SKU', type: 'select', options: ['Standard'], default: 'Standard' },
+      { name: 'idle_timeout_in_minutes', label: 'Idle Timeout (min)', type: 'text', default: '10' }
+    ],
+    notes: 'Connect to a Public IP to wire public_ip_address_id. Associate with a Subnet via a separate azurerm_subnet_nat_gateway_association resource.'
+  },
+  {
+    type: 'azurerm_dns_zone',
+    label: 'DNS Zone',
+    category: RESOURCE_CATEGORIES.NETWORKING,
+    icon: '🗺️',
+    color: '#0078D4',
+    properties: [
+      { name: 'name', label: 'Zone Name', type: 'text', default: 'example.com' }
+    ],
+    notes: 'DNS Zone is a global resource — no location field. Connect to a Resource Group for resource_group_name.'
+  },
+  {
+    type: 'azurerm_container_group',
+    label: 'Container Instance',
+    category: RESOURCE_CATEGORIES.COMPUTE,
+    icon: '📫',
+    color: '#2980B9',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'aci-main' },
+      LOCATION_FIELD,
+      { name: 'os_type', label: 'OS Type', type: 'select', options: ['Linux', 'Windows'], default: 'Linux' },
+      { name: 'restart_policy', label: 'Restart Policy', type: 'select', options: ['Always', 'Never', 'OnFailure'], default: 'Always' }
+    ],
+    blockDefaults: {
+      container: { name: 'app', image: 'mcr.microsoft.com/hello-world', cpu: 0.5, memory: 1.5 }
+    },
+    notes: 'Add container blocks for each container in the group. Connect to a Resource Group.'
+  },
+  {
+    type: 'azurerm_linux_virtual_machine_scale_set',
+    label: 'VM Scale Set',
+    category: RESOURCE_CATEGORIES.COMPUTE,
+    icon: '🖥️',
+    color: '#8E44AD',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'vmss-main' },
+      LOCATION_FIELD,
+      { name: 'sku', label: 'VM Size', type: 'select', options: ['Standard_B2s', 'Standard_D2s_v3', 'Standard_D4s_v3'], default: 'Standard_D2s_v3' },
+      { name: 'instances', label: 'Instance Count', type: 'text', default: '2' },
+      { name: 'admin_username', label: 'Admin Username', type: 'text', default: 'adminuser' }
+    ],
+    blockDefaults: {
+      os_disk: { caching: 'ReadWrite', storage_account_type: 'StandardSSD_LRS' },
+      source_image_reference: { publisher: 'Canonical', offer: '0001-com-ubuntu-server-jammy', sku: '22_04-lts-gen2', version: 'latest' },
+      network_interface: { name: 'vmss-nic', primary: true, ip_configuration: { name: 'vmss-ipconfig', primary: true } }
+    },
+    notes: 'Connect to a Subnet to wire network_interface.ip_configuration.subnet_id. Connect to a Resource Group.'
+  },
+  {
+    type: 'azurerm_mysql_flexible_server',
+    label: 'MySQL Flexible',
+    category: RESOURCE_CATEGORIES.DATABASES,
+    icon: '🐬',
+    color: '#00758F',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'mysql-main' },
+      LOCATION_FIELD,
+      { name: 'sku_name', label: 'SKU', type: 'text', default: 'B_Standard_B1ms' },
+      { name: 'version', label: 'Version', type: 'select', options: ['5.7', '8.0.21'], default: '8.0.21' },
+      { name: 'administrator_login', label: 'Admin Login', type: 'text', default: 'mysqladmin' },
+      { name: 'administrator_password', label: 'Admin Password', type: 'text', default: 'P@ssw0rd1234!' },
+      { name: 'storage_size_gb', label: 'Storage (GB)', type: 'text', default: '20' }
+    ],
+    notes: 'administrator_password default is a placeholder — change before applying.'
+  },
+  {
+    type: 'azurerm_eventhub_namespace',
+    label: 'Event Hubs',
+    category: RESOURCE_CATEGORIES.MONITORING_INTEGRATION,
+    icon: '📡',
+    color: '#E74C3C',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'evhns-main' },
+      LOCATION_FIELD,
+      { name: 'sku', label: 'SKU', type: 'select', options: ['Basic', 'Standard', 'Premium'], default: 'Standard' },
+      { name: 'capacity', label: 'Throughput Units', type: 'text', default: '1' }
+    ]
+  },
+  {
+    type: 'azurerm_synapse_workspace',
+    label: 'Synapse Analytics',
+    category: RESOURCE_CATEGORIES.DATABASES,
+    icon: '🔮',
+    color: '#7B2FBE',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'synapse-main' },
+      LOCATION_FIELD,
+      { name: 'storage_data_lake_gen2_filesystem_id', label: 'ADLS Gen2 Filesystem ID', type: 'text', default: '' },
+      { name: 'sql_administrator_login', label: 'SQL Admin Login', type: 'text', default: 'sqladmin' },
+      { name: 'sql_administrator_login_password', label: 'SQL Admin Password', type: 'text', default: 'P@ssw0rd1234!' }
+    ],
+    notes: 'storage_data_lake_gen2_filesystem_id auto-fills when connected to a Storage Account. Password default is a placeholder.'
+  },
+  {
+    type: 'azurerm_api_management',
+    label: 'API Management',
+    category: RESOURCE_CATEGORIES.WEB_APIS,
+    icon: '🔌',
+    color: '#16A085',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'apim-main' },
+      LOCATION_FIELD,
+      { name: 'publisher_name', label: 'Publisher Name', type: 'text', default: 'My Company' },
+      { name: 'publisher_email', label: 'Publisher Email', type: 'text', default: 'admin@example.com' },
+      { name: 'sku_name', label: 'SKU', type: 'select', options: ['Developer_1', 'Basic_1', 'Standard_1', 'Premium_1'], default: 'Developer_1' }
+    ],
+    notes: 'sku_name format is <tier>_<capacity> (e.g. Developer_1). Connect to a Subnet for VNet integration (virtual_network_configuration.subnet_id).'
+  },
+  {
+    type: 'azurerm_windows_web_app',
+    label: 'Web App (Windows)',
+    category: RESOURCE_CATEGORIES.WEB_APIS,
+    icon: '🪟',
+    color: '#16A085',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'app-win-main' },
+      LOCATION_FIELD
+    ],
+    blockDefaults: {
+      site_config: {}
+    },
+    notes: 'Connect to an App Service Plan (Windows os_type) for service_plan_id. Connect to a Resource Group.'
+  },
+  {
+    type: 'azurerm_application_insights',
+    label: 'App Insights',
+    category: RESOURCE_CATEGORIES.MONITORING_INTEGRATION,
+    icon: '🔭',
+    color: '#8E44AD',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'appi-main' },
+      LOCATION_FIELD,
+      { name: 'application_type', label: 'Application Type', type: 'select', options: ['web', 'ios', 'java', 'MobileCenter', 'Node.JS', 'other'], default: 'web' }
+    ],
+    notes: 'Connect to a Log Analytics Workspace to wire workspace_id (workspace-based mode). Connect to a Resource Group.'
+  },
+  {
+    type: 'azurerm_monitor_action_group',
+    label: 'Action Group',
+    category: RESOURCE_CATEGORIES.MONITORING_INTEGRATION,
+    icon: '🔔',
+    color: '#8E44AD',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'ag-main' },
+      { name: 'short_name', label: 'Short Name (max 12)', type: 'text', default: 'ag-main' }
+    ],
+    notes: 'resource_group_name auto-fills from a Resource Group edge. short_name must be ≤12 characters.'
+  },
+  {
+    type: 'azurerm_logic_app_workflow',
+    label: 'Logic App',
+    category: RESOURCE_CATEGORIES.MONITORING_INTEGRATION,
+    icon: '🔗',
+    color: '#F39C12',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'logic-main' },
+      LOCATION_FIELD
+    ],
+    notes: 'Classic (Consumption) Logic App. For Standard tier use azurerm_logic_app_standard. Connect to a Resource Group.'
+  },
+  {
+    type: 'azurerm_data_factory',
+    label: 'Data Factory',
+    category: RESOURCE_CATEGORIES.MONITORING_INTEGRATION,
+    icon: '🏭',
+    color: '#2C3E50',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'adf-main' },
+      LOCATION_FIELD
+    ],
+    blockDefaults: {
+      identity: { type: 'SystemAssigned' }
+    },
+    notes: 'Connect to a Resource Group for resource_group_name.'
   }
 ]
 
