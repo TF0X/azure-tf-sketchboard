@@ -10,7 +10,8 @@ const RESOURCE_CATEGORIES = {
   DATABASES: 'Databases',
   WEB_APIS: 'Web & APIs',
   SECURITY_IDENTITY: 'Security & Identity',
-  MONITORING_INTEGRATION: 'Monitoring & Integration'
+  MONITORING_INTEGRATION: 'Monitoring & Integration',
+  AI_ML: 'AI & ML'
 }
 
 export const AZURE_RESOURCES = [
@@ -649,6 +650,224 @@ export const AZURE_RESOURCES = [
       identity: { type: 'SystemAssigned' }
     },
     notes: 'Connect to a Resource Group for resource_group_name.'
+  },
+  {
+    type: 'azurerm_cognitive_account',
+    label: 'Cognitive Services',
+    category: RESOURCE_CATEGORIES.AI_ML,
+    icon: '🧠',
+    color: '#4B0082',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'cog-main' },
+      LOCATION_FIELD,
+      { name: 'kind', label: 'Kind', type: 'select', options: ['CognitiveServices', 'OpenAI', 'ComputerVision', 'TextAnalytics', 'SpeechServices', 'FormRecognizer', 'Face'], default: 'OpenAI' },
+      { name: 'sku_name', label: 'SKU', type: 'select', options: ['F0', 'S0', 'S1', 'S2', 'S3', 'S4'], default: 'S0' }
+    ],
+    notes: 'Use kind = "OpenAI" for Azure OpenAI Service. Connect to a Resource Group.'
+  },
+  {
+    type: 'azurerm_machine_learning_workspace',
+    label: 'ML Workspace',
+    category: RESOURCE_CATEGORIES.AI_ML,
+    icon: '🤖',
+    color: '#4B0082',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'mlw-main' },
+      LOCATION_FIELD,
+      { name: 'friendly_name', label: 'Friendly Name', type: 'text', default: 'ML Workspace' }
+    ],
+    blockDefaults: {
+      identity: { type: 'SystemAssigned' }
+    },
+    notes: 'Requires a Key Vault, Storage Account, and App Insights. Connect edges to wire key_vault_id, storage_account_id, and application_insights_id.'
+  },
+  {
+    type: 'azurerm_search_service',
+    label: 'AI Search',
+    category: RESOURCE_CATEGORIES.AI_ML,
+    icon: '🔍',
+    color: '#4B0082',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'srch-main' },
+      LOCATION_FIELD,
+      { name: 'sku', label: 'SKU', type: 'select', options: ['free', 'basic', 'standard', 'standard2', 'standard3'], default: 'basic' },
+      { name: 'replica_count', label: 'Replicas', type: 'text', default: '1' },
+      { name: 'partition_count', label: 'Partitions', type: 'text', default: '1' }
+    ],
+    notes: 'Connect to a Resource Group.'
+  },
+  {
+    type: 'azurerm_databricks_workspace',
+    label: 'Databricks',
+    category: RESOURCE_CATEGORIES.AI_ML,
+    icon: '🧱',
+    color: '#FF3621',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'dbw-main' },
+      LOCATION_FIELD,
+      { name: 'sku', label: 'SKU', type: 'select', options: ['standard', 'premium', 'trial'], default: 'standard' }
+    ],
+    notes: 'Connect to a Resource Group. For VNet injection, connect to a Virtual Network (custom_virtual_network_id).'
+  },
+  {
+    type: 'azurerm_iothub',
+    label: 'IoT Hub',
+    category: RESOURCE_CATEGORIES.MONITORING_INTEGRATION,
+    icon: '📟',
+    color: '#00B4D8',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'iot-main' },
+      LOCATION_FIELD,
+      { name: 'sku_name', label: 'SKU', type: 'select', options: ['B1', 'B2', 'B3', 'F1', 'S1', 'S2', 'S3'], default: 'S1' },
+      { name: 'sku_capacity', label: 'Capacity', type: 'text', default: '1' }
+    ],
+    blockDefaults: {
+      sku: { name: 'S1', capacity: 1 }
+    },
+    notes: 'Connect to a Resource Group.'
+  },
+  {
+    type: 'azurerm_signalr_service',
+    label: 'SignalR Service',
+    category: RESOURCE_CATEGORIES.WEB_APIS,
+    icon: '🔄',
+    color: '#16A085',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'sigr-main' },
+      LOCATION_FIELD,
+      { name: 'sku', label: 'SKU', type: 'select', options: ['Free_F1', 'Standard_S1', 'Premium_P1'], default: 'Standard_S1' },
+      { name: 'capacity', label: 'Capacity', type: 'text', default: '1' },
+      { name: 'service_mode', label: 'Service Mode', type: 'select', options: ['Default', 'Serverless', 'Classic'], default: 'Default' }
+    ],
+    notes: 'Connect to a Resource Group.'
+  },
+  {
+    type: 'azurerm_notification_hub_namespace',
+    label: 'Notification Hubs',
+    category: RESOURCE_CATEGORIES.MONITORING_INTEGRATION,
+    icon: '📣',
+    color: '#E74C3C',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'ntfns-main' },
+      LOCATION_FIELD,
+      { name: 'namespace_type', label: 'Type', type: 'select', options: ['NotificationHub', 'Messaging'], default: 'NotificationHub' },
+      { name: 'sku_name', label: 'SKU', type: 'select', options: ['Free', 'Basic', 'Standard'], default: 'Free' }
+    ],
+    notes: 'Connect to a Resource Group.'
+  },
+  {
+    type: 'azurerm_vpn_gateway',
+    label: 'VPN Gateway',
+    category: RESOURCE_CATEGORIES.NETWORKING,
+    icon: '🔐',
+    color: '#0078D4',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'vpng-main' },
+      LOCATION_FIELD,
+      { name: 'sku', label: 'SKU', type: 'select', options: ['Basic', 'VpnGw1', 'VpnGw2', 'VpnGw3', 'VpnGw4', 'VpnGw5'], default: 'VpnGw1' },
+      { name: 'generation', label: 'Generation', type: 'select', options: ['Generation1', 'Generation2'], default: 'Generation1' },
+      { name: 'type', label: 'Type', type: 'select', options: ['Vpn', 'ExpressRoute'], default: 'Vpn' },
+      { name: 'vpn_type', label: 'VPN Type', type: 'select', options: ['RouteBased', 'PolicyBased'], default: 'RouteBased' }
+    ],
+    notes: 'Subnet must be named "GatewaySubnet". Connect to a Subnet and a Public IP. Connect to a Resource Group.'
+  },
+  {
+    type: 'azurerm_frontdoor_profile',
+    label: 'Front Door',
+    category: RESOURCE_CATEGORIES.NETWORKING,
+    icon: '🚪',
+    color: '#27AE60',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'fd-main' },
+      { name: 'sku_name', label: 'SKU', type: 'select', options: ['Standard_AzureFrontDoor', 'Premium_AzureFrontDoor'], default: 'Standard_AzureFrontDoor' },
+      { name: 'response_timeout_seconds', label: 'Response Timeout (s)', type: 'text', default: '120' }
+    ],
+    notes: 'Front Door is a global resource — no location field. Connect to a Resource Group.'
+  },
+  {
+    type: 'azurerm_recovery_services_vault',
+    label: 'Recovery Vault',
+    category: RESOURCE_CATEGORIES.MONITORING_INTEGRATION,
+    icon: '🔰',
+    color: '#2C3E50',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'rsv-main' },
+      LOCATION_FIELD,
+      { name: 'sku', label: 'SKU', type: 'select', options: ['Standard', 'RS0'], default: 'Standard' },
+      { name: 'soft_delete_enabled', label: 'Soft Delete', type: 'select', options: ['true', 'false'], default: 'true' }
+    ],
+    notes: 'Connect to a Resource Group. Used for VM backups and Azure Site Recovery (ASR).'
+  },
+  {
+    type: 'azurerm_automation_account',
+    label: 'Automation Account',
+    category: RESOURCE_CATEGORIES.MONITORING_INTEGRATION,
+    icon: '⚙️',
+    color: '#8E44AD',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'aa-main' },
+      LOCATION_FIELD,
+      { name: 'sku_name', label: 'SKU', type: 'select', options: ['Basic', 'Free'], default: 'Basic' }
+    ],
+    blockDefaults: {
+      identity: { type: 'SystemAssigned' }
+    },
+    notes: 'Connect to a Resource Group.'
+  },
+  {
+    type: 'azurerm_static_web_app',
+    label: 'Static Web App',
+    category: RESOURCE_CATEGORIES.WEB_APIS,
+    icon: '📄',
+    color: '#16A085',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'swa-main' },
+      LOCATION_FIELD,
+      { name: 'sku_tier', label: 'SKU Tier', type: 'select', options: ['Free', 'Standard'], default: 'Free' },
+      { name: 'sku_size', label: 'SKU Size', type: 'select', options: ['Free', 'Standard'], default: 'Free' }
+    ],
+    notes: 'Connect to a Resource Group.'
+  },
+  {
+    type: 'azurerm_stream_analytics_job',
+    label: 'Stream Analytics',
+    category: RESOURCE_CATEGORIES.MONITORING_INTEGRATION,
+    icon: '🌊',
+    color: '#2C3E50',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'asa-main' },
+      LOCATION_FIELD,
+      { name: 'streaming_units', label: 'Streaming Units', type: 'text', default: '3' },
+      { name: 'compatibility_level', label: 'Compatibility', type: 'select', options: ['1.0', '1.1', '1.2'], default: '1.2' }
+    ],
+    notes: 'Connect to a Resource Group.'
+  },
+  {
+    type: 'azurerm_monitor_diagnostic_setting',
+    label: 'Diagnostic Setting',
+    category: RESOURCE_CATEGORIES.MONITORING_INTEGRATION,
+    icon: '🩺',
+    color: '#8E44AD',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'diag-main' },
+      { name: 'target_resource_id', label: 'Target Resource ID', type: 'text', default: '' },
+      { name: 'log_analytics_workspace_id', label: 'Log Analytics Workspace ID', type: 'text', default: '' }
+    ],
+    notes: 'Scoped to a target resource, not a Resource Group. Connect to a Log Analytics Workspace to auto-fill log_analytics_workspace_id.'
+  },
+  {
+    type: 'azurerm_virtual_hub',
+    label: 'Virtual Hub',
+    category: RESOURCE_CATEGORIES.NETWORKING,
+    icon: '🕸️',
+    color: '#0078D4',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'vhub-main' },
+      LOCATION_FIELD,
+      { name: 'address_prefix', label: 'Address Prefix', type: 'text', default: '10.100.0.0/23' },
+      { name: 'sku', label: 'SKU', type: 'select', options: ['Basic', 'Standard'], default: 'Standard' }
+    ],
+    notes: 'Requires a Virtual WAN (azurerm_virtual_wan). Connect to a Resource Group.'
   }
 ]
 

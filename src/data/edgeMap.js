@@ -413,5 +413,125 @@ export const EDGE_FIELD_MAP = {
       field: 'resource_group_name',
       value: (target) => `azurerm_resource_group.${target.data.properties.name}.name`
     }
+  },
+  azurerm_cognitive_account: {
+    azurerm_resource_group: {
+      field: 'resource_group_name',
+      value: (target) => `azurerm_resource_group.${target.data.properties.name}.name`
+    }
+  },
+  azurerm_machine_learning_workspace: {
+    azurerm_resource_group: {
+      field: 'resource_group_name',
+      value: (target) => `azurerm_resource_group.${target.data.properties.name}.name`
+    },
+    azurerm_key_vault: {
+      field: 'key_vault_id',
+      directOnly: true,
+      value: (target) => `azurerm_key_vault.${target.data.properties.name}.id`
+    },
+    azurerm_storage_account: {
+      field: 'storage_account_id',
+      directOnly: true,
+      value: (target) => `azurerm_storage_account.${target.data.properties.name}.id`
+    },
+    azurerm_application_insights: {
+      field: 'application_insights_id',
+      directOnly: true,
+      value: (target) => `azurerm_application_insights.${target.data.properties.name}.id`
+    }
+  },
+  azurerm_search_service: {
+    azurerm_resource_group: {
+      field: 'resource_group_name',
+      value: (target) => `azurerm_resource_group.${target.data.properties.name}.name`
+    }
+  },
+  azurerm_databricks_workspace: {
+    azurerm_resource_group: {
+      field: 'resource_group_name',
+      value: (target) => `azurerm_resource_group.${target.data.properties.name}.name`
+    },
+    azurerm_virtual_network: {
+      field: 'custom_virtual_network_id',
+      directOnly: true,
+      value: (target) => `azurerm_virtual_network.${target.data.properties.name}.id`
+    }
+  },
+  azurerm_iothub: {
+    azurerm_resource_group: {
+      field: 'resource_group_name',
+      value: (target) => `azurerm_resource_group.${target.data.properties.name}.name`
+    }
+  },
+  azurerm_signalr_service: {
+    azurerm_resource_group: {
+      field: 'resource_group_name',
+      value: (target) => `azurerm_resource_group.${target.data.properties.name}.name`
+    }
+  },
+  azurerm_notification_hub_namespace: {
+    azurerm_resource_group: {
+      field: 'resource_group_name',
+      value: (target) => `azurerm_resource_group.${target.data.properties.name}.name`
+    }
+  },
+  azurerm_vpn_gateway: {
+    azurerm_resource_group: {
+      field: 'resource_group_name',
+      value: (target) => `azurerm_resource_group.${target.data.properties.name}.name`
+    },
+    azurerm_subnet: {
+      field: 'ip_configuration.subnet_id',
+      value: (target) => `azurerm_subnet.${target.data.properties.name}.id`
+    },
+    azurerm_public_ip: {
+      field: 'ip_configuration.public_ip_address_id',
+      directOnly: true,
+      value: (target) => `azurerm_public_ip.${target.data.properties.name}.id`
+    }
+  },
+  azurerm_frontdoor_profile: {
+    azurerm_resource_group: {
+      field: 'resource_group_name',
+      value: (target) => `azurerm_resource_group.${target.data.properties.name}.name`
+    }
+  },
+  azurerm_recovery_services_vault: {
+    azurerm_resource_group: {
+      field: 'resource_group_name',
+      value: (target) => `azurerm_resource_group.${target.data.properties.name}.name`
+    }
+  },
+  azurerm_automation_account: {
+    azurerm_resource_group: {
+      field: 'resource_group_name',
+      value: (target) => `azurerm_resource_group.${target.data.properties.name}.name`
+    }
+  },
+  azurerm_static_web_app: {
+    azurerm_resource_group: {
+      field: 'resource_group_name',
+      value: (target) => `azurerm_resource_group.${target.data.properties.name}.name`
+    }
+  },
+  azurerm_stream_analytics_job: {
+    azurerm_resource_group: {
+      field: 'resource_group_name',
+      value: (target) => `azurerm_resource_group.${target.data.properties.name}.name`
+    }
+  },
+  azurerm_monitor_diagnostic_setting: {
+    azurerm_log_analytics_workspace: {
+      field: 'log_analytics_workspace_id',
+      directOnly: true,
+      value: (target) => `azurerm_log_analytics_workspace.${target.data.properties.name}.id`
+    }
+  },
+  azurerm_virtual_hub: {
+    azurerm_resource_group: {
+      field: 'resource_group_name',
+      value: (target) => `azurerm_resource_group.${target.data.properties.name}.name`
+    }
   }
 }
