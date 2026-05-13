@@ -533,5 +533,258 @@ export const EDGE_FIELD_MAP = {
       field: 'resource_group_name',
       value: (target) => `azurerm_resource_group.${target.data.properties.name}.name`
     }
+  },
+  azurerm_bastion_host: {
+    azurerm_resource_group: {
+      field: 'resource_group_name',
+      value: (target) => `azurerm_resource_group.${target.data.properties.name}.name`
+    },
+    azurerm_subnet: {
+      field: 'ip_configuration.subnet_id',
+      value: (target) => `azurerm_subnet.${target.data.properties.name}.id`
+    },
+    azurerm_public_ip: {
+      field: 'ip_configuration.public_ip_address_id',
+      directOnly: true,
+      value: (target) => `azurerm_public_ip.${target.data.properties.name}.id`
+    }
+  },
+  azurerm_route_table: {
+    azurerm_resource_group: {
+      field: 'resource_group_name',
+      value: (target) => `azurerm_resource_group.${target.data.properties.name}.name`
+    }
+  },
+  azurerm_ddos_protection_plan: {
+    azurerm_resource_group: {
+      field: 'resource_group_name',
+      value: (target) => `azurerm_resource_group.${target.data.properties.name}.name`
+    }
+  },
+  azurerm_express_route_circuit: {
+    azurerm_resource_group: {
+      field: 'resource_group_name',
+      value: (target) => `azurerm_resource_group.${target.data.properties.name}.name`
+    }
+  },
+  azurerm_managed_disk: {
+    azurerm_resource_group: {
+      field: 'resource_group_name',
+      value: (target) => `azurerm_resource_group.${target.data.properties.name}.name`
+    }
+  },
+  azurerm_batch_account: {
+    azurerm_resource_group: {
+      field: 'resource_group_name',
+      value: (target) => `azurerm_resource_group.${target.data.properties.name}.name`
+    },
+    azurerm_storage_account: {
+      field: 'storage_account_id',
+      directOnly: true,
+      value: (target) => `azurerm_storage_account.${target.data.properties.name}.id`
+    }
+  },
+  azurerm_storage_data_lake_gen2_filesystem: {
+    azurerm_storage_account: {
+      field: 'storage_account_id',
+      value: (target) => `azurerm_storage_account.${target.data.properties.name}.id`
+    }
+  },
+  azurerm_mssql_server: {
+    azurerm_resource_group: {
+      field: 'resource_group_name',
+      value: (target) => `azurerm_resource_group.${target.data.properties.name}.name`
+    }
+  },
+  azurerm_kusto_cluster: {
+    azurerm_resource_group: {
+      field: 'resource_group_name',
+      value: (target) => `azurerm_resource_group.${target.data.properties.name}.name`
+    }
+  },
+  azurerm_web_application_firewall_policy: {
+    azurerm_resource_group: {
+      field: 'resource_group_name',
+      value: (target) => `azurerm_resource_group.${target.data.properties.name}.name`
+    }
+  },
+  azurerm_app_configuration: {
+    azurerm_resource_group: {
+      field: 'resource_group_name',
+      value: (target) => `azurerm_resource_group.${target.data.properties.name}.name`
+    }
+  },
+  azurerm_spring_cloud_service: {
+    azurerm_resource_group: {
+      field: 'resource_group_name',
+      value: (target) => `azurerm_resource_group.${target.data.properties.name}.name`
+    }
+  },
+  azurerm_eventgrid_topic: {
+    azurerm_resource_group: {
+      field: 'resource_group_name',
+      value: (target) => `azurerm_resource_group.${target.data.properties.name}.name`
+    }
+  },
+  azurerm_monitor_metric_alert: {
+    azurerm_resource_group: {
+      field: 'resource_group_name',
+      value: (target) => `azurerm_resource_group.${target.data.properties.name}.name`
+    },
+    azurerm_monitor_action_group: {
+      field: 'action.action_group_id',
+      directOnly: true,
+      value: (target) => `azurerm_monitor_action_group.${target.data.properties.name}.id`
+    }
+  },
+  azurerm_cognitive_deployment: {
+    azurerm_cognitive_account: {
+      field: 'cognitive_account_id',
+      value: (target) => `azurerm_cognitive_account.${target.data.properties.name}.id`
+    }
+  },
+  azurerm_private_dns_zone: {
+    azurerm_resource_group: {
+      field: 'resource_group_name',
+      value: (target) => `azurerm_resource_group.${target.data.properties.name}.name`
+    }
+  },
+  azurerm_application_security_group: {
+    azurerm_resource_group: {
+      field: 'resource_group_name',
+      value: (target) => `azurerm_resource_group.${target.data.properties.name}.name`
+    }
+  },
+  azurerm_local_network_gateway: {
+    azurerm_resource_group: {
+      field: 'resource_group_name',
+      value: (target) => `azurerm_resource_group.${target.data.properties.name}.name`
+    }
+  },
+  azurerm_virtual_wan: {
+    azurerm_resource_group: {
+      field: 'resource_group_name',
+      value: (target) => `azurerm_resource_group.${target.data.properties.name}.name`
+    }
+  },
+  azurerm_availability_set: {
+    azurerm_resource_group: {
+      field: 'resource_group_name',
+      value: (target) => `azurerm_resource_group.${target.data.properties.name}.name`
+    }
+  },
+  azurerm_app_service_environment_v3: {
+    azurerm_resource_group: {
+      field: 'resource_group_name',
+      value: (target) => `azurerm_resource_group.${target.data.properties.name}.name`
+    },
+    azurerm_subnet: {
+      field: 'subnet_id',
+      value: (target) => `azurerm_subnet.${target.data.properties.name}.id`
+    }
+  },
+  azurerm_mssql_elasticpool: {
+    azurerm_resource_group: {
+      field: 'resource_group_name',
+      value: (target) => `azurerm_resource_group.${target.data.properties.name}.name`
+    },
+    azurerm_mssql_server: {
+      field: 'server_id',
+      value: (target) => `azurerm_mssql_server.${target.data.properties.name}.id`
+    },
+    azurerm_sql_server: {
+      field: 'server_id',
+      value: (target) => `azurerm_sql_server.${target.data.properties.name}.id`
+    }
+  },
+  azurerm_cosmosdb_sql_container: {
+    azurerm_cosmosdb_account: {
+      field: 'account_name',
+      value: (target) => `azurerm_cosmosdb_account.${target.data.properties.name}.name`
+    },
+    azurerm_resource_group: {
+      field: 'resource_group_name',
+      value: (target) => `azurerm_resource_group.${target.data.properties.name}.name`
+    }
+  },
+  azurerm_service_plan: {
+    azurerm_resource_group: {
+      field: 'resource_group_name',
+      value: (target) => `azurerm_resource_group.${target.data.properties.name}.name`
+    }
+  },
+  azurerm_windows_function_app: {
+    azurerm_resource_group: {
+      field: 'resource_group_name',
+      value: (target) => `azurerm_resource_group.${target.data.properties.name}.name`
+    },
+    azurerm_app_service_plan: {
+      field: 'service_plan_id',
+      value: (target) => `azurerm_app_service_plan.${target.data.properties.name}.id`
+    },
+    azurerm_service_plan: {
+      field: 'service_plan_id',
+      value: (target) => `azurerm_service_plan.${target.data.properties.name}.id`
+    },
+    azurerm_storage_account: {
+      field: 'storage_account_name',
+      directOnly: true,
+      value: (target) => `azurerm_storage_account.${target.data.properties.name}.name`
+    }
+  },
+  azurerm_firewall_policy: {
+    azurerm_resource_group: {
+      field: 'resource_group_name',
+      value: (target) => `azurerm_resource_group.${target.data.properties.name}.name`
+    }
+  },
+  azurerm_monitor_autoscale_setting: {
+    azurerm_resource_group: {
+      field: 'resource_group_name',
+      value: (target) => `azurerm_resource_group.${target.data.properties.name}.name`
+    },
+    azurerm_linux_virtual_machine_scale_set: {
+      field: 'target_resource_id',
+      directOnly: true,
+      value: (target) => `azurerm_linux_virtual_machine_scale_set.${target.data.properties.name}.id`
+    }
+  },
+  azurerm_eventgrid_system_topic: {
+    azurerm_resource_group: {
+      field: 'resource_group_name',
+      value: (target) => `azurerm_resource_group.${target.data.properties.name}.name`
+    },
+    azurerm_storage_account: {
+      field: 'source_arm_resource_id',
+      directOnly: true,
+      value: (target) => `azurerm_storage_account.${target.data.properties.name}.id`
+    },
+    azurerm_eventhub_namespace: {
+      field: 'source_arm_resource_id',
+      directOnly: true,
+      value: (target) => `azurerm_eventhub_namespace.${target.data.properties.name}.id`
+    },
+    azurerm_container_registry: {
+      field: 'source_arm_resource_id',
+      directOnly: true,
+      value: (target) => `azurerm_container_registry.${target.data.properties.name}.id`
+    }
+  },
+  azurerm_monitor_activity_log_alert: {
+    azurerm_resource_group: {
+      field: 'resource_group_name',
+      value: (target) => `azurerm_resource_group.${target.data.properties.name}.name`
+    },
+    azurerm_monitor_action_group: {
+      field: 'action.action_group_id',
+      directOnly: true,
+      value: (target) => `azurerm_monitor_action_group.${target.data.properties.name}.id`
+    }
+  },
+  azurerm_bot_service_azure_bot: {
+    azurerm_resource_group: {
+      field: 'resource_group_name',
+      value: (target) => `azurerm_resource_group.${target.data.properties.name}.name`
+    }
   }
 }

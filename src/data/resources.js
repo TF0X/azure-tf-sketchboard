@@ -868,6 +868,436 @@ export const AZURE_RESOURCES = [
       { name: 'sku', label: 'SKU', type: 'select', options: ['Basic', 'Standard'], default: 'Standard' }
     ],
     notes: 'Requires a Virtual WAN (azurerm_virtual_wan). Connect to a Resource Group.'
+  },
+  {
+    type: 'azurerm_bastion_host',
+    label: 'Azure Bastion',
+    category: RESOURCE_CATEGORIES.NETWORKING,
+    icon: '🏰',
+    color: '#0078D4',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'bas-main' },
+      LOCATION_FIELD,
+      { name: 'sku', label: 'SKU', type: 'select', options: ['Basic', 'Standard', 'Developer'], default: 'Basic' },
+      { name: 'scale_units', label: 'Scale Units', type: 'text', default: '2' }
+    ],
+    blockDefaults: {
+      ip_configuration: { name: 'bas-ipconfig', subnet_id: '', public_ip_address_id: '' }
+    },
+    notes: 'Subnet must be named "AzureBastionSubnet". Connect to a Subnet and a Public IP. Developer SKU has no public IP requirement.'
+  },
+  {
+    type: 'azurerm_route_table',
+    label: 'Route Table',
+    category: RESOURCE_CATEGORIES.NETWORKING,
+    icon: '🗺️',
+    color: '#0078D4',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'rt-main' },
+      LOCATION_FIELD,
+      { name: 'disable_bgp_route_propagation', label: 'Disable BGP Propagation', type: 'select', options: ['false', 'true'], default: 'false' }
+    ],
+    notes: 'Associate with subnets via azurerm_subnet_route_table_association. Connect to a Resource Group.'
+  },
+  {
+    type: 'azurerm_ddos_protection_plan',
+    label: 'DDoS Protection Plan',
+    category: RESOURCE_CATEGORIES.NETWORKING,
+    icon: '🛡️',
+    color: '#E74C3C',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'ddos-main' },
+      LOCATION_FIELD
+    ],
+    notes: 'Connect to a Resource Group. Attach to VNets via azurerm_virtual_network ddos_protection_plan block.'
+  },
+  {
+    type: 'azurerm_express_route_circuit',
+    label: 'ExpressRoute Circuit',
+    category: RESOURCE_CATEGORIES.NETWORKING,
+    icon: '⚡',
+    color: '#0078D4',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'erc-main' },
+      LOCATION_FIELD,
+      { name: 'service_provider_name', label: 'Service Provider', type: 'text', default: 'Equinix' },
+      { name: 'peering_location', label: 'Peering Location', type: 'text', default: 'Silicon Valley' },
+      { name: 'bandwidth_in_mbps', label: 'Bandwidth (Mbps)', type: 'text', default: '50' }
+    ],
+    blockDefaults: {
+      sku: { tier: 'Standard', family: 'MeteredData' }
+    },
+    notes: 'Connect to a Resource Group. Peering configuration is separate (azurerm_express_route_circuit_peering).'
+  },
+  {
+    type: 'azurerm_managed_disk',
+    label: 'Managed Disk',
+    category: RESOURCE_CATEGORIES.COMPUTE,
+    icon: '💿',
+    color: '#8E44AD',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'disk-main' },
+      LOCATION_FIELD,
+      { name: 'storage_account_type', label: 'Storage Type', type: 'select', options: ['Standard_LRS', 'StandardSSD_LRS', 'Premium_LRS', 'UltraSSD_LRS'], default: 'StandardSSD_LRS' },
+      { name: 'create_option', label: 'Create Option', type: 'select', options: ['Empty', 'FromImage', 'Copy', 'Restore'], default: 'Empty' },
+      { name: 'disk_size_gb', label: 'Disk Size (GB)', type: 'text', default: '128' }
+    ],
+    notes: 'Connect to a Resource Group. Attach to a VM via azurerm_virtual_machine_data_disk_attachment.'
+  },
+  {
+    type: 'azurerm_batch_account',
+    label: 'Azure Batch',
+    category: RESOURCE_CATEGORIES.COMPUTE,
+    icon: '⚙️',
+    color: '#8E44AD',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'batch-main' },
+      LOCATION_FIELD,
+      { name: 'pool_allocation_mode', label: 'Pool Allocation Mode', type: 'select', options: ['BatchService', 'UserSubscription'], default: 'BatchService' }
+    ],
+    blockDefaults: {
+      identity: { type: 'SystemAssigned' }
+    },
+    notes: 'Connect to a Storage Account for storage_account_id (used for auto-storage). Connect to a Resource Group.'
+  },
+  {
+    type: 'azurerm_storage_data_lake_gen2_filesystem',
+    label: 'ADLS Gen2 Filesystem',
+    category: RESOURCE_CATEGORIES.STORAGE_CONTAINERS,
+    icon: '🏞️',
+    color: '#F39C12',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'datalake-fs' },
+      { name: 'properties', label: 'Properties (JSON)', type: 'text', default: '' }
+    ],
+    notes: 'Connect to a Storage Account (must have is_hns_enabled = true) to wire storage_account_id.'
+  },
+  {
+    type: 'azurerm_mssql_server',
+    label: 'MSSQL Server',
+    category: RESOURCE_CATEGORIES.DATABASES,
+    icon: '🗄️',
+    color: '#E67E22',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'mssql-main' },
+      LOCATION_FIELD,
+      { name: 'version', label: 'Version', type: 'select', options: ['12.0'], default: '12.0' },
+      { name: 'administrator_login', label: 'Admin Login', type: 'text', default: 'sqladmin' },
+      { name: 'administrator_login_password', label: 'Admin Password', type: 'text', default: 'P@ssw0rd1234!' }
+    ],
+    notes: 'Preferred over azurerm_sql_server for azurerm v4+. Connect to a Resource Group.'
+  },
+  {
+    type: 'azurerm_kusto_cluster',
+    label: 'Data Explorer',
+    category: RESOURCE_CATEGORIES.DATABASES,
+    icon: '🔭',
+    color: '#7B2FBE',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'kusto-main' },
+      LOCATION_FIELD,
+      { name: 'sku_name', label: 'SKU', type: 'select', options: ['Dev(No SLA)_Standard_D11_v2', 'Standard_D11_v2', 'Standard_D12_v2', 'Standard_D13_v2', 'Standard_D14_v2'], default: 'Dev(No SLA)_Standard_D11_v2' },
+      { name: 'sku_capacity', label: 'Capacity', type: 'text', default: '1' }
+    ],
+    blockDefaults: {
+      sku: { name: 'Dev(No SLA)_Standard_D11_v2', capacity: 1 }
+    },
+    notes: 'Azure Data Explorer (Kusto). Connect to a Resource Group.'
+  },
+  {
+    type: 'azurerm_web_application_firewall_policy',
+    label: 'WAF Policy',
+    category: RESOURCE_CATEGORIES.SECURITY_IDENTITY,
+    icon: '🧱',
+    color: '#C0392B',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'waf-main' },
+      LOCATION_FIELD
+    ],
+    blockDefaults: {
+      policy_settings: { enabled: true, mode: 'Prevention', request_body_check: true },
+      managed_rules: { managed_rule_set: { type: 'OWASP', version: '3.2' } }
+    },
+    notes: 'Attach to an Application Gateway (WAF_v2 SKU) or Front Door (Premium). Connect to a Resource Group.'
+  },
+  {
+    type: 'azurerm_app_configuration',
+    label: 'App Configuration',
+    category: RESOURCE_CATEGORIES.WEB_APIS,
+    icon: '⚙️',
+    color: '#16A085',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'appcs-main' },
+      LOCATION_FIELD,
+      { name: 'sku', label: 'SKU', type: 'select', options: ['free', 'standard'], default: 'standard' },
+      { name: 'local_auth_enabled', label: 'Local Auth', type: 'select', options: ['true', 'false'], default: 'true' },
+      { name: 'public_network_access', label: 'Public Access', type: 'select', options: ['Enabled', 'Disabled'], default: 'Enabled' }
+    ],
+    notes: 'Connect to a Resource Group. Use with a Managed Identity for passwordless access.'
+  },
+  {
+    type: 'azurerm_spring_cloud_service',
+    label: 'Azure Spring Apps',
+    category: RESOURCE_CATEGORIES.WEB_APIS,
+    icon: '🌱',
+    color: '#27AE60',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'spring-main' },
+      LOCATION_FIELD,
+      { name: 'sku_name', label: 'SKU', type: 'select', options: ['B0', 'S0', 'E0'], default: 'S0' }
+    ],
+    notes: 'Connect to a Resource Group. For VNet injection, connect to a Subnet (app_subnet_id and service_runtime_subnet_id).'
+  },
+  {
+    type: 'azurerm_eventgrid_topic',
+    label: 'Event Grid Topic',
+    category: RESOURCE_CATEGORIES.MONITORING_INTEGRATION,
+    icon: '📡',
+    color: '#F39C12',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'evgt-main' },
+      LOCATION_FIELD,
+      { name: 'input_schema', label: 'Input Schema', type: 'select', options: ['EventGridSchema', 'CloudEventSchemaV1_0', 'CustomEventSchema'], default: 'EventGridSchema' },
+      { name: 'public_network_access_enabled', label: 'Public Access', type: 'select', options: ['true', 'false'], default: 'true' }
+    ],
+    notes: 'Connect to a Resource Group. Event subscriptions are separate (azurerm_eventgrid_event_subscription).'
+  },
+  {
+    type: 'azurerm_monitor_metric_alert',
+    label: 'Metric Alert',
+    category: RESOURCE_CATEGORIES.MONITORING_INTEGRATION,
+    icon: '🔔',
+    color: '#8E44AD',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'alert-main' },
+      { name: 'severity', label: 'Severity', type: 'select', options: ['0', '1', '2', '3', '4'], default: '2' },
+      { name: 'frequency', label: 'Frequency', type: 'select', options: ['PT1M', 'PT5M', 'PT15M', 'PT30M', 'PT1H'], default: 'PT5M' },
+      { name: 'window_size', label: 'Window Size', type: 'select', options: ['PT1M', 'PT5M', 'PT15M', 'PT30M', 'PT1H', 'PT6H', 'PT12H', 'P1D'], default: 'PT15M' }
+    ],
+    notes: 'Connect to a Resource Group for resource_group_name. Connect to an Action Group to wire action { action_group_id }. scopes and criteria must be filled manually.'
+  },
+  {
+    type: 'azurerm_cognitive_deployment',
+    label: 'OpenAI Deployment',
+    category: RESOURCE_CATEGORIES.AI_ML,
+    icon: '🤖',
+    color: '#4B0082',
+    properties: [
+      { name: 'name', label: 'Deployment Name', type: 'text', default: 'gpt4o-deployment' },
+      { name: 'model_name', label: 'Model Name', type: 'select', options: ['gpt-4o', 'gpt-4o-mini', 'gpt-4', 'gpt-35-turbo', 'text-embedding-ada-002', 'dall-e-3'], default: 'gpt-4o' },
+      { name: 'model_version', label: 'Model Version', type: 'text', default: '2024-05-13' },
+      { name: 'sku_name', label: 'SKU', type: 'select', options: ['Standard', 'GlobalStandard', 'DataZoneStandard'], default: 'GlobalStandard' },
+      { name: 'sku_capacity', label: 'Capacity (TPM ÷ 1000)', type: 'text', default: '10' }
+    ],
+    notes: 'Connect to a Cognitive Services resource (kind = OpenAI) to wire cognitive_account_id.'
+  },
+  {
+    type: 'azurerm_private_dns_zone',
+    label: 'Private DNS Zone',
+    category: RESOURCE_CATEGORIES.NETWORKING,
+    icon: '🔒',
+    color: '#0078D4',
+    properties: [
+      { name: 'name', label: 'Zone Name', type: 'text', default: 'privatelink.blob.core.windows.net' }
+    ],
+    notes: 'Global resource — no location. Common values: privatelink.blob.core.windows.net, privatelink.vaultcore.azure.net, privatelink.database.windows.net. Connect to a Resource Group.'
+  },
+  {
+    type: 'azurerm_application_security_group',
+    label: 'App Security Group',
+    category: RESOURCE_CATEGORIES.NETWORKING,
+    icon: '🔷',
+    color: '#E74C3C',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'asg-main' },
+      LOCATION_FIELD
+    ],
+    notes: 'Reference in NSG rules to group VMs logically without managing IPs. Connect to a Resource Group.'
+  },
+  {
+    type: 'azurerm_local_network_gateway',
+    label: 'Local Network Gateway',
+    category: RESOURCE_CATEGORIES.NETWORKING,
+    icon: '🏢',
+    color: '#0078D4',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'lng-main' },
+      LOCATION_FIELD,
+      { name: 'gateway_address', label: 'On-Prem Public IP', type: 'text', default: '1.2.3.4' },
+      { name: 'address_space', label: 'On-Prem Address Space', type: 'text', default: '192.168.0.0/24' }
+    ],
+    notes: 'Represents the on-premises VPN device. Pair with a VPN Gateway via azurerm_virtual_network_gateway_connection. Connect to a Resource Group.'
+  },
+  {
+    type: 'azurerm_virtual_wan',
+    label: 'Virtual WAN',
+    category: RESOURCE_CATEGORIES.NETWORKING,
+    icon: '🌐',
+    color: '#0078D4',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'vwan-main' },
+      LOCATION_FIELD,
+      { name: 'type', label: 'Type', type: 'select', options: ['Basic', 'Standard'], default: 'Standard' },
+      { name: 'allow_branch_to_branch_traffic', label: 'Branch-to-Branch', type: 'select', options: ['true', 'false'], default: 'true' }
+    ],
+    notes: 'Parent resource for Virtual Hubs. Connect to a Resource Group.'
+  },
+  {
+    type: 'azurerm_availability_set',
+    label: 'Availability Set',
+    category: RESOURCE_CATEGORIES.COMPUTE,
+    icon: '🔄',
+    color: '#8E44AD',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'avset-main' },
+      LOCATION_FIELD,
+      { name: 'platform_fault_domain_count', label: 'Fault Domains', type: 'text', default: '2' },
+      { name: 'platform_update_domain_count', label: 'Update Domains', type: 'text', default: '5' },
+      { name: 'managed', label: 'Managed', type: 'select', options: ['true', 'false'], default: 'true' }
+    ],
+    notes: 'Connect to a Resource Group. Reference in Linux/Windows VM using availability_set_id.'
+  },
+  {
+    type: 'azurerm_app_service_environment_v3',
+    label: 'App Service Env v3',
+    category: RESOURCE_CATEGORIES.COMPUTE,
+    icon: '🏗️',
+    color: '#16A085',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'ase-main' },
+      { name: 'zone_redundant', label: 'Zone Redundant', type: 'select', options: ['false', 'true'], default: 'false' }
+    ],
+    notes: 'Connect to a Subnet for subnet_id (dedicated /24 or larger). Connect to a Resource Group.'
+  },
+  {
+    type: 'azurerm_mssql_elasticpool',
+    label: 'SQL Elastic Pool',
+    category: RESOURCE_CATEGORIES.DATABASES,
+    icon: '🗂️',
+    color: '#E67E22',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'pool-main' },
+      LOCATION_FIELD,
+      { name: 'max_size_gb', label: 'Max Size (GB)', type: 'text', default: '100' }
+    ],
+    blockDefaults: {
+      sku: { name: 'GP_Gen5', tier: 'GeneralPurpose', family: 'Gen5', capacity: 4 },
+      per_database_settings: { min_capacity: 0.25, max_capacity: 4 }
+    },
+    notes: 'Connect to an MSSQL Server for server_id. Connect to a Resource Group.'
+  },
+  {
+    type: 'azurerm_cosmosdb_sql_container',
+    label: 'Cosmos SQL Container',
+    category: RESOURCE_CATEGORIES.DATABASES,
+    icon: '📂',
+    color: '#2C3E50',
+    properties: [
+      { name: 'name', label: 'Container Name', type: 'text', default: 'items' },
+      { name: 'partition_key_paths', label: 'Partition Key Path', type: 'text', default: '/id' },
+      { name: 'throughput', label: 'Throughput (RU/s)', type: 'text', default: '400' }
+    ],
+    notes: 'Connect to a Cosmos DB Account for account_name and resource_group_name. Connect to a Cosmos SQL Database for database_name.'
+  },
+  {
+    type: 'azurerm_service_plan',
+    label: 'Service Plan (v4)',
+    category: RESOURCE_CATEGORIES.WEB_APIS,
+    icon: '📋',
+    color: '#16A085',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'splan-main' },
+      LOCATION_FIELD,
+      { name: 'os_type', label: 'OS Type', type: 'select', options: ['Linux', 'Windows', 'WindowsContainer'], default: 'Linux' },
+      { name: 'sku_name', label: 'SKU', type: 'select', options: ['F1', 'B1', 'B2', 'B3', 'S1', 'S2', 'S3', 'P1v3', 'P2v3', 'P3v3', 'Y1'], default: 'B1' }
+    ],
+    notes: 'Preferred over azurerm_app_service_plan for azurerm v4+. Connect to a Resource Group.'
+  },
+  {
+    type: 'azurerm_windows_function_app',
+    label: 'Function App (Windows)',
+    category: RESOURCE_CATEGORIES.WEB_APIS,
+    icon: '⚡',
+    color: '#FFD400',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'func-win-main' },
+      LOCATION_FIELD,
+      { name: 'storage_account_name', label: 'Storage Account Name', type: 'text', default: '' },
+      { name: 'storage_account_access_key', label: 'Storage Access Key', type: 'text', default: '' }
+    ],
+    blockDefaults: {
+      site_config: {}
+    },
+    notes: 'Connect to an App Service Plan for service_plan_id. Connect to a Storage Account to auto-fill storage_account_name. Connect to a Resource Group.'
+  },
+  {
+    type: 'azurerm_firewall_policy',
+    label: 'Firewall Policy',
+    category: RESOURCE_CATEGORIES.SECURITY_IDENTITY,
+    icon: '📜',
+    color: '#C0392B',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'fwpol-main' },
+      LOCATION_FIELD,
+      { name: 'sku', label: 'SKU', type: 'select', options: ['Standard', 'Premium', 'Basic'], default: 'Standard' },
+      { name: 'threat_intelligence_mode', label: 'Threat Intel Mode', type: 'select', options: ['Alert', 'Deny', 'Off'], default: 'Alert' }
+    ],
+    notes: 'Connect to a Resource Group. Reference in Azure Firewall via firewall_policy_id.'
+  },
+  {
+    type: 'azurerm_monitor_autoscale_setting',
+    label: 'Autoscale Setting',
+    category: RESOURCE_CATEGORIES.MONITORING_INTEGRATION,
+    icon: '📐',
+    color: '#8E44AD',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'autoscale-main' },
+      LOCATION_FIELD,
+      { name: 'enabled', label: 'Enabled', type: 'select', options: ['true', 'false'], default: 'true' },
+      { name: 'target_resource_id', label: 'Target Resource ID', type: 'text', default: '' }
+    ],
+    notes: 'target_resource_id auto-fills when connected to a VM Scale Set. profile block with capacity/rules must be configured manually. Connect to a Resource Group.'
+  },
+  {
+    type: 'azurerm_eventgrid_system_topic',
+    label: 'Event Grid System Topic',
+    category: RESOURCE_CATEGORIES.MONITORING_INTEGRATION,
+    icon: '📡',
+    color: '#F39C12',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'evgst-main' },
+      LOCATION_FIELD,
+      { name: 'topic_type', label: 'Topic Type', type: 'select', options: ['Microsoft.Storage.StorageAccounts', 'Microsoft.EventHub.Namespaces', 'Microsoft.Resources.ResourceGroups', 'Microsoft.ContainerRegistry.Registries', 'Microsoft.KeyVault.vaults'], default: 'Microsoft.Storage.StorageAccounts' },
+      { name: 'source_arm_resource_id', label: 'Source Resource ID', type: 'text', default: '' }
+    ],
+    notes: 'source_arm_resource_id auto-fills when connected to the matching source resource (Storage Account, Event Hub, etc.). Connect to a Resource Group.'
+  },
+  {
+    type: 'azurerm_monitor_activity_log_alert',
+    label: 'Activity Log Alert',
+    category: RESOURCE_CATEGORIES.MONITORING_INTEGRATION,
+    icon: '📋',
+    color: '#8E44AD',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'activityalert-main' },
+      { name: 'enabled', label: 'Enabled', type: 'select', options: ['true', 'false'], default: 'true' }
+    ],
+    notes: 'Connect to a Resource Group for resource_group_name and scopes. Connect to an Action Group for action { action_group_id }. criteria block configured manually.'
+  },
+  {
+    type: 'azurerm_bot_service_azure_bot',
+    label: 'Azure Bot Service',
+    category: RESOURCE_CATEGORIES.AI_ML,
+    icon: '🤖',
+    color: '#4B0082',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'bot-main' },
+      LOCATION_FIELD,
+      { name: 'sku', label: 'SKU', type: 'select', options: ['F0', 'S1'], default: 'F0' },
+      { name: 'microsoft_app_id', label: 'Microsoft App ID', type: 'text', default: '00000000-0000-0000-0000-000000000000' },
+      { name: 'microsoft_app_type', label: 'App Type', type: 'select', options: ['MultiTenant', 'SingleTenant', 'UserAssignedMSI'], default: 'MultiTenant' }
+    ],
+    notes: 'Connect to a Resource Group. microsoft_app_id is the App Registration client ID — placeholder must be replaced before applying.'
   }
 ]
 
