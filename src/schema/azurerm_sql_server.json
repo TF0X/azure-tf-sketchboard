@@ -5,103 +5,87 @@
     "attributes": {
       "administrator_login": {
         "type": "string",
-        "required": true,
-        "optional": false,
-        "computed": false,
-        "sensitive": false,
-        "description": ""
+        "description_kind": "plain",
+        "required": true
       },
       "administrator_login_password": {
         "type": "string",
+        "description_kind": "plain",
         "required": true,
-        "optional": false,
-        "computed": false,
-        "sensitive": true,
-        "description": ""
+        "sensitive": true
       },
       "connection_policy": {
         "type": "string",
-        "required": false,
-        "optional": true,
-        "computed": false,
-        "sensitive": false,
-        "description": ""
+        "description_kind": "plain",
+        "optional": true
+      },
+      "fully_qualified_domain_name": {
+        "type": "string",
+        "description_kind": "plain",
+        "computed": true
       },
       "id": {
         "type": "string",
-        "required": false,
+        "description_kind": "plain",
         "optional": true,
-        "computed": true,
-        "sensitive": false,
-        "description": ""
+        "computed": true
       },
       "location": {
         "type": "string",
-        "required": true,
-        "optional": false,
-        "computed": false,
-        "sensitive": false,
-        "description": ""
+        "description_kind": "plain",
+        "required": true
       },
       "name": {
         "type": "string",
-        "required": true,
-        "optional": false,
-        "computed": false,
-        "sensitive": false,
-        "description": ""
+        "description_kind": "plain",
+        "required": true
       },
       "resource_group_name": {
         "type": "string",
-        "required": true,
-        "optional": false,
-        "computed": false,
-        "sensitive": false,
-        "description": ""
+        "description_kind": "plain",
+        "required": true
       },
       "tags": {
         "type": [
           "map",
           "string"
         ],
-        "required": false,
-        "optional": true,
-        "computed": false,
-        "sensitive": false,
-        "description": ""
+        "description_kind": "plain",
+        "optional": true
       },
       "version": {
         "type": "string",
-        "required": true,
-        "optional": false,
-        "computed": false,
-        "sensitive": false,
-        "description": ""
+        "description_kind": "plain",
+        "required": true
       }
     },
     "block_types": {
       "identity": {
         "nesting_mode": "list",
-        "min_items": 0,
-        "max_items": 1,
         "block": {
           "attributes": {
+            "principal_id": {
+              "type": "string",
+              "description_kind": "plain",
+              "computed": true
+            },
+            "tenant_id": {
+              "type": "string",
+              "description_kind": "plain",
+              "computed": true
+            },
             "type": {
               "type": "string",
-              "required": true,
-              "optional": false,
-              "computed": false,
-              "sensitive": false,
-              "description": ""
+              "description_kind": "plain",
+              "required": true
             }
           },
-          "block_types": {}
-        }
+          "description_kind": "plain"
+        },
+        "max_items": 1
       },
       "threat_detection_policy": {
         "nesting_mode": "list",
-        "min_items": 0,
-        "max_items": 1,
         "block": {
           "attributes": {
             "disabled_alerts": {
@@ -109,109 +93,80 @@
                 "set",
                 "string"
               ],
-              "required": false,
-              "optional": true,
-              "computed": false,
-              "sensitive": false,
-              "description": ""
+              "description_kind": "plain",
+              "optional": true
             },
             "email_account_admins": {
               "type": "bool",
-              "required": false,
+              "description_kind": "plain",
               "optional": true,
-              "computed": true,
-              "sensitive": false,
-              "description": ""
+              "computed": true
             },
             "email_addresses": {
               "type": [
                 "set",
                 "string"
               ],
-              "required": false,
+              "description_kind": "plain",
               "optional": true,
-              "computed": true,
-              "sensitive": false,
-              "description": ""
+              "computed": true
             },
             "retention_days": {
               "type": "number",
-              "required": false,
-              "optional": true,
-              "computed": false,
-              "sensitive": false,
-              "description": ""
+              "description_kind": "plain",
+              "optional": true
             },
             "state": {
               "type": "string",
-              "required": false,
-              "optional": true,
-              "computed": false,
-              "sensitive": false,
-              "description": ""
+              "description_kind": "plain",
+              "optional": true
             },
             "storage_account_access_key": {
               "type": "string",
-              "required": false,
+              "description_kind": "plain",
               "optional": true,
-              "computed": false,
-              "sensitive": true,
-              "description": ""
+              "sensitive": true
             },
             "storage_endpoint": {
               "type": "string",
-              "required": false,
-              "optional": true,
-              "computed": false,
-              "sensitive": false,
-              "description": ""
+              "description_kind": "plain",
+              "optional": true
             }
           },
-          "block_types": {}
-        }
+          "description_kind": "plain"
+        },
+        "max_items": 1
       },
       "timeouts": {
         "nesting_mode": "single",
-        "min_items": 0,
-        "max_items": 0,
         "block": {
           "attributes": {
             "create": {
               "type": "string",
-              "required": false,
-              "optional": true,
-              "computed": false,
-              "sensitive": false,
-              "description": ""
+              "description_kind": "plain",
+              "optional": true
             },
             "delete": {
               "type": "string",
-              "required": false,
-              "optional": true,
-              "computed": false,
-              "sensitive": false,
-              "description": ""
+              "description_kind": "plain",
+              "optional": true
             },
             "read": {
               "type": "string",
-              "required": false,
-              "optional": true,
-              "computed": false,
-              "sensitive": false,
-              "description": ""
+              "description_kind": "plain",
+              "optional": true
             },
             "update": {
               "type": "string",
-              "required": false,
-              "optional": true,
-              "computed": false,
-              "sensitive": false,
-              "description": ""
+              "description_kind": "plain",
+              "optional": true
             }
           },
-          "block_types": {}
+          "description_kind": "plain"
         }
       }
-    }
+    },
+    "description_kind": "plain",
+    "deprecated": true
   }
 }

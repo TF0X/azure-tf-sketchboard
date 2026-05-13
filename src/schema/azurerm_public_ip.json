@@ -5,201 +5,145 @@
     "attributes": {
       "allocation_method": {
         "type": "string",
-        "required": true,
-        "optional": false,
-        "computed": false,
-        "sensitive": false,
-        "description": ""
+        "description_kind": "plain",
+        "required": true
       },
       "ddos_protection_mode": {
         "type": "string",
-        "required": false,
-        "optional": true,
-        "computed": false,
-        "sensitive": false,
-        "description": ""
+        "description_kind": "plain",
+        "optional": true
       },
       "ddos_protection_plan_id": {
         "type": "string",
-        "required": false,
-        "optional": true,
-        "computed": false,
-        "sensitive": false,
-        "description": ""
+        "description_kind": "plain",
+        "optional": true
       },
       "domain_name_label": {
         "type": "string",
-        "required": false,
-        "optional": true,
-        "computed": false,
-        "sensitive": false,
-        "description": ""
+        "description_kind": "plain",
+        "optional": true
       },
       "edge_zone": {
         "type": "string",
-        "required": false,
-        "optional": true,
-        "computed": false,
-        "sensitive": false,
-        "description": ""
+        "description_kind": "plain",
+        "optional": true
+      },
+      "fqdn": {
+        "type": "string",
+        "description_kind": "plain",
+        "computed": true
       },
       "id": {
         "type": "string",
-        "required": false,
+        "description_kind": "plain",
         "optional": true,
-        "computed": true,
-        "sensitive": false,
-        "description": ""
+        "computed": true
       },
       "idle_timeout_in_minutes": {
         "type": "number",
-        "required": false,
-        "optional": true,
-        "computed": false,
-        "sensitive": false,
-        "description": ""
+        "description_kind": "plain",
+        "optional": true
+      },
+      "ip_address": {
+        "type": "string",
+        "description_kind": "plain",
+        "computed": true
       },
       "ip_tags": {
         "type": [
           "map",
           "string"
         ],
-        "required": false,
-        "optional": true,
-        "computed": false,
-        "sensitive": false,
-        "description": ""
+        "description_kind": "plain",
+        "optional": true
       },
       "ip_version": {
         "type": "string",
-        "required": false,
-        "optional": true,
-        "computed": false,
-        "sensitive": false,
-        "description": ""
+        "description_kind": "plain",
+        "optional": true
       },
       "location": {
         "type": "string",
-        "required": true,
-        "optional": false,
-        "computed": false,
-        "sensitive": false,
-        "description": ""
+        "description_kind": "plain",
+        "required": true
       },
       "name": {
         "type": "string",
-        "required": true,
-        "optional": false,
-        "computed": false,
-        "sensitive": false,
-        "description": ""
+        "description_kind": "plain",
+        "required": true
       },
       "public_ip_prefix_id": {
         "type": "string",
-        "required": false,
-        "optional": true,
-        "computed": false,
-        "sensitive": false,
-        "description": ""
+        "description_kind": "plain",
+        "optional": true
       },
       "resource_group_name": {
         "type": "string",
-        "required": true,
-        "optional": false,
-        "computed": false,
-        "sensitive": false,
-        "description": ""
+        "description_kind": "plain",
+        "required": true
       },
       "reverse_fqdn": {
         "type": "string",
-        "required": false,
-        "optional": true,
-        "computed": false,
-        "sensitive": false,
-        "description": ""
+        "description_kind": "plain",
+        "optional": true
       },
       "sku": {
         "type": "string",
-        "required": false,
-        "optional": true,
-        "computed": false,
-        "sensitive": false,
-        "description": ""
+        "description_kind": "plain",
+        "optional": true
       },
       "sku_tier": {
         "type": "string",
-        "required": false,
-        "optional": true,
-        "computed": false,
-        "sensitive": false,
-        "description": ""
+        "description_kind": "plain",
+        "optional": true
       },
       "tags": {
         "type": [
           "map",
           "string"
         ],
-        "required": false,
-        "optional": true,
-        "computed": false,
-        "sensitive": false,
-        "description": ""
+        "description_kind": "plain",
+        "optional": true
       },
       "zones": {
         "type": [
           "set",
           "string"
         ],
-        "required": false,
-        "optional": true,
-        "computed": false,
-        "sensitive": false,
-        "description": ""
+        "description_kind": "plain",
+        "optional": true
       }
     },
     "block_types": {
       "timeouts": {
         "nesting_mode": "single",
-        "min_items": 0,
-        "max_items": 0,
         "block": {
           "attributes": {
             "create": {
               "type": "string",
-              "required": false,
-              "optional": true,
-              "computed": false,
-              "sensitive": false,
-              "description": ""
+              "description_kind": "plain",
+              "optional": true
             },
             "delete": {
               "type": "string",
-              "required": false,
-              "optional": true,
-              "computed": false,
-              "sensitive": false,
-              "description": ""
+              "description_kind": "plain",
+              "optional": true
             },
             "read": {
               "type": "string",
-              "required": false,
-              "optional": true,
-              "computed": false,
-              "sensitive": false,
-              "description": ""
+              "description_kind": "plain",
+              "optional": true
             },
             "update": {
               "type": "string",
-              "required": false,
-              "optional": true,
-              "computed": false,
-              "sensitive": false,
-              "description": ""
+              "description_kind": "plain",
+              "optional": true
             }
           },
-          "block_types": {}
+          "description_kind": "plain"
         }
       }
-    }
+    },
+    "description_kind": "plain"
   }
 }

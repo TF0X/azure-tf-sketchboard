@@ -491,7 +491,7 @@ export const EDGE_FIELD_MAP = {
       value: (target) => `azurerm_public_ip.${target.data.properties.name}.id`
     }
   },
-  azurerm_frontdoor_profile: {
+  azurerm_cdn_frontdoor_profile: {
     azurerm_resource_group: {
       field: 'resource_group_name',
       value: (target) => `azurerm_resource_group.${target.data.properties.name}.name`
@@ -555,7 +555,7 @@ export const EDGE_FIELD_MAP = {
       value: (target) => `azurerm_resource_group.${target.data.properties.name}.name`
     }
   },
-  azurerm_ddos_protection_plan: {
+  azurerm_network_ddos_protection_plan: {
     azurerm_resource_group: {
       field: 'resource_group_name',
       value: (target) => `azurerm_resource_group.${target.data.properties.name}.name`

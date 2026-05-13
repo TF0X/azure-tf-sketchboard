@@ -5,261 +5,183 @@
     "attributes": {
       "auto_pause_delay_in_minutes": {
         "type": "number",
-        "required": false,
+        "description_kind": "plain",
         "optional": true,
-        "computed": true,
-        "sensitive": false,
-        "description": ""
+        "computed": true
       },
       "collation": {
         "type": "string",
-        "required": false,
+        "description_kind": "plain",
         "optional": true,
-        "computed": true,
-        "sensitive": false,
-        "description": ""
+        "computed": true
       },
       "create_mode": {
         "type": "string",
-        "required": false,
-        "optional": true,
-        "computed": false,
-        "sensitive": false,
-        "description": ""
+        "description_kind": "plain",
+        "optional": true
       },
       "creation_source_database_id": {
         "type": "string",
-        "required": false,
+        "description_kind": "plain",
         "optional": true,
-        "computed": true,
-        "sensitive": false,
-        "description": ""
+        "computed": true
       },
       "elastic_pool_id": {
         "type": "string",
-        "required": false,
-        "optional": true,
-        "computed": false,
-        "sensitive": false,
-        "description": ""
+        "description_kind": "plain",
+        "optional": true
       },
       "enclave_type": {
         "type": "string",
-        "required": false,
+        "description_kind": "plain",
         "optional": true,
-        "computed": true,
-        "sensitive": false,
-        "description": ""
+        "computed": true
       },
       "geo_backup_enabled": {
         "type": "bool",
-        "required": false,
-        "optional": true,
-        "computed": false,
-        "sensitive": false,
-        "description": ""
+        "description_kind": "plain",
+        "optional": true
       },
       "id": {
         "type": "string",
-        "required": false,
+        "description_kind": "plain",
         "optional": true,
-        "computed": true,
-        "sensitive": false,
-        "description": ""
+        "computed": true
       },
       "ledger_enabled": {
         "type": "bool",
-        "required": false,
+        "description_kind": "plain",
         "optional": true,
-        "computed": true,
-        "sensitive": false,
-        "description": ""
+        "computed": true
       },
       "license_type": {
         "type": "string",
-        "required": false,
+        "description_kind": "plain",
         "optional": true,
-        "computed": true,
-        "sensitive": false,
-        "description": ""
+        "computed": true
       },
       "maintenance_configuration_name": {
         "type": "string",
-        "required": false,
+        "description_kind": "plain",
         "optional": true,
-        "computed": true,
-        "sensitive": false,
-        "description": ""
+        "computed": true
       },
       "max_size_gb": {
         "type": "number",
-        "required": false,
+        "description_kind": "plain",
         "optional": true,
-        "computed": true,
-        "sensitive": false,
-        "description": ""
+        "computed": true
       },
       "min_capacity": {
         "type": "number",
-        "required": false,
+        "description_kind": "plain",
         "optional": true,
-        "computed": true,
-        "sensitive": false,
-        "description": ""
+        "computed": true
       },
       "name": {
         "type": "string",
-        "required": true,
-        "optional": false,
-        "computed": false,
-        "sensitive": false,
-        "description": ""
+        "description_kind": "plain",
+        "required": true
       },
       "read_replica_count": {
         "type": "number",
-        "required": false,
+        "description_kind": "plain",
         "optional": true,
-        "computed": true,
-        "sensitive": false,
-        "description": ""
+        "computed": true
       },
       "read_scale": {
         "type": "bool",
-        "required": false,
+        "description_kind": "plain",
         "optional": true,
-        "computed": true,
-        "sensitive": false,
-        "description": ""
+        "computed": true
       },
       "recover_database_id": {
         "type": "string",
-        "required": false,
-        "optional": true,
-        "computed": false,
-        "sensitive": false,
-        "description": ""
+        "description_kind": "plain",
+        "optional": true
       },
       "recovery_point_id": {
         "type": "string",
-        "required": false,
-        "optional": true,
-        "computed": false,
-        "sensitive": false,
-        "description": ""
+        "description_kind": "plain",
+        "optional": true
       },
       "restore_dropped_database_id": {
         "type": "string",
-        "required": false,
-        "optional": true,
-        "computed": false,
-        "sensitive": false,
-        "description": ""
+        "description_kind": "plain",
+        "optional": true
       },
       "restore_long_term_retention_backup_id": {
         "type": "string",
-        "required": false,
-        "optional": true,
-        "computed": false,
-        "sensitive": false,
-        "description": ""
+        "description_kind": "plain",
+        "optional": true
       },
       "restore_point_in_time": {
         "type": "string",
-        "required": false,
+        "description_kind": "plain",
         "optional": true,
-        "computed": true,
-        "sensitive": false,
-        "description": ""
+        "computed": true
       },
       "sample_name": {
         "type": "string",
-        "required": false,
+        "description_kind": "plain",
         "optional": true,
-        "computed": true,
-        "sensitive": false,
-        "description": ""
+        "computed": true
       },
       "secondary_type": {
         "type": "string",
-        "required": false,
+        "description_kind": "plain",
         "optional": true,
-        "computed": true,
-        "sensitive": false,
-        "description": ""
+        "computed": true
       },
       "server_id": {
         "type": "string",
-        "required": true,
-        "optional": false,
-        "computed": false,
-        "sensitive": false,
-        "description": ""
+        "description_kind": "plain",
+        "required": true
       },
       "sku_name": {
         "type": "string",
-        "required": false,
+        "description_kind": "plain",
         "optional": true,
-        "computed": true,
-        "sensitive": false,
-        "description": ""
+        "computed": true
       },
       "storage_account_type": {
         "type": "string",
-        "required": false,
-        "optional": true,
-        "computed": false,
-        "sensitive": false,
-        "description": ""
+        "description_kind": "plain",
+        "optional": true
       },
       "tags": {
         "type": [
           "map",
           "string"
         ],
-        "required": false,
-        "optional": true,
-        "computed": false,
-        "sensitive": false,
-        "description": ""
+        "description_kind": "plain",
+        "optional": true
       },
       "transparent_data_encryption_enabled": {
         "type": "bool",
-        "required": false,
-        "optional": true,
-        "computed": false,
-        "sensitive": false,
-        "description": ""
+        "description_kind": "plain",
+        "optional": true
       },
       "transparent_data_encryption_key_automatic_rotation_enabled": {
         "type": "bool",
-        "required": false,
-        "optional": true,
-        "computed": false,
-        "sensitive": false,
-        "description": ""
+        "description_kind": "plain",
+        "optional": true
       },
       "transparent_data_encryption_key_vault_key_id": {
         "type": "string",
-        "required": false,
-        "optional": true,
-        "computed": false,
-        "sensitive": false,
-        "description": ""
+        "description_kind": "plain",
+        "optional": true
       },
       "zone_redundant": {
         "type": "bool",
-        "required": false,
+        "description_kind": "plain",
         "optional": true,
-        "computed": true,
-        "sensitive": false,
-        "description": ""
+        "computed": true
       }
     },
     "block_types": {
       "identity": {
         "nesting_mode": "list",
-        "min_items": 0,
-        "max_items": 1,
         "block": {
           "attributes": {
             "identity_ids": {
@@ -267,170 +189,124 @@
                 "set",
                 "string"
               ],
-              "required": true,
-              "optional": false,
-              "computed": false,
-              "sensitive": false,
-              "description": ""
+              "description_kind": "plain",
+              "required": true
             },
             "type": {
               "type": "string",
-              "required": true,
-              "optional": false,
-              "computed": false,
-              "sensitive": false,
-              "description": ""
+              "description_kind": "plain",
+              "required": true
             }
           },
-          "block_types": {}
-        }
+          "description_kind": "plain"
+        },
+        "max_items": 1
       },
       "import": {
         "nesting_mode": "list",
-        "min_items": 0,
-        "max_items": 1,
         "block": {
           "attributes": {
             "administrator_login": {
               "type": "string",
-              "required": true,
-              "optional": false,
-              "computed": false,
-              "sensitive": false,
-              "description": ""
+              "description_kind": "plain",
+              "required": true
             },
             "administrator_login_password": {
               "type": "string",
+              "description_kind": "plain",
               "required": true,
-              "optional": false,
-              "computed": false,
-              "sensitive": true,
-              "description": ""
+              "sensitive": true
             },
             "authentication_type": {
               "type": "string",
-              "required": true,
-              "optional": false,
-              "computed": false,
-              "sensitive": false,
-              "description": ""
+              "description_kind": "plain",
+              "required": true
             },
             "storage_account_id": {
               "type": "string",
-              "required": false,
-              "optional": true,
-              "computed": false,
-              "sensitive": false,
-              "description": ""
+              "description_kind": "plain",
+              "optional": true
             },
             "storage_key": {
               "type": "string",
+              "description_kind": "plain",
               "required": true,
-              "optional": false,
-              "computed": false,
-              "sensitive": true,
-              "description": ""
+              "sensitive": true
             },
             "storage_key_type": {
               "type": "string",
-              "required": true,
-              "optional": false,
-              "computed": false,
-              "sensitive": false,
-              "description": ""
+              "description_kind": "plain",
+              "required": true
             },
             "storage_uri": {
               "type": "string",
-              "required": true,
-              "optional": false,
-              "computed": false,
-              "sensitive": false,
-              "description": ""
+              "description_kind": "plain",
+              "required": true
             }
           },
-          "block_types": {}
-        }
+          "description_kind": "plain"
+        },
+        "max_items": 1
       },
       "long_term_retention_policy": {
         "nesting_mode": "list",
-        "min_items": 0,
-        "max_items": 1,
         "block": {
           "attributes": {
             "immutable_backups_enabled": {
               "type": "bool",
-              "required": false,
-              "optional": true,
-              "computed": false,
-              "sensitive": false,
-              "description": ""
+              "description_kind": "plain",
+              "optional": true
             },
             "monthly_retention": {
               "type": "string",
-              "required": false,
+              "description_kind": "plain",
               "optional": true,
-              "computed": true,
-              "sensitive": false,
-              "description": ""
+              "computed": true
             },
             "week_of_year": {
               "type": "number",
-              "required": false,
+              "description_kind": "plain",
               "optional": true,
-              "computed": true,
-              "sensitive": false,
-              "description": ""
+              "computed": true
             },
             "weekly_retention": {
               "type": "string",
-              "required": false,
+              "description_kind": "plain",
               "optional": true,
-              "computed": true,
-              "sensitive": false,
-              "description": ""
+              "computed": true
             },
             "yearly_retention": {
               "type": "string",
-              "required": false,
+              "description_kind": "plain",
               "optional": true,
-              "computed": true,
-              "sensitive": false,
-              "description": ""
+              "computed": true
             }
           },
-          "block_types": {}
-        }
+          "description_kind": "plain"
+        },
+        "max_items": 1
       },
       "short_term_retention_policy": {
         "nesting_mode": "list",
-        "min_items": 0,
-        "max_items": 1,
         "block": {
           "attributes": {
             "backup_interval_in_hours": {
               "type": "number",
-              "required": false,
-              "optional": true,
-              "computed": false,
-              "sensitive": false,
-              "description": ""
+              "description_kind": "plain",
+              "optional": true
             },
             "retention_days": {
               "type": "number",
-              "required": true,
-              "optional": false,
-              "computed": false,
-              "sensitive": false,
-              "description": ""
+              "description_kind": "plain",
+              "required": true
             }
           },
-          "block_types": {}
-        }
+          "description_kind": "plain"
+        },
+        "max_items": 1
       },
       "threat_detection_policy": {
         "nesting_mode": "list",
-        "min_items": 0,
-        "max_items": 1,
         "block": {
           "attributes": {
             "disabled_alerts": {
@@ -438,109 +314,77 @@
                 "set",
                 "string"
               ],
-              "required": false,
-              "optional": true,
-              "computed": false,
-              "sensitive": false,
-              "description": ""
+              "description_kind": "plain",
+              "optional": true
             },
             "email_account_admins": {
               "type": "string",
-              "required": false,
-              "optional": true,
-              "computed": false,
-              "sensitive": false,
-              "description": ""
+              "description_kind": "plain",
+              "optional": true
             },
             "email_addresses": {
               "type": [
                 "set",
                 "string"
               ],
-              "required": false,
-              "optional": true,
-              "computed": false,
-              "sensitive": false,
-              "description": ""
+              "description_kind": "plain",
+              "optional": true
             },
             "retention_days": {
               "type": "number",
-              "required": false,
-              "optional": true,
-              "computed": false,
-              "sensitive": false,
-              "description": ""
+              "description_kind": "plain",
+              "optional": true
             },
             "state": {
               "type": "string",
-              "required": false,
-              "optional": true,
-              "computed": false,
-              "sensitive": false,
-              "description": ""
+              "description_kind": "plain",
+              "optional": true
             },
             "storage_account_access_key": {
               "type": "string",
-              "required": false,
+              "description_kind": "plain",
               "optional": true,
-              "computed": false,
-              "sensitive": true,
-              "description": ""
+              "sensitive": true
             },
             "storage_endpoint": {
               "type": "string",
-              "required": false,
-              "optional": true,
-              "computed": false,
-              "sensitive": false,
-              "description": ""
+              "description_kind": "plain",
+              "optional": true
             }
           },
-          "block_types": {}
-        }
+          "description_kind": "plain"
+        },
+        "max_items": 1
       },
       "timeouts": {
         "nesting_mode": "single",
-        "min_items": 0,
-        "max_items": 0,
         "block": {
           "attributes": {
             "create": {
               "type": "string",
-              "required": false,
-              "optional": true,
-              "computed": false,
-              "sensitive": false,
-              "description": ""
+              "description_kind": "plain",
+              "optional": true
             },
             "delete": {
               "type": "string",
-              "required": false,
-              "optional": true,
-              "computed": false,
-              "sensitive": false,
-              "description": ""
+              "description_kind": "plain",
+              "optional": true
             },
             "read": {
               "type": "string",
-              "required": false,
-              "optional": true,
-              "computed": false,
-              "sensitive": false,
-              "description": ""
+              "description_kind": "plain",
+              "optional": true
             },
             "update": {
               "type": "string",
-              "required": false,
-              "optional": true,
-              "computed": false,
-              "sensitive": false,
-              "description": ""
+              "description_kind": "plain",
+              "optional": true
             }
           },
-          "block_types": {}
+          "description_kind": "plain"
         }
       }
-    }
+    },
+    "description_kind": "plain"
   }
 }

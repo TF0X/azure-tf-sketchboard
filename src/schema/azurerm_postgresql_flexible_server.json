@@ -5,291 +5,207 @@
     "attributes": {
       "administrator_login": {
         "type": "string",
-        "required": false,
+        "description_kind": "plain",
         "optional": true,
-        "computed": true,
-        "sensitive": false,
-        "description": ""
+        "computed": true
       },
       "administrator_password": {
         "type": "string",
-        "required": false,
+        "description_kind": "plain",
         "optional": true,
-        "computed": false,
-        "sensitive": true,
-        "description": ""
+        "sensitive": true
       },
       "auto_grow_enabled": {
         "type": "bool",
-        "required": false,
-        "optional": true,
-        "computed": false,
-        "sensitive": false,
-        "description": ""
+        "description_kind": "plain",
+        "optional": true
       },
       "backup_retention_days": {
         "type": "number",
-        "required": false,
+        "description_kind": "plain",
         "optional": true,
-        "computed": true,
-        "sensitive": false,
-        "description": ""
+        "computed": true
       },
       "create_mode": {
         "type": "string",
-        "required": false,
-        "optional": true,
-        "computed": false,
-        "sensitive": false,
-        "description": ""
+        "description_kind": "plain",
+        "optional": true
       },
       "delegated_subnet_id": {
         "type": "string",
-        "required": false,
-        "optional": true,
-        "computed": false,
-        "sensitive": false,
-        "description": ""
+        "description_kind": "plain",
+        "optional": true
+      },
+      "fqdn": {
+        "type": "string",
+        "description_kind": "plain",
+        "computed": true
       },
       "geo_redundant_backup_enabled": {
         "type": "bool",
-        "required": false,
-        "optional": true,
-        "computed": false,
-        "sensitive": false,
-        "description": ""
+        "description_kind": "plain",
+        "optional": true
       },
       "id": {
         "type": "string",
-        "required": false,
+        "description_kind": "plain",
         "optional": true,
-        "computed": true,
-        "sensitive": false,
-        "description": ""
+        "computed": true
       },
       "location": {
         "type": "string",
-        "required": true,
-        "optional": false,
-        "computed": false,
-        "sensitive": false,
-        "description": ""
+        "description_kind": "plain",
+        "required": true
       },
       "name": {
         "type": "string",
-        "required": true,
-        "optional": false,
-        "computed": false,
-        "sensitive": false,
-        "description": ""
+        "description_kind": "plain",
+        "required": true
       },
       "point_in_time_restore_time_in_utc": {
         "type": "string",
-        "required": false,
-        "optional": true,
-        "computed": false,
-        "sensitive": false,
-        "description": ""
+        "description_kind": "plain",
+        "optional": true
       },
       "private_dns_zone_id": {
         "type": "string",
-        "required": false,
+        "description_kind": "plain",
         "optional": true,
-        "computed": true,
-        "sensitive": false,
-        "description": ""
+        "computed": true
       },
       "public_network_access_enabled": {
         "type": "bool",
-        "required": false,
-        "optional": true,
-        "computed": false,
-        "sensitive": false,
-        "description": ""
+        "description_kind": "plain",
+        "optional": true
       },
       "replication_role": {
         "type": "string",
-        "required": false,
-        "optional": true,
-        "computed": false,
-        "sensitive": false,
-        "description": ""
+        "description_kind": "plain",
+        "optional": true
       },
       "resource_group_name": {
         "type": "string",
-        "required": true,
-        "optional": false,
-        "computed": false,
-        "sensitive": false,
-        "description": ""
+        "description_kind": "plain",
+        "required": true
       },
       "sku_name": {
         "type": "string",
-        "required": false,
+        "description_kind": "plain",
         "optional": true,
-        "computed": true,
-        "sensitive": false,
-        "description": ""
+        "computed": true
       },
       "source_server_id": {
         "type": "string",
-        "required": false,
-        "optional": true,
-        "computed": false,
-        "sensitive": false,
-        "description": ""
+        "description_kind": "plain",
+        "optional": true
       },
       "storage_mb": {
         "type": "number",
-        "required": false,
+        "description_kind": "plain",
         "optional": true,
-        "computed": true,
-        "sensitive": false,
-        "description": ""
+        "computed": true
       },
       "storage_tier": {
         "type": "string",
-        "required": false,
+        "description_kind": "plain",
         "optional": true,
-        "computed": true,
-        "sensitive": false,
-        "description": ""
+        "computed": true
       },
       "tags": {
         "type": [
           "map",
           "string"
         ],
-        "required": false,
-        "optional": true,
-        "computed": false,
-        "sensitive": false,
-        "description": ""
+        "description_kind": "plain",
+        "optional": true
       },
       "version": {
         "type": "string",
-        "required": false,
+        "description_kind": "plain",
         "optional": true,
-        "computed": true,
-        "sensitive": false,
-        "description": ""
+        "computed": true
       },
       "zone": {
         "type": "string",
-        "required": false,
-        "optional": true,
-        "computed": false,
-        "sensitive": false,
-        "description": ""
+        "description_kind": "plain",
+        "optional": true
       }
     },
     "block_types": {
       "authentication": {
         "nesting_mode": "list",
-        "min_items": 0,
-        "max_items": 1,
         "block": {
           "attributes": {
             "active_directory_auth_enabled": {
               "type": "bool",
-              "required": false,
-              "optional": true,
-              "computed": false,
-              "sensitive": false,
-              "description": ""
+              "description_kind": "plain",
+              "optional": true
             },
             "password_auth_enabled": {
               "type": "bool",
-              "required": false,
-              "optional": true,
-              "computed": false,
-              "sensitive": false,
-              "description": ""
+              "description_kind": "plain",
+              "optional": true
             },
             "tenant_id": {
               "type": "string",
-              "required": false,
-              "optional": true,
-              "computed": false,
-              "sensitive": false,
-              "description": ""
+              "description_kind": "plain",
+              "optional": true
             }
           },
-          "block_types": {}
-        }
+          "description_kind": "plain"
+        },
+        "max_items": 1
       },
       "customer_managed_key": {
         "nesting_mode": "list",
-        "min_items": 0,
-        "max_items": 1,
         "block": {
           "attributes": {
             "geo_backup_key_vault_key_id": {
               "type": "string",
-              "required": false,
-              "optional": true,
-              "computed": false,
-              "sensitive": false,
-              "description": ""
+              "description_kind": "plain",
+              "optional": true
             },
             "geo_backup_user_assigned_identity_id": {
               "type": "string",
-              "required": false,
-              "optional": true,
-              "computed": false,
-              "sensitive": false,
-              "description": ""
+              "description_kind": "plain",
+              "optional": true
             },
             "key_vault_key_id": {
               "type": "string",
-              "required": true,
-              "optional": false,
-              "computed": false,
-              "sensitive": false,
-              "description": ""
+              "description_kind": "plain",
+              "required": true
             },
             "primary_user_assigned_identity_id": {
               "type": "string",
-              "required": false,
-              "optional": true,
-              "computed": false,
-              "sensitive": false,
-              "description": ""
+              "description_kind": "plain",
+              "optional": true
             }
           },
-          "block_types": {}
-        }
+          "description_kind": "plain"
+        },
+        "max_items": 1
       },
       "high_availability": {
         "nesting_mode": "list",
-        "min_items": 0,
-        "max_items": 1,
         "block": {
           "attributes": {
             "mode": {
               "type": "string",
-              "required": true,
-              "optional": false,
-              "computed": false,
-              "sensitive": false,
-              "description": ""
+              "description_kind": "plain",
+              "required": true
             },
             "standby_availability_zone": {
               "type": "string",
-              "required": false,
-              "optional": true,
-              "computed": false,
-              "sensitive": false,
-              "description": ""
+              "description_kind": "plain",
+              "optional": true
             }
           },
-          "block_types": {}
-        }
+          "description_kind": "plain"
+        },
+        "max_items": 1
       },
       "identity": {
         "nesting_mode": "list",
-        "min_items": 0,
-        "max_items": 1,
         "block": {
           "attributes": {
             "identity_ids": {
@@ -297,100 +213,72 @@
                 "set",
                 "string"
               ],
-              "required": true,
-              "optional": false,
-              "computed": false,
-              "sensitive": false,
-              "description": ""
+              "description_kind": "plain",
+              "required": true
             },
             "type": {
               "type": "string",
-              "required": true,
-              "optional": false,
-              "computed": false,
-              "sensitive": false,
-              "description": ""
+              "description_kind": "plain",
+              "required": true
             }
           },
-          "block_types": {}
-        }
+          "description_kind": "plain"
+        },
+        "max_items": 1
       },
       "maintenance_window": {
         "nesting_mode": "list",
-        "min_items": 0,
-        "max_items": 1,
         "block": {
           "attributes": {
             "day_of_week": {
               "type": "number",
-              "required": false,
-              "optional": true,
-              "computed": false,
-              "sensitive": false,
-              "description": ""
+              "description_kind": "plain",
+              "optional": true
             },
             "start_hour": {
               "type": "number",
-              "required": false,
-              "optional": true,
-              "computed": false,
-              "sensitive": false,
-              "description": ""
+              "description_kind": "plain",
+              "optional": true
             },
             "start_minute": {
               "type": "number",
-              "required": false,
-              "optional": true,
-              "computed": false,
-              "sensitive": false,
-              "description": ""
+              "description_kind": "plain",
+              "optional": true
             }
           },
-          "block_types": {}
-        }
+          "description_kind": "plain"
+        },
+        "max_items": 1
       },
       "timeouts": {
         "nesting_mode": "single",
-        "min_items": 0,
-        "max_items": 0,
         "block": {
           "attributes": {
             "create": {
               "type": "string",
-              "required": false,
-              "optional": true,
-              "computed": false,
-              "sensitive": false,
-              "description": ""
+              "description_kind": "plain",
+              "optional": true
             },
             "delete": {
               "type": "string",
-              "required": false,
-              "optional": true,
-              "computed": false,
-              "sensitive": false,
-              "description": ""
+              "description_kind": "plain",
+              "optional": true
             },
             "read": {
               "type": "string",
-              "required": false,
-              "optional": true,
-              "computed": false,
-              "sensitive": false,
-              "description": ""
+              "description_kind": "plain",
+              "optional": true
             },
             "update": {
               "type": "string",
-              "required": false,
-              "optional": true,
-              "computed": false,
-              "sensitive": false,
-              "description": ""
+              "description_kind": "plain",
+              "optional": true
             }
           },
-          "block_types": {}
+          "description_kind": "plain"
         }
       }
-    }
+    },
+    "description_kind": "plain"
   }
 }

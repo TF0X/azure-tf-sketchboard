@@ -772,7 +772,7 @@ export const AZURE_RESOURCES = [
     notes: 'Subnet must be named "GatewaySubnet". Connect to a Subnet and a Public IP. Connect to a Resource Group.'
   },
   {
-    type: 'azurerm_frontdoor_profile',
+    type: 'azurerm_cdn_frontdoor_profile',
     label: 'Front Door',
     category: RESOURCE_CATEGORIES.NETWORKING,
     icon: '🚪',
@@ -900,7 +900,7 @@ export const AZURE_RESOURCES = [
     notes: 'Associate with subnets via azurerm_subnet_route_table_association. Connect to a Resource Group.'
   },
   {
-    type: 'azurerm_ddos_protection_plan',
+    type: 'azurerm_network_ddos_protection_plan',
     label: 'DDoS Protection Plan',
     category: RESOURCE_CATEGORIES.NETWORKING,
     icon: '🛡️',

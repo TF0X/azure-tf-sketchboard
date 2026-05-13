@@ -8,136 +8,99 @@
           "list",
           "string"
         ],
-        "required": true,
-        "optional": false,
-        "computed": false,
-        "sensitive": false,
-        "description": ""
+        "description_kind": "plain",
+        "required": true
       },
       "default_outbound_access_enabled": {
         "type": "bool",
-        "required": false,
-        "optional": true,
-        "computed": false,
-        "sensitive": false,
-        "description": ""
+        "description_kind": "plain",
+        "optional": true
       },
       "enforce_private_link_endpoint_network_policies": {
         "type": "bool",
-        "required": false,
+        "description_kind": "plain",
+        "deprecated": true,
         "optional": true,
-        "computed": true,
-        "sensitive": false,
-        "description": ""
+        "computed": true
       },
       "enforce_private_link_service_network_policies": {
         "type": "bool",
-        "required": false,
+        "description_kind": "plain",
+        "deprecated": true,
         "optional": true,
-        "computed": true,
-        "sensitive": false,
-        "description": ""
+        "computed": true
       },
       "id": {
         "type": "string",
-        "required": false,
+        "description_kind": "plain",
         "optional": true,
-        "computed": true,
-        "sensitive": false,
-        "description": ""
+        "computed": true
       },
       "name": {
         "type": "string",
-        "required": true,
-        "optional": false,
-        "computed": false,
-        "sensitive": false,
-        "description": ""
+        "description_kind": "plain",
+        "required": true
       },
       "private_endpoint_network_policies": {
         "type": "string",
-        "required": false,
+        "description_kind": "plain",
         "optional": true,
-        "computed": true,
-        "sensitive": false,
-        "description": ""
+        "computed": true
       },
       "private_endpoint_network_policies_enabled": {
         "type": "bool",
-        "required": false,
+        "description_kind": "plain",
+        "deprecated": true,
         "optional": true,
-        "computed": true,
-        "sensitive": false,
-        "description": ""
+        "computed": true
       },
       "private_link_service_network_policies_enabled": {
         "type": "bool",
-        "required": false,
+        "description_kind": "plain",
         "optional": true,
-        "computed": true,
-        "sensitive": false,
-        "description": ""
+        "computed": true
       },
       "resource_group_name": {
         "type": "string",
-        "required": true,
-        "optional": false,
-        "computed": false,
-        "sensitive": false,
-        "description": ""
+        "description_kind": "plain",
+        "required": true
       },
       "service_endpoint_policy_ids": {
         "type": [
           "set",
           "string"
         ],
-        "required": false,
-        "optional": true,
-        "computed": false,
-        "sensitive": false,
-        "description": ""
+        "description_kind": "plain",
+        "optional": true
       },
       "service_endpoints": {
         "type": [
           "set",
           "string"
         ],
-        "required": false,
-        "optional": true,
-        "computed": false,
-        "sensitive": false,
-        "description": ""
+        "description_kind": "plain",
+        "optional": true
       },
       "virtual_network_name": {
         "type": "string",
-        "required": true,
-        "optional": false,
-        "computed": false,
-        "sensitive": false,
-        "description": ""
+        "description_kind": "plain",
+        "required": true
       }
     },
     "block_types": {
       "delegation": {
         "nesting_mode": "list",
-        "min_items": 0,
-        "max_items": 0,
         "block": {
           "attributes": {
             "name": {
               "type": "string",
-              "required": true,
-              "optional": false,
-              "computed": false,
-              "sensitive": false,
-              "description": ""
+              "description_kind": "plain",
+              "required": true
             }
           },
           "block_types": {
             "service_delegation": {
               "nesting_mode": "list",
-              "min_items": 1,
-              "max_items": 1,
               "block": {
                 "attributes": {
                   "actions": {
@@ -145,69 +108,53 @@
                       "list",
                       "string"
                     ],
-                    "required": false,
-                    "optional": true,
-                    "computed": false,
-                    "sensitive": false,
-                    "description": ""
+                    "description_kind": "plain",
+                    "optional": true
                   },
                   "name": {
                     "type": "string",
-                    "required": true,
-                    "optional": false,
-                    "computed": false,
-                    "sensitive": false,
-                    "description": ""
+                    "description_kind": "plain",
+                    "required": true
                   }
                 },
-                "block_types": {}
-              }
+                "description_kind": "plain"
+              },
+              "min_items": 1,
+              "max_items": 1
             }
-          }
+          },
+          "description_kind": "plain"
         }
       },
       "timeouts": {
         "nesting_mode": "single",
-        "min_items": 0,
-        "max_items": 0,
         "block": {
           "attributes": {
             "create": {
               "type": "string",
-              "required": false,
-              "optional": true,
-              "computed": false,
-              "sensitive": false,
-              "description": ""
+              "description_kind": "plain",
+              "optional": true
             },
             "delete": {
               "type": "string",
-              "required": false,
-              "optional": true,
-              "computed": false,
-              "sensitive": false,
-              "description": ""
+              "description_kind": "plain",
+              "optional": true
             },
             "read": {
               "type": "string",
-              "required": false,
-              "optional": true,
-              "computed": false,
-              "sensitive": false,
-              "description": ""
+              "description_kind": "plain",
+              "optional": true
             },
             "update": {
               "type": "string",
-              "required": false,
-              "optional": true,
-              "computed": false,
-              "sensitive": false,
-              "description": ""
+              "description_kind": "plain",
+              "optional": true
             }
           },
-          "block_types": {}
+          "description_kind": "plain"
         }
       }
-    }
+    },
+    "description_kind": "plain"
   }
 }
