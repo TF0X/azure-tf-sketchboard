@@ -667,19 +667,72 @@ export const AZURE_RESOURCES = [
   },
   {
     type: 'azurerm_machine_learning_workspace',
-    label: 'ML Workspace',
+    label: 'ML Workspace / AI Foundry',
     category: RESOURCE_CATEGORIES.AI_ML,
-    icon: '🤖',
+    icon: '🏭',
     color: '#4B0082',
     properties: [
       { name: 'name', label: 'Name', type: 'text', default: 'mlw-main' },
       LOCATION_FIELD,
+      { name: 'kind', label: 'Kind', type: 'select', options: ['Default', 'Hub', 'Project'], default: 'Default' },
       { name: 'friendly_name', label: 'Friendly Name', type: 'text', default: 'ML Workspace' }
     ],
     blockDefaults: {
       identity: { type: 'SystemAssigned' }
     },
-    notes: 'Requires a Key Vault, Storage Account, and App Insights. Connect edges to wire key_vault_id, storage_account_id, and application_insights_id.'
+    notes: 'kind = "Hub" → Azure AI Foundry Hub. kind = "Project" → AI Foundry Project (connect to a Hub via azurerm_machine_learning_workspace). kind = "Default" → classic Azure ML workspace. Connect Key Vault, Storage Account, and App Insights via edges.'
+  },
+  {
+    type: 'azurerm_ai_foundry',
+    label: 'AI Foundry Hub',
+    category: RESOURCE_CATEGORIES.AI_ML,
+    icon: '🏭',
+    color: '#4B0082',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'aifoundry-main' },
+      LOCATION_FIELD,
+      { name: 'friendly_name', label: 'Friendly Name', type: 'text', default: 'AI Foundry Hub' },
+      { name: 'description', label: 'Description', type: 'text', default: '' },
+      { name: 'public_network_access', label: 'Public Access', type: 'select', options: ['Enabled', 'Disabled'], default: 'Enabled' },
+      { name: 'high_business_impact_enabled', label: 'High Business Impact', type: 'select', options: ['false', 'true'], default: 'false' }
+    ],
+    blockDefaults: {
+      identity: { type: 'SystemAssigned' }
+    },
+    notes: 'Azure AI Foundry Hub. Requires key_vault_id and storage_account_id (connect via edges). Optionally connect Application Insights and Container Registry. Projects are created as azurerm_ai_foundry_project children.'
+  },
+  {
+    type: 'azurerm_ai_foundry_project',
+    label: 'AI Foundry Project',
+    category: RESOURCE_CATEGORIES.AI_ML,
+    icon: '📁',
+    color: '#4B0082',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'aiproject-main' },
+      LOCATION_FIELD,
+      { name: 'friendly_name', label: 'Friendly Name', type: 'text', default: 'AI Foundry Project' },
+      { name: 'description', label: 'Description', type: 'text', default: '' },
+      { name: 'high_business_impact_enabled', label: 'High Business Impact', type: 'select', options: ['false', 'true'], default: 'false' }
+    ],
+    blockDefaults: {
+      identity: { type: 'SystemAssigned' }
+    },
+    notes: 'Azure AI Foundry Project. Connect to an AI Foundry Hub to wire ai_services_hub_id. Inherits location from the hub.'
+  },
+  {
+    type: 'azurerm_ai_services',
+    label: 'Azure AI Services',
+    category: RESOURCE_CATEGORIES.AI_ML,
+    icon: '✨',
+    color: '#4B0082',
+    properties: [
+      { name: 'name', label: 'Name', type: 'text', default: 'ais-main' },
+      LOCATION_FIELD,
+      { name: 'sku_name', label: 'SKU', type: 'select', options: ['F0', 'S0'], default: 'S0' },
+      { name: 'local_authentication_enabled', label: 'Local Auth', type: 'select', options: ['true', 'false'], default: 'true' },
+      { name: 'public_network_access', label: 'Public Access', type: 'select', options: ['Enabled', 'Disabled'], default: 'Enabled' }
+    ],
+    notes: 'Multi-service AI endpoint (successor to Cognitive Services multi-account). Used as the backing service for AI Foundry Hubs. Connect to a Resource Group.'
   },
   {
     type: 'azurerm_search_service',

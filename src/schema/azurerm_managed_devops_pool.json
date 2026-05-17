@@ -1,0 +1,671 @@
+{
+  "resource_type": "azurerm_managed_devops_pool",
+  "version": 0,
+  "block": {
+    "attributes": {
+      "dev_center_project_id": {
+        "type": "string",
+        "description_kind": "plain",
+        "required": true
+      },
+      "id": {
+        "type": "string",
+        "description_kind": "plain",
+        "optional": true,
+        "computed": true
+      },
+      "location": {
+        "type": "string",
+        "description_kind": "plain",
+        "required": true
+      },
+      "maximum_concurrency": {
+        "type": "number",
+        "description_kind": "plain",
+        "required": true
+      },
+      "name": {
+        "type": "string",
+        "description_kind": "plain",
+        "required": true
+      },
+      "resource_group_name": {
+        "type": "string",
+        "description_kind": "plain",
+        "required": true
+      },
+      "tags": {
+        "type": [
+          "map",
+          "string"
+        ],
+        "description_kind": "plain",
+        "optional": true
+      },
+      "work_folder": {
+        "type": "string",
+        "description_kind": "plain",
+        "optional": true
+      }
+    },
+    "block_types": {
+      "azure_devops_organization": {
+        "nesting_mode": "list",
+        "block": {
+          "block_types": {
+            "organization": {
+              "nesting_mode": "list",
+              "block": {
+                "attributes": {
+                  "parallelism": {
+                    "type": "number",
+                    "description_kind": "plain",
+                    "required": true
+                  },
+                  "projects": {
+                    "type": [
+                      "list",
+                      "string"
+                    ],
+                    "description_kind": "plain",
+                    "optional": true
+                  },
+                  "url": {
+                    "type": "string",
+                    "description_kind": "plain",
+                    "required": true
+                  }
+                },
+                "description_kind": "plain"
+              },
+              "min_items": 1
+            },
+            "permission": {
+              "nesting_mode": "list",
+              "block": {
+                "attributes": {
+                  "kind": {
+                    "type": "string",
+                    "description_kind": "plain",
+                    "required": true
+                  }
+                },
+                "block_types": {
+                  "administrator_account": {
+                    "nesting_mode": "list",
+                    "block": {
+                      "attributes": {
+                        "groups": {
+                          "type": [
+                            "list",
+                            "string"
+                          ],
+                          "description_kind": "plain",
+                          "optional": true
+                        },
+                        "users": {
+                          "type": [
+                            "list",
+                            "string"
+                          ],
+                          "description_kind": "plain",
+                          "optional": true
+                        }
+                      },
+                      "description_kind": "plain"
+                    },
+                    "max_items": 1
+                  }
+                },
+                "description_kind": "plain"
+              },
+              "max_items": 1
+            }
+          },
+          "description_kind": "plain"
+        },
+        "min_items": 1,
+        "max_items": 1
+      },
+      "identity": {
+        "nesting_mode": "list",
+        "block": {
+          "attributes": {
+            "identity_ids": {
+              "type": [
+                "set",
+                "string"
+              ],
+              "description_kind": "plain",
+              "required": true
+            },
+            "type": {
+              "type": "string",
+              "description_kind": "plain",
+              "required": true
+            }
+          },
+          "description_kind": "plain"
+        },
+        "max_items": 1
+      },
+      "stateful_agent": {
+        "nesting_mode": "list",
+        "block": {
+          "attributes": {
+            "grace_period_time_span": {
+              "type": "string",
+              "description_kind": "plain",
+              "optional": true
+            },
+            "maximum_agent_lifetime": {
+              "type": "string",
+              "description_kind": "plain",
+              "optional": true
+            }
+          },
+          "block_types": {
+            "automatic_resource_prediction": {
+              "nesting_mode": "list",
+              "block": {
+                "attributes": {
+                  "prediction_preference": {
+                    "type": "string",
+                    "description_kind": "plain",
+                    "optional": true
+                  }
+                },
+                "description_kind": "plain"
+              },
+              "max_items": 1
+            },
+            "manual_resource_prediction": {
+              "nesting_mode": "list",
+              "block": {
+                "attributes": {
+                  "all_week_schedule": {
+                    "type": "number",
+                    "description_kind": "plain",
+                    "optional": true
+                  },
+                  "time_zone_name": {
+                    "type": "string",
+                    "description_kind": "plain",
+                    "optional": true
+                  }
+                },
+                "block_types": {
+                  "friday_schedule": {
+                    "nesting_mode": "set",
+                    "block": {
+                      "attributes": {
+                        "count": {
+                          "type": "number",
+                          "description_kind": "plain",
+                          "required": true
+                        },
+                        "time": {
+                          "type": "string",
+                          "description_kind": "plain",
+                          "required": true
+                        }
+                      },
+                      "description_kind": "plain"
+                    }
+                  },
+                  "monday_schedule": {
+                    "nesting_mode": "set",
+                    "block": {
+                      "attributes": {
+                        "count": {
+                          "type": "number",
+                          "description_kind": "plain",
+                          "required": true
+                        },
+                        "time": {
+                          "type": "string",
+                          "description_kind": "plain",
+                          "required": true
+                        }
+                      },
+                      "description_kind": "plain"
+                    }
+                  },
+                  "saturday_schedule": {
+                    "nesting_mode": "set",
+                    "block": {
+                      "attributes": {
+                        "count": {
+                          "type": "number",
+                          "description_kind": "plain",
+                          "required": true
+                        },
+                        "time": {
+                          "type": "string",
+                          "description_kind": "plain",
+                          "required": true
+                        }
+                      },
+                      "description_kind": "plain"
+                    }
+                  },
+                  "sunday_schedule": {
+                    "nesting_mode": "set",
+                    "block": {
+                      "attributes": {
+                        "count": {
+                          "type": "number",
+                          "description_kind": "plain",
+                          "required": true
+                        },
+                        "time": {
+                          "type": "string",
+                          "description_kind": "plain",
+                          "required": true
+                        }
+                      },
+                      "description_kind": "plain"
+                    }
+                  },
+                  "thursday_schedule": {
+                    "nesting_mode": "set",
+                    "block": {
+                      "attributes": {
+                        "count": {
+                          "type": "number",
+                          "description_kind": "plain",
+                          "required": true
+                        },
+                        "time": {
+                          "type": "string",
+                          "description_kind": "plain",
+                          "required": true
+                        }
+                      },
+                      "description_kind": "plain"
+                    }
+                  },
+                  "tuesday_schedule": {
+                    "nesting_mode": "set",
+                    "block": {
+                      "attributes": {
+                        "count": {
+                          "type": "number",
+                          "description_kind": "plain",
+                          "required": true
+                        },
+                        "time": {
+                          "type": "string",
+                          "description_kind": "plain",
+                          "required": true
+                        }
+                      },
+                      "description_kind": "plain"
+                    }
+                  },
+                  "wednesday_schedule": {
+                    "nesting_mode": "set",
+                    "block": {
+                      "attributes": {
+                        "count": {
+                          "type": "number",
+                          "description_kind": "plain",
+                          "required": true
+                        },
+                        "time": {
+                          "type": "string",
+                          "description_kind": "plain",
+                          "required": true
+                        }
+                      },
+                      "description_kind": "plain"
+                    }
+                  }
+                },
+                "description_kind": "plain"
+              },
+              "max_items": 1
+            }
+          },
+          "description_kind": "plain"
+        },
+        "max_items": 1
+      },
+      "stateless_agent": {
+        "nesting_mode": "list",
+        "block": {
+          "block_types": {
+            "automatic_resource_prediction": {
+              "nesting_mode": "list",
+              "block": {
+                "attributes": {
+                  "prediction_preference": {
+                    "type": "string",
+                    "description_kind": "plain",
+                    "optional": true
+                  }
+                },
+                "description_kind": "plain"
+              },
+              "max_items": 1
+            },
+            "manual_resource_prediction": {
+              "nesting_mode": "list",
+              "block": {
+                "attributes": {
+                  "all_week_schedule": {
+                    "type": "number",
+                    "description_kind": "plain",
+                    "optional": true
+                  },
+                  "time_zone_name": {
+                    "type": "string",
+                    "description_kind": "plain",
+                    "optional": true
+                  }
+                },
+                "block_types": {
+                  "friday_schedule": {
+                    "nesting_mode": "set",
+                    "block": {
+                      "attributes": {
+                        "count": {
+                          "type": "number",
+                          "description_kind": "plain",
+                          "required": true
+                        },
+                        "time": {
+                          "type": "string",
+                          "description_kind": "plain",
+                          "required": true
+                        }
+                      },
+                      "description_kind": "plain"
+                    }
+                  },
+                  "monday_schedule": {
+                    "nesting_mode": "set",
+                    "block": {
+                      "attributes": {
+                        "count": {
+                          "type": "number",
+                          "description_kind": "plain",
+                          "required": true
+                        },
+                        "time": {
+                          "type": "string",
+                          "description_kind": "plain",
+                          "required": true
+                        }
+                      },
+                      "description_kind": "plain"
+                    }
+                  },
+                  "saturday_schedule": {
+                    "nesting_mode": "set",
+                    "block": {
+                      "attributes": {
+                        "count": {
+                          "type": "number",
+                          "description_kind": "plain",
+                          "required": true
+                        },
+                        "time": {
+                          "type": "string",
+                          "description_kind": "plain",
+                          "required": true
+                        }
+                      },
+                      "description_kind": "plain"
+                    }
+                  },
+                  "sunday_schedule": {
+                    "nesting_mode": "set",
+                    "block": {
+                      "attributes": {
+                        "count": {
+                          "type": "number",
+                          "description_kind": "plain",
+                          "required": true
+                        },
+                        "time": {
+                          "type": "string",
+                          "description_kind": "plain",
+                          "required": true
+                        }
+                      },
+                      "description_kind": "plain"
+                    }
+                  },
+                  "thursday_schedule": {
+                    "nesting_mode": "set",
+                    "block": {
+                      "attributes": {
+                        "count": {
+                          "type": "number",
+                          "description_kind": "plain",
+                          "required": true
+                        },
+                        "time": {
+                          "type": "string",
+                          "description_kind": "plain",
+                          "required": true
+                        }
+                      },
+                      "description_kind": "plain"
+                    }
+                  },
+                  "tuesday_schedule": {
+                    "nesting_mode": "set",
+                    "block": {
+                      "attributes": {
+                        "count": {
+                          "type": "number",
+                          "description_kind": "plain",
+                          "required": true
+                        },
+                        "time": {
+                          "type": "string",
+                          "description_kind": "plain",
+                          "required": true
+                        }
+                      },
+                      "description_kind": "plain"
+                    }
+                  },
+                  "wednesday_schedule": {
+                    "nesting_mode": "set",
+                    "block": {
+                      "attributes": {
+                        "count": {
+                          "type": "number",
+                          "description_kind": "plain",
+                          "required": true
+                        },
+                        "time": {
+                          "type": "string",
+                          "description_kind": "plain",
+                          "required": true
+                        }
+                      },
+                      "description_kind": "plain"
+                    }
+                  }
+                },
+                "description_kind": "plain"
+              },
+              "max_items": 1
+            }
+          },
+          "description_kind": "plain"
+        },
+        "max_items": 1
+      },
+      "timeouts": {
+        "nesting_mode": "single",
+        "block": {
+          "attributes": {
+            "create": {
+              "type": "string",
+              "description_kind": "plain",
+              "optional": true
+            },
+            "delete": {
+              "type": "string",
+              "description_kind": "plain",
+              "optional": true
+            },
+            "read": {
+              "type": "string",
+              "description_kind": "plain",
+              "optional": true
+            },
+            "update": {
+              "type": "string",
+              "description_kind": "plain",
+              "optional": true
+            }
+          },
+          "description_kind": "plain"
+        }
+      },
+      "virtual_machine_scale_set_fabric": {
+        "nesting_mode": "list",
+        "block": {
+          "attributes": {
+            "os_disk_storage_account_type": {
+              "type": "string",
+              "description_kind": "plain",
+              "optional": true
+            },
+            "sku_name": {
+              "type": "string",
+              "description_kind": "plain",
+              "required": true
+            },
+            "subnet_id": {
+              "type": "string",
+              "description_kind": "plain",
+              "optional": true
+            }
+          },
+          "block_types": {
+            "image": {
+              "nesting_mode": "list",
+              "block": {
+                "attributes": {
+                  "aliases": {
+                    "type": [
+                      "list",
+                      "string"
+                    ],
+                    "description_kind": "plain",
+                    "optional": true
+                  },
+                  "buffer": {
+                    "type": "string",
+                    "description_kind": "plain",
+                    "optional": true
+                  },
+                  "id": {
+                    "type": "string",
+                    "description_kind": "plain",
+                    "optional": true
+                  },
+                  "well_known_image_name": {
+                    "type": "string",
+                    "description_kind": "plain",
+                    "optional": true
+                  }
+                },
+                "description_kind": "plain"
+              },
+              "min_items": 1
+            },
+            "security": {
+              "nesting_mode": "list",
+              "block": {
+                "attributes": {
+                  "interactive_logon_enabled": {
+                    "type": "bool",
+                    "description_kind": "plain",
+                    "optional": true
+                  }
+                },
+                "block_types": {
+                  "key_vault_management": {
+                    "nesting_mode": "list",
+                    "block": {
+                      "attributes": {
+                        "certificate_store_location": {
+                          "type": "string",
+                          "description_kind": "plain",
+                          "optional": true
+                        },
+                        "certificate_store_name": {
+                          "type": "string",
+                          "description_kind": "plain",
+                          "optional": true
+                        },
+                        "key_export_enabled": {
+                          "type": "bool",
+                          "description_kind": "plain",
+                          "optional": true
+                        },
+                        "key_vault_certificate_ids": {
+                          "type": [
+                            "list",
+                            "string"
+                          ],
+                          "description_kind": "plain",
+                          "required": true
+                        }
+                      },
+                      "description_kind": "plain"
+                    },
+                    "max_items": 1
+                  }
+                },
+                "description_kind": "plain"
+              },
+              "max_items": 1
+            },
+            "storage": {
+              "nesting_mode": "list",
+              "block": {
+                "attributes": {
+                  "caching": {
+                    "type": "string",
+                    "description_kind": "plain",
+                    "optional": true
+                  },
+                  "disk_size_in_gb": {
+                    "type": "number",
+                    "description_kind": "plain",
+                    "required": true
+                  },
+                  "drive_letter": {
+                    "type": "string",
+                    "description_kind": "plain",
+                    "optional": true
+                  },
+                  "storage_account_type": {
+                    "type": "string",
+                    "description_kind": "plain",
+                    "optional": true
+                  }
+                },
+                "description_kind": "plain"
+              },
+              "max_items": 1
+            }
+          },
+          "description_kind": "plain"
+        },
+        "min_items": 1,
+        "max_items": 1
+      }
+    },
+    "description_kind": "plain"
+  }
+}

@@ -1,4 +1,6 @@
-export const EDGE_FIELD_MAP = {
+import { EDGE_FIELD_MAP_AUTO } from './edgeMap-auto.js'
+
+const _EDGE_FIELD_MAP_HAND = {
   azurerm_virtual_network: {
     azurerm_resource_group: {
       field: 'resource_group_name',
@@ -439,6 +441,49 @@ export const EDGE_FIELD_MAP = {
       field: 'application_insights_id',
       directOnly: true,
       value: (target) => `azurerm_application_insights.${target.data.properties.name}.id`
+    },
+    azurerm_ai_services: {
+      field: 'kind',
+      directOnly: true,
+      value: (target) => `azurerm_ai_services.${target.data.properties.name}.id`
+    }
+  },
+  azurerm_ai_foundry: {
+    azurerm_resource_group: {
+      field: 'resource_group_name',
+      value: (target) => `azurerm_resource_group.${target.data.properties.name}.name`
+    },
+    azurerm_key_vault: {
+      field: 'key_vault_id',
+      directOnly: true,
+      value: (target) => `azurerm_key_vault.${target.data.properties.name}.id`
+    },
+    azurerm_storage_account: {
+      field: 'storage_account_id',
+      directOnly: true,
+      value: (target) => `azurerm_storage_account.${target.data.properties.name}.id`
+    },
+    azurerm_application_insights: {
+      field: 'application_insights_id',
+      directOnly: true,
+      value: (target) => `azurerm_application_insights.${target.data.properties.name}.id`
+    },
+    azurerm_container_registry: {
+      field: 'container_registry_id',
+      directOnly: true,
+      value: (target) => `azurerm_container_registry.${target.data.properties.name}.id`
+    }
+  },
+  azurerm_ai_foundry_project: {
+    azurerm_ai_foundry: {
+      field: 'ai_services_hub_id',
+      value: (target) => `azurerm_ai_foundry.${target.data.properties.name}.id`
+    }
+  },
+  azurerm_ai_services: {
+    azurerm_resource_group: {
+      field: 'resource_group_name',
+      value: (target) => `azurerm_resource_group.${target.data.properties.name}.name`
     }
   },
   azurerm_search_service: {
@@ -788,3 +833,8 @@ export const EDGE_FIELD_MAP = {
     }
   }
 }
+
+// Merge: hand-crafted edges take priority over auto-generated.
+export const EDGE_FIELD_MAP = Object.fromEntries(
+  Object.entries({ ...EDGE_FIELD_MAP_AUTO, ..._EDGE_FIELD_MAP_HAND })
+)

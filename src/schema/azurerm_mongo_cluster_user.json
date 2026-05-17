@@ -1,0 +1,79 @@
+{
+  "resource_type": "azurerm_mongo_cluster_user",
+  "version": 0,
+  "block": {
+    "attributes": {
+      "id": {
+        "type": "string",
+        "description_kind": "plain",
+        "optional": true,
+        "computed": true
+      },
+      "identity_provider_type": {
+        "type": "string",
+        "description_kind": "plain",
+        "required": true
+      },
+      "mongo_cluster_id": {
+        "type": "string",
+        "description_kind": "plain",
+        "required": true
+      },
+      "object_id": {
+        "type": "string",
+        "description_kind": "plain",
+        "required": true
+      },
+      "principal_type": {
+        "type": "string",
+        "description_kind": "plain",
+        "required": true
+      }
+    },
+    "block_types": {
+      "role": {
+        "nesting_mode": "list",
+        "block": {
+          "attributes": {
+            "database": {
+              "type": "string",
+              "description_kind": "plain",
+              "required": true
+            },
+            "name": {
+              "type": "string",
+              "description_kind": "plain",
+              "required": true
+            }
+          },
+          "description_kind": "plain"
+        },
+        "min_items": 1
+      },
+      "timeouts": {
+        "nesting_mode": "single",
+        "block": {
+          "attributes": {
+            "create": {
+              "type": "string",
+              "description_kind": "plain",
+              "optional": true
+            },
+            "delete": {
+              "type": "string",
+              "description_kind": "plain",
+              "optional": true
+            },
+            "read": {
+              "type": "string",
+              "description_kind": "plain",
+              "optional": true
+            }
+          },
+          "description_kind": "plain"
+        }
+      }
+    },
+    "description_kind": "plain"
+  }
+}

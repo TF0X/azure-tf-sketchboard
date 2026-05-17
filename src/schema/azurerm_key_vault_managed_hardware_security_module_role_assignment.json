@@ -1,0 +1,70 @@
+{
+  "resource_type": "azurerm_key_vault_managed_hardware_security_module_role_assignment",
+  "version": 1,
+  "block": {
+    "attributes": {
+      "id": {
+        "type": "string",
+        "description_kind": "plain",
+        "optional": true,
+        "computed": true
+      },
+      "managed_hsm_id": {
+        "type": "string",
+        "description_kind": "plain",
+        "required": true
+      },
+      "name": {
+        "type": "string",
+        "description_kind": "plain",
+        "required": true
+      },
+      "principal_id": {
+        "type": "string",
+        "description_kind": "plain",
+        "required": true
+      },
+      "resource_id": {
+        "type": "string",
+        "description_kind": "plain",
+        "computed": true
+      },
+      "role_definition_id": {
+        "type": "string",
+        "description_kind": "plain",
+        "required": true
+      },
+      "scope": {
+        "type": "string",
+        "description_kind": "plain",
+        "required": true
+      }
+    },
+    "block_types": {
+      "timeouts": {
+        "nesting_mode": "single",
+        "block": {
+          "attributes": {
+            "create": {
+              "type": "string",
+              "description_kind": "plain",
+              "optional": true
+            },
+            "delete": {
+              "type": "string",
+              "description_kind": "plain",
+              "optional": true
+            },
+            "read": {
+              "type": "string",
+              "description_kind": "plain",
+              "optional": true
+            }
+          },
+          "description_kind": "plain"
+        }
+      }
+    },
+    "description_kind": "plain"
+  }
+}

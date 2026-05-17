@@ -1,7 +1,8 @@
 import { useCallback, useMemo, useState } from 'react'
-import { AZURE_RESOURCES } from '../data/resources.js'
+import { useAllResources } from '../hooks/useAllResources.js'
 
 export function Palette() {
+  const { resources, loading } = useAllResources()
   const [searchQuery, setSearchQuery] = useState('')
   const [collapsedCategories, setCollapsedCategories] = useState({})
 
@@ -13,47 +14,50 @@ export function Palette() {
   const normalizedQuery = searchQuery.trim().toLowerCase()
 
   const filteredResources = useMemo(() => {
-    if (!normalizedQuery) {
-      return AZURE_RESOURCES
-    }
-
-    return AZURE_RESOURCES.filter((resource) => {
+    if (!normalizedQuery) return resources
+    return resources.filter((resource) => {
       const searchableText = [resource.label, resource.type, resource.category]
         .filter(Boolean)
         .join(' ')
         .toLowerCase()
-
       return searchableText.includes(normalizedQuery)
     })
-  }, [normalizedQuery])
+  }, [normalizedQuery, resources])
 
   const groupedResources = useMemo(() => {
     return filteredResources.reduce((groups, resource) => {
       const category = resource.category ?? 'Other'
-
-      if (!groups[category]) {
-        groups[category] = []
-      }
-
+      if (!groups[category]) groups[category] = []
       groups[category].push(resource)
       return groups
     }, {})
   }, [filteredResources])
 
-  const visibleCategories = Object.keys(groupedResources)
+  const visibleCategories = Object.keys(groupedResources).sort()
 
   const toggleCategory = useCallback((category) => {
     setCollapsedCategories((current) => ({
       ...current,
-      [category]: !current[category]
+      [category]: !current[category],
     }))
   }, [])
+
+  // Default: all categories collapsed unless explicitly opened (or search is active)
+  const isCategoryCollapsed = useCallback(
+    (category) => {
+      if (normalizedQuery) return false
+      return collapsedCategories[category] ?? true
+    },
+    [collapsedCategories, normalizedQuery]
+  )
 
   return (
     <aside className="flex flex-col w-64 bg-panelDark border-r border-border overflow-hidden">
       <div className="px-4 py-3 border-b border-border">
         <h2 className="text-sm font-semibold uppercase tracking-wider text-textDim">Resources</h2>
-        <p className="text-xs text-textDim mt-1">Drag onto the canvas</p>
+        <p className="text-xs text-textDim mt-1">
+          {loading ? 'Loading…' : `${resources.length} services`}
+        </p>
         <input
           type="search"
           value={searchQuery}
@@ -62,15 +66,16 @@ export function Palette() {
           className="w-full mt-3 px-3 py-2 rounded-md border border-border bg-panel text-sm text-textMain placeholder:text-textDim outline-none focus:border-[#4da3ff]"
         />
       </div>
+
       <div className="flex-1 overflow-y-auto px-3 py-3 space-y-3">
         {visibleCategories.length === 0 ? (
           <div className="px-3 py-6 text-sm text-center text-textDim border border-dashed border-border rounded-md bg-panel">
-            No services match your search.
+            {loading ? 'Loading services…' : 'No services match your search.'}
           </div>
         ) : (
           visibleCategories.map((category) => {
-            const resources = groupedResources[category]
-            const isCollapsed = collapsedCategories[category] ?? false
+            const categoryResources = groupedResources[category]
+            const collapsed = isCategoryCollapsed(category)
 
             return (
               <section key={category} className="rounded-md border border-border bg-panel/30 overflow-hidden">
@@ -83,14 +88,14 @@ export function Palette() {
                     {category}
                   </span>
                   <span className="flex items-center gap-2 text-xs text-textDim">
-                    <span>{resources.length}</span>
-                    <span className="text-sm leading-none">{isCollapsed ? '▸' : '▾'}</span>
+                    <span>{categoryResources.length}</span>
+                    <span className="text-sm leading-none">{collapsed ? '▸' : '▾'}</span>
                   </span>
                 </button>
 
-                {!isCollapsed && (
+                {!collapsed && (
                   <div className="px-2 pb-2 space-y-1.5">
-                    {resources.map((resource) => (
+                    {categoryResources.map((resource) => (
                       <div
                         key={resource.type}
                         draggable
