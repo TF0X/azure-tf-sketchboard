@@ -1,291 +1,198 @@
-# 🏗️ Azure TF Sketchboard - Drag and Drop Terraform Builder for Azure
+# 🏗️ Azure TF Sketchboard — Visual Terraform Builder for Azure
 
 [![MIT License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![React](https://img.shields.io/badge/React-18.3+-61DAFB?logo=react)](https://react.dev)
 [![Vite](https://img.shields.io/badge/Vite-5.4+-646CFF?logo=vite)](https://vitejs.dev)
+[![AzureRM](https://img.shields.io/badge/AzureRM-4.73.0-0078D4?logo=microsoftazure)](https://registry.terraform.io/providers/hashicorp/azurerm/latest)
 
-> **Drag and drop Terraform builder for Azure** — Design your cloud infrastructure visually, get production-ready Terraform code.
+> Design Azure infrastructure visually. Export production-ready Terraform — no YAML, no hand-coding.
 
-Azure TF Sketchboard is a browser-based visual IDE for building Azure infrastructure-as-code. Drag Azure resources onto a canvas, connect them to model dependencies, configure properties, and instantly generate multi-file Terraform modules ready to deploy.
+Azure TF Sketchboard is a browser-based drag-and-drop canvas for designing Azure infrastructure as code. Drop resources, connect dependencies, edit properties, and generate a complete multi-file Terraform project in one click.
 
 ![Azure TF Sketchboard Demo](images/image.png)
 
-## ✨ What You Can Do
+---
 
-- 🎨 **Drag-and-Drop Canvas**: Visually design Azure architecture with 21+ resource types
-- 🔗 **Smart Connections**: Link resources to auto-populate Terraform references
-- ⚙️ **Schema-Driven Forms**: Edit required and optional AzureRM properties with validation
-- 📝 **Instant Terraform Generation**: Create multi-file module structures with one click
-- 📦 **Download Projects**: Export complete Terraform projects as ZIP files
-- 🔍 **Live Preview**: Edit and export properties in real-time
+## ✨ Features
 
-![Export Terraform](images/export.png)
+| Feature | Description |
+|---|---|
+| 🎨 **Drag-and-Drop Canvas** | Visual architecture design with 1,100+ AzureRM resource types |
+| 🔗 **Smart Wiring** | Connect nodes to auto-populate Terraform cross-references |
+| ⚙️ **Schema-Driven Forms** | Property forms derived from real `azurerm` v4.73.0 provider schemas |
+| 📝 **Multi-File Export** | Generates grouped Terraform modules (`core`, `network`, `vm`, `app`, `data`) |
+| 📦 **ZIP Download** | Download the full project as a ready-to-use ZIP |
+| 🔍 **Live Preview** | Real-time HCL preview as you configure |
+| 🗂️ **Category Palette** | 19 collapsible resource categories loaded in parallel for fast startup |
+
+---
 
 ## 🚀 Quick Start
 
 ### Prerequisites
-- Node.js 16+ and npm
+- Node.js 18+
 
-### Installation
+### Install & Run
 
 ```bash
 git clone https://github.com/yourusername/azure-tf-sketchboard.git
 cd azure-tf-sketchboard
 npm install
-```
-
-### Run Locally
-
-```bash
 npm run dev
 ```
 
-Open your browser to the local URL (typically `http://localhost:5173`).
+Open `http://localhost:5173`.
 
 ### Build for Production
 
 ```bash
-npm run build
+npm run build       # output → dist/
+npm run preview     # preview production build locally
 ```
 
-### Preview Production Build
+---
 
-```bash
-npm run preview
-```
+## 📖 Workflow
 
-## 📖 Basic Workflow
+1. **Pick a resource** from the left palette (search or browse categories)
+2. **Drop it** onto the canvas
+3. **Connect dependencies** by dragging edges between nodes
+4. **Configure properties** in the right panel (click any node)
+5. **Generate Terraform** — click the button in the header
+6. **Download ZIP** — complete module structure, ready for `terraform init`
 
-1. **Drag Resources**: Select Azure resources from the left palette
-2. **Place on Canvas**: Drop them onto the design canvas
-3. **Connect Dependencies**: Draw edges between related resources
-4. **Configure Properties**: Edit resource settings in the right panel
-5. **Generate**: Click "Generate Terraform" button
-6. **Export**: Download the complete project as a ZIP
+---
 
-## 🔧 How to Run
+## 🔌 Connection Examples
 
-### Development Server
-
-Start the development server:
-
-```bash
-npm run dev
-```
-
-The application will be available at `http://localhost:5173`. Hot-reload is enabled for instant feedback during development.
-
-### Production Build
-
-Create an optimized production build:
-
-```bash
-npm run build
-```
-
-Output files are in the `dist/` directory. Ready for deployment to any static hosting service (Vercel, Netlify, GitHub Pages, Azure Static Web Apps, etc.).
-
-### Preview Before Deployment
-
-Preview the production build locally:
-
-```bash
-npm run preview
-```
-
-## Connection Examples
-
-Connections are intentionally simple. Direction does not matter for most relationships; the generator reads the graph and fills relevant Terraform fields.
-
-Common patterns:
+Connections tell the generator which Terraform references to inject. Direction follows the dependency (child → parent or component → dependency).
 
 ```text
-Resource Group -> Virtual Network -> Subnet
+Resource Group → Virtual Network → Subnet
+Subnet → Network Interface → Virtual Machine
+Public IP → Network Interface
+App Service Plan → Linux Web App
+SQL Server → SQL Database
+AKS Cluster → Subnet
 ```
+
+### VMs, NICs, and Public IPs
+
+The correct Terraform model for a VM with a public IP:
 
 ```text
-Resource Group -> Public IP -> Network Interface -> Virtual Machine
+Resource Group → Virtual Network → Subnet → Network Interface → Linux VM
+Public IP → Network Interface
 ```
 
-```text
-Subnet -> Network Interface -> Virtual Machine
+If you skip the Network Interface node and connect a VM directly to a Subnet, the generator creates a synthetic NIC automatically.
+
+---
+
+## 📁 Generated Project Structure
+
 ```
-
-```text
-App Service Plan -> Linux Web App
-```
-
-```text
-SQL Server -> SQL Database
-```
-
-## VM, NIC, Subnet, and Public IP
-
-For Azure virtual machines, the correct Terraform model is:
-
-```text
-Virtual Machine -> Network Interface -> Subnet
-Network Interface -> Public IP
-```
-
-If you add a Network Interface node, the VM automatically uses its ID:
-
-```hcl
-network_interface_ids = var.vm_main_network_interface_ids
-```
-
-If you skip the Network Interface node and connect a VM directly to a Subnet, the generator creates a fallback NIC for that VM. If a Public IP is also connected to the VM, that fallback NIC receives the public IP too.
-
-Recommended diagram:
-
-```text
-Resource Group
-  -> Virtual Network
-  -> Subnet
-  -> Network Interface
-  -> Virtual Machine
-
-Resource Group
-  -> Public IP
-  -> Network Interface
-```
-
-## Generated Terraform Structure
-
-The ZIP contains root files plus grouped feature modules:
-
-```text
 azure-terraform.zip
 ├── providers.tf
-├── main.tf
+├── main.tf           ← calls all modules
 ├── outputs.tf
 └── modules/
-    ├── core/
+    ├── core/         ← resource groups
     │   ├── main.tf
     │   ├── variables.tf
     │   └── outputs.tf
-    ├── network/
-    │   ├── main.tf
-    │   ├── variables.tf
-    │   └── outputs.tf
-    ├── vm/
-    │   ├── main.tf
-    │   ├── variables.tf
-    │   └── outputs.tf
-    ├── app/
-    │   ├── main.tf
-    │   ├── variables.tf
-    │   └── outputs.tf
-    └── data/
-        ├── main.tf
-        ├── variables.tf
-        └── outputs.tf
+    ├── network/      ← VNets, subnets, NSGs, NICs, public IPs, gateways
+    ├── vm/           ← Linux & Windows VMs
+    ├── app/          ← App Service, AKS, Container Registry, Functions
+    └── data/         ← Storage, SQL, Cosmos DB, Key Vault, Service Bus, logs
 ```
 
-The root `main.tf` calls grouped modules. Individual resources are placed inside the module that best matches their role:
+Each module gets its own `variables.tf` (inputs from root) and `outputs.tf` (IDs exposed upward).
 
-- `core`: resource groups
-- `network`: VNets, subnets, NICs, public IPs, gateways, CDN
-- `vm`: Linux and Windows virtual machines
-- `app`: app services, AKS, container registry
-- `data`: storage, SQL, Cosmos DB, Key Vault, logs, messaging
+---
 
-## Supported Azure Resources
+## 🗺️ Auto-Wiring Reference
 
-The app currently supports these AzureRM resources:
+When you draw an edge between two resources, the generator injects the correct Terraform reference into the source block:
 
-- Resource Group
-- Virtual Network
-- Subnet
-- Network Security Group
-- Network Interface
-- Public IP
-- Linux Virtual Machine
-- Windows Virtual Machine
-- Storage Account
-- SQL Server
-- SQL Database
-- App Service Plan
-- Linux Web App
-- Key Vault
-- Container Registry
-- Kubernetes Cluster
-- Application Gateway
-- Log Analytics Workspace
-- Service Bus Namespace
-- Cosmos DB Account
-- CDN Profile
+| Source | Target | Injected Field |
+|---|---|---|
+| Virtual Network | Resource Group | `resource_group_name` |
+| Subnet | Virtual Network | `virtual_network_name` |
+| Subnet | Resource Group | `resource_group_name` |
+| Network Interface | Subnet | `ip_configuration.subnet_id` |
+| Network Interface | Public IP | `ip_configuration.public_ip_address_id` |
+| Linux / Windows VM | Network Interface | `network_interface_ids` |
+| Linux Web App | App Service Plan | `service_plan_id` |
+| SQL Database | SQL Server | `server_id` |
+| AKS Cluster | Subnet | `default_node_pool.vnet_subnet_id` |
+| AI Foundry Hub | Key Vault | `key_vault_id` |
+| AI Foundry Hub | Storage Account | `storage_account_id` |
+| AI Foundry Project | AI Foundry Hub | `ai_services_hub_id` |
+| *(any resource)* | Resource Group | `resource_group_name` |
 
-## How Auto-Wiring Works
+---
 
-The generator uses resource connections to populate Terraform references. For example:
+## 🏗️ Resource Coverage
 
-- A VNet connected to a Resource Group receives `resource_group_name`.
-- A Subnet connected to a VNet receives `virtual_network_name`.
-- A NIC connected to a Subnet receives `ip_configuration.subnet_id`.
-- A NIC connected to a Public IP receives `ip_configuration.public_ip_address_id`.
-- A VM connected to a NIC receives `network_interface_ids`.
-- A Web App connected to an App Service Plan receives `service_plan_id`.
-- A SQL Database connected to a SQL Server receives `server_id`.
+All 1,132 `azurerm` resource types from **provider v4.73.0** are available in the palette, split across 19 categories:
 
-Some dependencies can be found transitively. For example, if a Subnet is connected to a VNet and the VNet is connected to a Resource Group, the Subnet can inherit the Resource Group through that path.
+AI & ML · Analytics · API Management · Compute · Containers · Databases · Developer Tools · Governance · Identity & Access · Integration · IoT & Edge · Media & Communication · Monitoring · Networking · Security · Storage · Virtual Desktop · Web & APIs · Other
 
-## Before Applying Terraform
+88 hand-crafted resources (most common types) have enriched property forms and icon/color metadata. The remaining ~1,045 are schema-derived with auto-generated property forms.
 
-Generated Terraform is a strong starting point, but you should still review it before applying:
-
-- Replace placeholder passwords and tenant IDs.
-- Confirm names meet Azure naming rules.
-- Confirm locations, SKUs, and address ranges.
-- Run `terraform fmt`.
-- Run `terraform init`.
-- Run `terraform validate`.
-- Run `terraform plan` before `terraform apply`.
-
+---
 
 ## 📁 Project Structure
 
 ```
 src/
-├── components/           # React components (Palette, Canvas, etc.)
-├── data/                 # Edge maps and resource definitions
-├── schema/               # AzureRM resource schemas
-├── utils/                # Generators and resolvers
-├── App.jsx
-├── store.js              # Zustand store
-└── main.jsx
+├── components/           # React UI components
+│   ├── Palette.jsx       # Left sidebar — searchable, collapsible categories
+│   ├── Canvas.jsx        # React Flow canvas
+│   ├── AzureNode.jsx     # Custom node renderer
+│   ├── PropertiesPanel.jsx
+│   └── TerraformOutput.jsx
+├── data/
+│   ├── resources.js      # 88 hand-crafted resource definitions
+│   ├── resources-auto.js # 1,045 schema-derived definitions (generated)
+│   ├── edgeMap.js        # Edge → Terraform field mappings
+│   ├── resourceChunks.js # Dynamic import loaders (19 category chunks)
+│   └── chunks/           # Per-category resource files for code-splitting
+├── hooks/
+│   └── useAllResources.js # Lazy-loads all chunks in parallel
+├── schema/
+│   ├── schemaUtils.js    # Schema lookup helpers
+│   └── *.json            # Per-resource provider schema (1,132 files)
+├── utils/
+│   └── generateTerraform.js
+├── store.js              # Zustand state
+└── App.jsx
 ```
 
-## ⚠️ Disclaimers
+---
 
-**Review Required**: Generated Terraform is a starting point. Always review code, test in non-production first, and run `terraform plan` before applying.
+## ⚠️ Before Applying
 
-**Security**: Replace placeholder credentials immediately. Use Azure Key Vault for sensitive data. Don't commit `.tfvars` files.
+Generated Terraform is a strong starting point — always review before deploying:
 
-**Limitations**: Not all AzureRM resources are supported. Complex configurations may require manual adjustment.
+- Replace placeholder passwords and tenant IDs
+- Confirm resource names meet Azure naming rules
+- Verify locations, SKUs, and address ranges
+- Run `terraform fmt && terraform init && terraform validate`
+- Run `terraform plan` before `terraform apply`
 
-**Costs**: Generated resources incur Azure costs. Run `terraform plan` to review pricing.
-⚠️**Warning**: This tool is in active development. Generated Terraform may be incomplete or invalid — always review and run `terraform validate` before applying.
-## 🤖 AI-Assisted Development
-
-This project uses **AI for code generation and documentation**. All code has been reviewed and tested. Always validate generated Terraform against your requirements before deploying.
-
-## 📄 License
-
-**MIT License** — Free to use commercially, modify, and distribute. See [LICENSE](LICENSE) for details.
+---
 
 ## 🤝 Contributing
 
 1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/your-feature`)
-3. Commit changes (`git commit -m 'Add feature'`)
+2. Create a branch (`git checkout -b feature/your-feature`)
+3. Commit (`git commit -m 'Add feature'`)
 4. Push and open a Pull Request
-
-## 📧 Support
-
-- [Open a GitHub Issue](https://github.com/yourusername/azure-tf-sketchboard/issues)
-- Check [OVERVIEW.md](OVERVIEW.md) for details
 
 ---
 
-**Happy Infrastructure Coding! 🚀**
+## 📄 License
+
+**MIT** — free to use, modify, and distribute. See [LICENSE](LICENSE).
